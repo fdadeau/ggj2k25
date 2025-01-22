@@ -8,6 +8,7 @@ import { Player } from "./player.js";
 const COLOR1 = { border: 'rgba(0, 191, 255, 0.8)', content: 'rgba(173, 216, 230, 0.7)' }
 const COLOR2 = { border: 'rgba(255, 191, 255, 0.8)', content: 'rgba(255, 216, 230, 0.7)' }
 
+import { audio } from "../audio.js";
 
 
 /**
@@ -43,8 +44,10 @@ export class ChewingGum extends Game {
     }
 
     render(ctx) {
-        super.render(ctx);
+        ctx.clearRect(0,0,WIDTH,HEIGHT);
         this.teacher.render(ctx);
+        this.player1.render(ctx);
+        this.player2.render(ctx);
 
         // instructions
         if (!this.started) {
@@ -70,7 +73,13 @@ export class ChewingGum extends Game {
         ctx.textAlign = "center";
         ctx.fillStyle = "black";
         ctx.fillText("Instructions to play....", WIDTH / 2, MARGIN * 1.5);
-        ctx.fillText("Press spacebar to start the game", WIDTH / 2, HEIGHT - MARGIN * 1.5);
+        ctx.fillText("Press spacebar to start the game", WIDTH / 2, HEIGHT - MARGIN * 1.2);
+        ctx.textAlign = "left";
+        ctx.fillText("Maintain Z (player 1) or UP (player 2) to grow a bubble of gum", MARGIN + 20, MARGIN + 100);
+        ctx.fillText("Press D (player 1) or DOWN (player 2) to swallow the bubble", MARGIN + 20, MARGIN + 130);
+        ctx.fillText("Don't have a gum bubble when the teacher is facing you!", MARGIN + 20, MARGIN + 160);
+        ctx.fillText("The bigger the bubbles, the more points you win!", MARGIN + 20, MARGIN + 210);
+        ctx.fillText("But take care: bigger bubbles are more likely to explode...", MARGIN + 20, MARGIN + 240);
 
     }
 
@@ -103,6 +112,7 @@ class Teacher extends Entity {
         if (this.state == TEACHER_STATES.FACING) {
             this.state = TEACHER_STATES.ANGRY;
             this.delay = DELAY_STOP;
+            audio.playSound("rale","teacher",0.8,0);
         }
         
     }
@@ -147,6 +157,7 @@ class Teacher extends Entity {
                 if (this.delay < 0) {
                     this.state = TEACHER_STATES.FACING;
                     this.delay = DELAY_STOP;
+                    audio.pause();
                 }
                 break;
             case TEACHER_STATES.FACING: 

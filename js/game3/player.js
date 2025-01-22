@@ -1,6 +1,8 @@
 import { WIDTH } from "../app.js";
 import { Entity } from "../entity.js";
 
+import { audio } from "../audio.js";
+
 /**
  * Player for ChewingGum game
  */
@@ -50,6 +52,8 @@ export class Player extends Entity {
             this.points = Math.floor(this.points / 2);
             this.exploded = true;
             this.delay = 500;
+            audio.pause("player"+this.id);
+            audio.playSound("explosion","player"+this.id,0.4,0);
         }
     }
 
@@ -58,6 +62,7 @@ export class Player extends Entity {
         this.exploded = false;
         this.points = 0;
         this.bubble.dec();
+        audio.pause("player" + this.id);
     }
 
     render(ctx) {
@@ -86,6 +91,7 @@ export class Player extends Entity {
         }
         if (e.code == this.controls.up && this.bubble.speed == 0) {
             this.bubble.grow();
+            audio.playSound("blow", "player"+this.id, 0.3, 0);
             return;
         }
         if (e.code == this.controls.down) {
@@ -95,6 +101,7 @@ export class Player extends Entity {
     keyup(e) {
         if (this.bubble.speed > 0 && e.code == this.controls.up) {
             this.bubble.stop();
+            audio.pause("player"+this.id);
         }
     }
 }
