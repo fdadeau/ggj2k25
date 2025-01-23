@@ -6,6 +6,7 @@ const data = {
     
     // images (backgrounds, titles, etc.)
     "logoGGJ": "./assets/logos/logoGGJ.png",
+    "salle_de_classe": "./assets/images/salle_de_classe.png",
     
     // ambiance
     "discussion": "./assets/sounds/discussion.mp3",

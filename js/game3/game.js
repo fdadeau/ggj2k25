@@ -9,6 +9,7 @@ const COLOR1 = { border: 'rgba(0, 191, 255, 0.8)', content: 'rgba(173, 216, 230,
 const COLOR2 = { border: 'rgba(255, 191, 255, 0.8)', content: 'rgba(255, 216, 230, 0.7)' }
 
 import { audio } from "../audio.js";
+import data from "../assets.js";
 
 
 const STATES = { INSTRUCTIONS: 0, IN_GAME: 1, SHOW_SCORES: -1 }
@@ -55,6 +56,7 @@ export class ChewingGum extends Game {
 
     render(ctx) {
         ctx.clearRect(0,0,WIDTH,HEIGHT);
+        ctx.drawImage(data["salle_de_classe"], 0, 0, WIDTH, HEIGHT);
         this.teacher.render(ctx);
         this.player1.render(ctx);
         this.player2.render(ctx);
@@ -232,8 +234,8 @@ class Teacher extends Entity {
 
     render(ctx) {
         // black board
-        ctx.fillStyle = "black";
-        ctx.fillRect(this.minX, 30, 500, 250);
+        //ctx.fillStyle = "rgb(24,37,10)";
+        //ctx.fillRect(this.minX, 30, 500, 250);
         // text on board
         const lineStart = this.minX + 30;
         ctx.fillStyle = "white";
