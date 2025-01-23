@@ -9,7 +9,7 @@ const COLOR1 = { border: 'rgba(0, 191, 255, 0.8)', content: 'rgba(173, 216, 230,
 const COLOR2 = { border: 'rgba(255, 191, 255, 0.8)', content: 'rgba(255, 216, 230, 0.7)' }
 
 import { audio } from "../audio.js";
-import { STATE } from "../gui.js";
+
 
 const STATES = { INSTRUCTIONS: 0, IN_GAME: 1, SHOW_SCORES: -1 }
 
@@ -34,8 +34,9 @@ export class ChewingGum extends Game {
     update(dt) {
         if (this.state !== STATES.IN_GAME) return;
         // propagate to players
-        super.update(dt);
         this.teacher.update(dt);
+        if (this.teacher.finishedWriting()) return;
+        super.update(dt);
         if (this.teacher.isWatching() && this.player1.hasBubble()) {
             this.teacher.upset();
             this.player1.catch(this.teacher.delay);
@@ -72,6 +73,11 @@ export class ChewingGum extends Game {
     keydown(e) {
         super.keydown(e);
         if (this.state == STATES.INSTRUCTIONS && e.code == "Space") {
+            this.state = STATES.IN_GAME;
+            return;
+        }
+        if (this.state == STATES.SHOW_SCORES && e.code == "Space") {
+            this.restart();
             this.state = STATES.IN_GAME;
             return;
         }
@@ -140,6 +146,7 @@ class Teacher extends Entity {
         this.maxX = 600;
         this.dX = -1;
         this.delay = DELAY_STOP;
+        audio.playSound("discours", "teacher-talk", 0.5, 1, true);
     }
 
     reset() {
@@ -150,19 +157,20 @@ class Teacher extends Entity {
         this.maxX = 600;
         this.dX = -1;
         this.delay = DELAY_STOP;
+        audio.playSound("discours", "teacher-talk", 0.5, 1, true);
     }
 
     upset() {
         if (this.state == TEACHER_STATES.FACING) {
             this.state = TEACHER_STATES.ANGRY;
             this.delay = DELAY_STOP;
-            audio.playSound("rale","teacher",0.8,0);
+            audio.playSound("scream" + Math.floor(Math.random() * 4),"teacher",0.8,0);
         }
         
     }
 
     finishedWriting() {
-        return this.line < 0;
+        return this.line >= TEACHER_TXT.length;
     }
     isWatching() {
         return this.state != TEACHER_STATES.WRITING;
@@ -170,12 +178,13 @@ class Teacher extends Entity {
     stopWriting() {
         this.state = TEACHER_STATES.FACING;
         this.delay = DELAY_STOP;
+        audio.pause("teacher-talk");
     }
 
     update(dt) {
         this.delay -= dt;
                 
-        if (this.line < 0) {
+        if (this.finishedWriting()) {
             return;
         }
 
@@ -201,13 +210,14 @@ class Teacher extends Entity {
                 if (this.delay < 0) {
                     this.state = TEACHER_STATES.FACING;
                     this.delay = DELAY_STOP;
-                    audio.pause();
+                    audio.pause("teacher-talk");
                 }
                 break;
             case TEACHER_STATES.FACING: 
                 if (this.delay < 0) {
                     this.delay = Math.floor(Math.random() * MAX_DELAY);
                     this.state = TEACHER_STATES.WRITING;
+                    audio.resume("teacher-talk");
                 }
                 break;
             case TEACHER_STATES.ANGRY:

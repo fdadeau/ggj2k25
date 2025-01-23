@@ -6,7 +6,7 @@ import { data } from "./loader.js";
 export const audio = {
 
     ambiance: null,
-    playMusic: function(which, volume) {
+    playMusic: function(which, volume, dontPlay) {
         if (data[which] && data[which] instanceof HTMLAudioElement) {
             if (this.ambiance != null) {
                 this.ambiance.pause();
@@ -15,12 +15,12 @@ export const audio = {
             this.ambiance.volume = volume ? volume : 0.4;
             this.ambiance.currentTime = 0;
             this.ambiance.loop = true;
-            this.ambiance.play();
+            this.ambiance.play();    
         }
     },
 
     sounds: {},
-    playSound: function(which, channel, volume, loop) {
+    playSound: function(which, channel, volume, loop, wait) {
         if (data[which] && data[which] instanceof HTMLAudioElement) {
             if (this.audioIsPlaying(channel)) {
                 this.sounds[channel].pause();
@@ -29,7 +29,9 @@ export const audio = {
             this.sounds[channel].volume = volume ? volume : 0.5;
             this.sounds[channel].currentTime = 0;
             this.sounds[channel].loop = loop ? loop : false;
-            this.sounds[channel].play();
+            if (!wait) {
+                this.sounds[channel].play();
+            }
         }
     },
 
