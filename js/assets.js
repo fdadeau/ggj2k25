@@ -14,7 +14,7 @@ const data = {
     "explosion": "./assets/sounds/explosion.mp3",
     "blow": "./assets/sounds/blow.mp3",
     "chtoing": "./assets/sounds/chtoing.mp3",
-    "discours": "./assets/sounds/discours.mp3",
+    "teacher-talk": "./assets/sounds/teacher-talk.mp3",
     "scream0": "./assets/sounds/scream0.mp3",
     "scream1": "./assets/sounds/scream1.mp3",
     "scream2": "./assets/sounds/scream2.mp3",

@@ -33,9 +33,14 @@ export class ChewingGum extends Game {
 
     update(dt) {
         if (this.state !== STATES.IN_GAME) return;
-        // propagate to players
+
         this.teacher.update(dt);
-        if (this.teacher.finishedWriting()) return;
+        if (this.teacher.finishedWriting() && this.teacher.delay <= 0) {
+            this.state = STATES.SHOW_SCORES;
+            return;
+        }   
+        
+        // propagate to players
         super.update(dt);
         if (this.teacher.isWatching() && this.player1.hasBubble()) {
             this.teacher.upset();
@@ -48,9 +53,6 @@ export class ChewingGum extends Game {
         if (!this.teacher.isWatching() && this.player1.exploded || this.player2.exploded) {
             this.teacher.stopWriting();
         }
-        if (this.teacher.finishedWriting() && this.teacher.delay < 0) {
-            this.state = STATES.SHOW_SCORES;
-        }   
     }
 
     render(ctx) {
@@ -118,8 +120,19 @@ export class ChewingGum extends Game {
         ctx.textAlign = "left";
         const players = [this.player1, this.player2].sort((p1,p2) => p2.points - p1.points);
         players.forEach((p,i) => {
+            if (i == 0) {
+                ctx.fillStyle = "green";
+            }
+            else if (i == players.length-1) {
+                ctx.fillStyle = "red";
+            }
+            else {
+                ctx.fillStyle = "black";
+            }
             ctx.fillText(`${i+1}. Player ${p.id}`, MARGIN + 40, MARGIN + 120 + i * 20);
+            ctx.textAlign = "right";
             ctx.fillText(`${p.points}`, MARGIN + 240, MARGIN + 120 + i * 20);
+            ctx.textAlign = "left";
         });
     }
 
@@ -134,7 +147,7 @@ const TEACHER_WALKING_SPEED = 0.06;
 const MAX_DELAY = 20000;    // 20 sec.
 const DELAY_STOP = 3000;
 
-const TEACHER_TXT = ["Tester c'est douter, bande de petits joueurs.", "12 ans 1ère clope, 18 ans 1ère p***, 21 ans 1ère ligne de Scheme","Je ferais avouer au pape qu'il est noir, juif et communiste."];
+const TEACHER_TXT = ["Tester c'est douter, bande de petits joueurs."]//, "12 ans 1ère clope, 18 ans 1ère p***, 21 ans 1ère ligne de Scheme","Je ferais avouer au pape qu'il est noir, juif et communiste."];
 
 class Teacher extends Entity {
 
@@ -145,8 +158,8 @@ class Teacher extends Entity {
         this.minX = 100;
         this.maxX = 600;
         this.dX = -1;
-        this.delay = DELAY_STOP;
-        audio.playSound("discours", "teacher-talk", 0.5, 1, true);
+        this.delay = DELAY_STOP / 3;
+        audio.playSound("teacher-talk", "teacher-talk", 0.5, 1, true);
     }
 
     reset() {
@@ -157,7 +170,7 @@ class Teacher extends Entity {
         this.maxX = 600;
         this.dX = -1;
         this.delay = DELAY_STOP;
-        audio.playSound("discours", "teacher-talk", 0.5, 1, true);
+        audio.playSound("teacher-talk", "teacher-talk", 0.5, 1, true);
     }
 
     upset() {
@@ -203,7 +216,7 @@ class Teacher extends Entity {
                         this.dX = -1;
                         this.line++;
                         if (this.line >= TEACHER_TXT.length) {
-                            this.line = -1;
+                            this.stopWriting();
                         }
                     }
                 }
@@ -244,7 +257,7 @@ class Teacher extends Entity {
         for (let i=0; i < this.line; i++) {
             ctx.fillText(TEACHER_TXT[i], lineStart, 100+i*30);
         }
-        if (this.dX > 0) {
+        if (this.dX > 0 && txt) {
             ctx.fillText(txt.substring(0, Math.floor(txt.length * (this.x-this.minX)/(this.maxX-this.minX))), lineStart, 100+this.line*30);
         }
         
@@ -255,7 +268,7 @@ class Teacher extends Entity {
         ctx.strokeRect(this.x, this.y, 80, 200);
         ctx.fillRect(this.x, this.y, 80, 200);
         ctx.fillStyle = "white";
-        const label = { "green": "Scrute", "red": "En colère", "black": "De dos"}
+        const label = { "green": "Scrute", "red": "En colère", "black": "Ecrit"}
         ctx.fillText(label[this.state], this.x + 10, this.y + 120)
     }
 

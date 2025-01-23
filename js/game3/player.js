@@ -83,16 +83,16 @@ export class Player extends Entity {
         if (this.exploded) {
             ctx.fillStyle = "red";
             ctx.fontWeight = "bold";
-            ctx.fillText("PAF", this.x+10, this.y-10);
+            ctx.fillText("PAF", this.x + 20 * this.dir, this.y-10);
         }
 
         // score 
         ctx.fillStyle = "black";
-        ctx.fillText(`Player ${this.id}`, WIDTH/2 - this.dir*WIDTH/3, 20);
+        ctx.fillText(`Player ${this.id}`, this.x - 30, this.y - 60);
         if (this.delay) {
             ctx.fillStyle = "red";
         }
-        ctx.fillText(`${this.points} pts`, WIDTH/2 - this.dir*WIDTH/3, 40);
+        ctx.fillText(`${this.points} pts`, this.x - 30, this.y - 40);
     }
 
     keydown(e) {
@@ -116,9 +116,9 @@ export class Player extends Entity {
     }
 }
 
-const INC_SPEED = 0.04;
+const INC_SPEED = 0.1;
 const DEC_SPEED = 0.1;
-const ESSOUFFLEMENT = 0.0001;
+const ESSOUFFLEMENT = 0.001;
 
 class Bubble extends Entity {
 
@@ -150,8 +150,9 @@ class Bubble extends Entity {
     update(dt) {
         if (this.speed > 0) {
             this.speed -= ESSOUFFLEMENT * dt;
-            if (this.speed < ESSOUFFLEMENT * 100) {
-                this.speed = ESSOUFFLEMENT * 100;
+            if (this.speed < ESSOUFFLEMENT * 30) {
+            //    console.log("top");
+                this.speed = ESSOUFFLEMENT * 30;
             }
         }
         this.radius += this.speed * dt;

@@ -75,6 +75,7 @@ class GUI {
                 break;
         
         }
+        this.state = STATE.IN_GAME;
     }
 
     /**
