@@ -20,9 +20,19 @@ export class Player extends Entity {
         this.dir = dir;
         // score 
         this.points = 0;
+        // color
+        this.color = color;
         // identifier
         this.id = id;
         // has just exploded 
+        this.exploded = false;
+    }
+
+    reset() {
+        this.bubble = new Bubble(this.x + 20*this.dir, 400, this.color);
+        this.growKey = false;
+        this.delay = 0;
+        this.points = 0;
         this.exploded = false;
     }
 
@@ -62,7 +72,7 @@ export class Player extends Entity {
         this.exploded = false;
         this.points = 0;
         this.bubble.dec();
-        audio.pause("player" + this.id);
+        audio.pause("player" + this.id);;
     }
 
     render(ctx) {

@@ -9,7 +9,9 @@ const COLOR1 = { border: 'rgba(0, 191, 255, 0.8)', content: 'rgba(173, 216, 230,
 const COLOR2 = { border: 'rgba(255, 191, 255, 0.8)', content: 'rgba(255, 216, 230, 0.7)' }
 
 import { audio } from "../audio.js";
+import { STATE } from "../gui.js";
 
+const STATES = { INSTRUCTIONS: 0, IN_GAME: 1, SHOW_SCORES: -1 }
 
 /**
  * ChewingGame micro-game
@@ -19,11 +21,18 @@ export class ChewingGum extends Game {
     constructor(ctrl1, ctrl2) {
         super(new Player(ctrl1, COLOR1, 100, 1, 1), new Player(ctrl2, COLOR2, WIDTH - 100, -1, 2));
         this.teacher = new Teacher(300, 120);
-        this.started = false;
+        this.state = STATES.INSTRUCTIONS;
+    }
+
+    restart() {
+        this.player1.reset();
+        this.player2.reset();
+        this.teacher.reset();
+        this.state = STATES.INSTRUCTIONS;
     }
 
     update(dt) {
-        if (!this.started) return;
+        if (this.state !== STATES.IN_GAME) return;
         // propagate to players
         super.update(dt);
         this.teacher.update(dt);
@@ -39,8 +48,8 @@ export class ChewingGum extends Game {
             this.teacher.stopWriting();
         }
         if (this.teacher.finishedWriting() && this.teacher.delay < 0) {
-            this.over = 1;
-        }
+            this.state = STATES.SHOW_SCORES;
+        }   
     }
 
     render(ctx) {
@@ -50,16 +59,24 @@ export class ChewingGum extends Game {
         this.player2.render(ctx);
 
         // instructions
-        if (!this.started) {
-            this.renderInstructions(ctx);
+        switch (this.state) {
+            case STATES.INSTRUCTIONS: 
+                this.renderInstructions(ctx);
+                break;
+            case STATES.SHOW_SCORES:
+                this.renderScores(ctx);
+                break;
         }
-
     }
 
     keydown(e) {
         super.keydown(e);
-        if (!this.started && e.code == "Space") {
-            this.started = true;
+        if (this.state == STATES.INSTRUCTIONS && e.code == "Space") {
+            this.state = STATES.IN_GAME;
+            return;
+        }
+        if (this.state == STATES.SHOW_SCORES && e.code == "Escape") {
+            this.over = true;
         }
     }
 
@@ -73,14 +90,31 @@ export class ChewingGum extends Game {
         ctx.textAlign = "center";
         ctx.fillStyle = "black";
         ctx.fillText("Instructions to play....", WIDTH / 2, MARGIN * 1.5);
-        ctx.fillText("Press spacebar to start the game", WIDTH / 2, HEIGHT - MARGIN * 1.2);
+        ctx.fillText("Press SPACE to start the game", WIDTH / 2, HEIGHT - MARGIN * 1.2);
         ctx.textAlign = "left";
         ctx.fillText("Maintain Z (player 1) or UP (player 2) to grow a bubble of gum", MARGIN + 20, MARGIN + 100);
         ctx.fillText("Press D (player 1) or DOWN (player 2) to swallow the bubble", MARGIN + 20, MARGIN + 130);
         ctx.fillText("Don't have a gum bubble when the teacher is facing you!", MARGIN + 20, MARGIN + 160);
         ctx.fillText("The bigger the bubbles, the more points you win!", MARGIN + 20, MARGIN + 210);
         ctx.fillText("But take care: bigger bubbles are more likely to explode...", MARGIN + 20, MARGIN + 240);
+    }
 
+    renderScores(ctx) {
+        const MARGIN = 100;
+        ctx.fillStyle = "white";
+        ctx.strokeStyle = "black";
+        ctx.fillRect(MARGIN, MARGIN, WIDTH - MARGIN*2, HEIGHT-MARGIN*2);
+        ctx.strokeRect(MARGIN, MARGIN, WIDTH - MARGIN*2, HEIGHT-MARGIN*2);
+        ctx.textAlign = "center";
+        ctx.fillStyle = "black";
+        ctx.fillText("Scores", WIDTH / 2, MARGIN * 1.5);
+        ctx.fillText("Press SPACE to restart the game or ESC to return to the menu", WIDTH / 2, HEIGHT - MARGIN * 1.2);
+        ctx.textAlign = "left";
+        const players = [this.player1, this.player2].sort((p1,p2) => p2.points - p1.points);
+        players.forEach((p,i) => {
+            ctx.fillText(`${i+1}. Player ${p.id}`, MARGIN + 40, MARGIN + 120 + i * 20);
+            ctx.fillText(`${p.points}`, MARGIN + 240, MARGIN + 120 + i * 20);
+        });
     }
 
 }
@@ -100,6 +134,16 @@ class Teacher extends Entity {
 
     constructor(x, y) {
         super(x, y, 0, 0);
+        this.state = TEACHER_STATES.FACING;
+        this.line = 0;
+        this.minX = 100;
+        this.maxX = 600;
+        this.dX = -1;
+        this.delay = DELAY_STOP;
+    }
+
+    reset() {
+        super.reset();
         this.state = TEACHER_STATES.FACING;
         this.line = 0;
         this.minX = 100;
@@ -200,6 +244,9 @@ class Teacher extends Entity {
         ctx.lineWidth = 4;
         ctx.strokeRect(this.x, this.y, 80, 200);
         ctx.fillRect(this.x, this.y, 80, 200);
+        ctx.fillStyle = "white";
+        const label = { "green": "Scrute", "red": "En colère", "black": "De dos"}
+        ctx.fillText(label[this.state], this.x + 10, this.y + 120)
     }
 
 }

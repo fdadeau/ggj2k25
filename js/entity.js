@@ -23,7 +23,16 @@ export class Entity {
         /** @type {number} X direction */
         this.vecX = vecX;
         /** @type {number} Y direction */
-        this.vecY = vecY;        
+        this.vecY = vecY; 
+        
+        this._init = [x,y,vecX,vecY];
+    }
+
+    reset() {
+        this.x = this._init[0];
+        this.y = this._init[1];
+        this.vecX = this._init[2];
+        this.vecY = this._init[3];
     }
 
 
