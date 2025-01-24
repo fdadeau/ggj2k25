@@ -68,8 +68,7 @@ export class Player extends Entity {
     }
 
     checkExplosion() {
-        if (this.bubble.radius > 50) {
-        //if (Math.random() < 0.000001 * this.bubble.radius) {
+        if (this.bubble.radius > this.bubble.max) {
             this.bubble.explode();
             this.points = Math.floor(this.points / 2);
             this.exploded = true;
@@ -136,9 +135,9 @@ export class Player extends Entity {
     }
 }
 
-const INC_SPEED = 0.1;
+const INC_SPEED = 0.08;
 const DEC_SPEED = 0.1;
-const ESSOUFFLEMENT = 0.001;
+const ESSOUFFLEMENT = 0.0002;
 
 class Bubble extends Entity {
 
@@ -147,6 +146,7 @@ class Bubble extends Entity {
         this.color = color;        
         this.speed = 0;
         this.radius = 0;
+        this.max = Math.random() * 40 + 20;
     }
 
     grow() {

@@ -227,7 +227,7 @@ class Teacher extends Entity {
                 }
                 if (this.delay < 0) {
                     this.state = TEACHER_STATES.STOPPED;
-                    this.delay = DELAY_QUESTION_MARK * 6;
+                    this.delay = DELAY_QUESTION_MARK * 3;
                     //this.question = 1;
                     audio.pause("teacher-talk");
                 }
@@ -294,8 +294,8 @@ class Teacher extends Entity {
         ctx.font = "30px arial";
         ctx.fillStyle = "red";
         this.question > 0 && ctx.fillText("?", this.x + 30, this.y - 30);
-        this.question > 1 && ctx.fillText("?", this.x + 10, this.y - 40);
-        this.question > 2 && ctx.fillText("?", this.x + 50, this.y - 20);
+        this.question > 1 && ctx.fillText("?", this.x - 10, this.y - 10);
+        this.question > 2 && ctx.fillText("?", this.x + 70, this.y);
         ctx.font = save;
     }
 
