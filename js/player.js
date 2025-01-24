@@ -1,8 +1,8 @@
-import { WIDTH } from "../app.js";
-import { Entity } from "../entity.js";
+import { WIDTH } from "./app.js";
+import { Entity } from "./entity.js";
 
-import { audio } from "../audio.js";
-import data from "../assets.js";
+import { audio } from "./audio.js";
+import data from "./assets.js";
 
 /**
  * Player for ChewingGum game

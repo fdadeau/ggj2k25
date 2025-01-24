@@ -1,15 +1,15 @@
 
-import { WIDTH, HEIGHT } from "../app.js";
-import { Entity } from "../entity.js";
-import { Game } from "../game.js";
+import { WIDTH, HEIGHT } from "./app.js";
+import { Entity } from "./entity.js";
+import { Game } from "./game.js";
 
 import { Player } from "./player.js";
 
 const COLOR1 = { border: 'rgba(0, 191, 255, 0.8)', content: 'rgba(173, 216, 230, 0.7)' }
 const COLOR2 = { border: 'rgba(255, 191, 255, 0.8)', content: 'rgba(255, 216, 230, 0.7)' }
 
-import { audio } from "../audio.js";
-import data from "../assets.js";
+import { audio } from "./audio.js";
+import data from "./assets.js";
 
 
 const STATES = { INSTRUCTIONS: 0, IN_GAME: 1, SHOW_SCORES: -1 }
@@ -59,6 +59,7 @@ export class ChewingGum extends Game {
     render(ctx) {
         ctx.clearRect(0,0,WIDTH,HEIGHT);
         ctx.drawImage(data["salle_de_classe"], 0, 0, WIDTH, HEIGHT);
+
         this.teacher.render(ctx);
         this.player1.render(ctx);
         this.player2.render(ctx);
@@ -113,8 +114,8 @@ export class ChewingGum extends Game {
         const MARGIN = 100;
         ctx.fillStyle = "white";
         ctx.strokeStyle = "black";
-        ctx.fillRect(MARGIN, MARGIN, WIDTH - MARGIN*2, HEIGHT-MARGIN*2);
-        ctx.strokeRect(MARGIN, MARGIN, WIDTH - MARGIN*2, HEIGHT-MARGIN*2);
+        ctx.fillRect(MARGIN, MARGIN, WIDTH / 2, HEIGHT * 0.6);
+        ctx.strokeRect(MARGIN, MARGIN, WIDTH / 2, HEIGHT * 0.6);
         ctx.textAlign = "center";
         ctx.fillStyle = "black";
         ctx.fillText("Scores", WIDTH / 2, MARGIN * 1.5);
@@ -131,9 +132,9 @@ export class ChewingGum extends Game {
             else {
                 ctx.fillStyle = "black";
             }
-            ctx.fillText(`${i+1}. Player ${p.id}`, MARGIN + 40, MARGIN + 120 + i * 20);
+            ctx.fillText(`${i+1}. Player ${p.id}`, WIDTH / 2 - 100, MARGIN + 120 + i * 20);
             ctx.textAlign = "right";
-            ctx.fillText(`${p.points}`, MARGIN + 240, MARGIN + 120 + i * 20);
+            ctx.fillText(`${p.points}`, WIDTH / 2 + 100, MARGIN + 120 + i * 20);
             ctx.textAlign = "left";
         });
     }

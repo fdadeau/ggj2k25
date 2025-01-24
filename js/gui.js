@@ -8,7 +8,7 @@ import { Game } from "./game.js";
 
 import { BubbleHero } from "./game1/game.js";
 import { Chifoumi }  from "./game2/game.js";
-import { ChewingGum }  from "./game3/game.js";
+import { ChewingGum }  from "./chewinggum.js";
 
 import data from "./assets.js";
 
@@ -21,9 +21,9 @@ export const CONTROLS = {
 
 export const STATE = { 
     LOADING: -999,                
-    TITLE_SCREEN: 0,            // 2 buttons "create" "join"
-    GAME_SELECTION: 1,
+    TITLE_SCREEN: 0,
     IN_GAME: 2,
+    CONTROLS_SCREEN: 3, 
     GAMEOVER: 999               
 }
 
@@ -42,41 +42,14 @@ class GUI {
         /** @type {Object} message info */
         this.info = null;
 
-        this.BUTTONS = [
-            new Button("Bubble Gum", WIDTH*1/6, 400, 130, 30, "arial"),
-            new Button("Bubble Hero", WIDTH*2/6, 400, 130, 30, "arial"),
-            new Button("Bubble Chifoumi", WIDTH*3/6, 400, 130, 30, "arial"),
-            new Button("Bubble Run", WIDTH*4/6, 400, 130, 30, "arial"),
-            new Button("Bubble Dorine", WIDTH*5/6, 400, 130, 30, "arial"),
-        ]
-        
+        this.BUTTONS = {
+            "btnPlay": new Button("Play", WIDTH*3/10, 340, 100, 30, "arial"),
+            "btnControls": new Button("Controls", WIDTH*5/10, 340, 100, 30, "arial"),
+            "btnCredits": new Button("Credits", WIDTH*7/10, 340, 100, 30, "arial"),
+            "btnBack": new Button("Back", WIDTH*5/6, 440, 100, 30, "arial")
+        }        
     };
 
-    /**
-     * Launched when recieved from server
-     * @param {which} 
-     */
-    selectGame(which) {
-        switch (which) {
-            case 0: 
-                this.game = new ChewingGum(CONTROLS.KB1, CONTROLS.KB2);
-                break;
-            case 1: 
-                this.game = new BubbleHero(CONTROLS.KB1, CONTROLS.KB2);
-                break;
-            case 2: 
-                this.game = new Chifoumi(CONTROLS.KB1, CONTROLS.KB2);
-                break;
-            case 3: 
-                this.game = null;   // @TODO add more games 
-                break;
-            case 4: 
-                this.game = null;   // @TODO add more games 
-                break;
-        
-        }
-        this.state = STATE.IN_GAME;
-    }
 
     /**
      * Displays the message on the screen
@@ -88,9 +61,9 @@ class GUI {
     }
 
     start() {
-        this.state = STATE.GAME_SELECTION;
-        this.selectGame(0);
+        this.state = STATE.TITLE_SCREEN;
     }
+
     /**
      * Updates the GUI
      * @param {number} dt Time elpsed since last update
@@ -119,6 +92,7 @@ class GUI {
      */
     render(ctx) {
         ctx.clearRect(0, 0, WIDTH, HEIGHT);
+        ctx.drawImage(data["salle_de_classe"], 0, 0, WIDTH, HEIGHT);
         ctx.font = "12px arial";
         ctx.textAlign = "left";
         ctx.fillStyle = "black";
@@ -130,10 +104,43 @@ class GUI {
             return;
         }
         // no current game
-        if (this.state === STATE.GAME_SELECTION) { 
-            this.BUTTONS.forEach(b => b.render(ctx));
+        if (this.state === STATE.TITLE_SCREEN) { 
+            this.BUTTONS.btnPlay.render(ctx);
+            this.BUTTONS.btnControls.render(ctx);
+            this.BUTTONS.btnCredits.render(ctx);
+            return;
         }
+        if (this.state === STATE.CONTROLS_SCREEN) {
+            this.renderControlsScreen(ctx);
+            this.BUTTONS.btnBack.render(ctx);
+            return;
+        }
+        if (this.state === STATE.CREDITS_SCREEN) {
+            this.renderCreditsScreen(ctx);
+            this.BUTTONS.btnBack.render(ctx);
+            return;
+        }
+        //
+        this.BUTTONS.btnBack.render(ctx);
+
     }
+
+
+    renderControlsScreen(ctx) {
+        ctx.textAlign = "center";
+        ctx.fillText("Controls selection", WIDTH/2, HEIGHT/3);
+
+    }
+
+    renderCreditsScreen(ctx) {
+        ctx.textAlign = "center";
+        ctx.fillText("Credits screen", WIDTH/2, HEIGHT/3);
+
+    }
+
+
+
+
 
 
 
@@ -168,17 +175,25 @@ class GUI {
      */
     click(x,y) {
         this.debug = x+","+y;
-        if (this.state == STATE.GAME_SELECTION) {
-            this.BUTTONS.forEach((b,i) => {
-                if (b.isAt(x,y)) {
-                    this.selectGame(i);
-                }
-            });
+        if (this.state === STATE.TITLE_SCREEN && this.BUTTONS.btnPlay.isAt(x,y)) {
+            this.game = new ChewingGum(CONTROLS.KB1, CONTROLS.KB2);
+            this.state = STATE.IN_GAME;
             return;
-        };
-
+        }
+        if ((this.state === STATE.CONTROLS_SCREEN || this.state === STATE.CREDITS_SCREEN) && this.BUTTONS.btnBack.isAt(x,y)) { 
+            this.state = STATE.TITLE_SCREEN;
+            return;
+        }
+        if (this.state === STATE.TITLE_SCREEN && this.BUTTONS.btnControls.isAt(x,y)) { 
+            this.state = STATE.CONTROLS_SCREEN;
+            return;
+        }
+        if (this.state === STATE.TITLE_SCREEN && this.BUTTONS.btnCredits.isAt(x,y)) { 
+            this.state = STATE.CREDITS_SCREEN;
+            return;
+        }
     }
-    dblclick(x, y) { }
+    dblclick(x, y) { return; }
     mousemove(x, y) { }
 }
 
@@ -201,6 +216,7 @@ class Button {
     }
 
     render(ctx) {
+
         ctx.verticalAlign = "middle";
         ctx.textAlign = "center";
         if (this.font == false) {
