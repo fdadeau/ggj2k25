@@ -80,6 +80,7 @@ class GUI {
             this.game.update(dt);
             if (this.game.over) {
                 this.game = null;
+                this.state = STATE.TITLE_SCREEN;
             }
         }
     }
@@ -105,6 +106,8 @@ class GUI {
         }
         // no current game
         if (this.state === STATE.TITLE_SCREEN) { 
+            ctx.fillStyle = "white";
+            ctx.fillText("Title goes here", 300, 100);
             this.BUTTONS.btnPlay.render(ctx);
             this.BUTTONS.btnControls.render(ctx);
             this.BUTTONS.btnCredits.render(ctx);

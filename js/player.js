@@ -4,6 +4,9 @@ import { Entity } from "./entity.js";
 import { audio } from "./audio.js";
 import data from "./assets.js";
 
+
+const MAX_CROSSES = 3;
+
 /**
  * Player for ChewingGum game
  */
@@ -27,6 +30,8 @@ export class Player extends Entity {
         this.id = id;
         // has just exploded 
         this.exploded = false;
+        // cross
+        this.crosses = 0;   
     }
 
     reset() {
@@ -35,9 +40,11 @@ export class Player extends Entity {
         this.delay = 0;
         this.points = 0;
         this.exploded = false;
+        this.crosses = 0;
     }
 
     update(dt) {
+        if (this.isInactive()) return;
         this.bubble.update(dt);
         this.points += Math.floor(this.bubble.radius);
         if (this.delay > 0) {
@@ -56,6 +63,10 @@ export class Player extends Entity {
         return this.bubble.radius > 0;
     }
 
+    isInactive() {
+        return this.crosses >= MAX_CROSSES;
+    }
+
     checkExplosion() {
         if (this.bubble.radius > 50) {
         //if (Math.random() < 0.000001 * this.bubble.radius) {
@@ -63,6 +74,7 @@ export class Player extends Entity {
             this.points = Math.floor(this.points / 2);
             this.exploded = true;
             this.delay = 500;
+            this.crosses++; 
             audio.pause("player"+this.id);
             audio.playSound("explosion","player"+this.id,0.4,0);
         }
@@ -87,10 +99,16 @@ export class Player extends Entity {
             ctx.fontWeight = "bold";
             ctx.fillText("PAF", this.x + 20 * this.dir, this.y-10);
         }
+        if (this.isInactive()) {
+            ctx.fillStyle = "red";
+            ctx.fillText("GAME OVER", this.x - 30, this.y - 80);
+        }
 
         // score 
-        ctx.fillStyle = "black";
-        ctx.fillText(`Player ${this.id}`, this.x - 30, this.y - 60);
+        ctx.fillStyle = "white";
+        ctx.fillText(`Player ${this.id}`, 100 + this.id * 60, 60);
+        ctx.fillStyle = "red";
+        ctx.fillText("x ".repeat(this.crosses), 100 + this.id * 60, 80);
         if (this.delay) {
             ctx.fillStyle = "red";
         }
@@ -98,7 +116,7 @@ export class Player extends Entity {
     }
 
     keydown(e) {
-        if (this.delay > 0) {
+        if (this.delay > 0 || this.isInactive()) {
             return;
         }
         if (e.code == this.controls.up && this.bubble.speed == 0) {
