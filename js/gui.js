@@ -6,13 +6,10 @@ import { WIDTH, HEIGHT } from "./app.js";
 
 import { Game } from "./game.js";
 
-import { BubbleHero } from "./game1/game.js";
-import { Chifoumi }  from "./game2/game.js";
 import { ChewingGum }  from "./chewinggum.js";
 
 import data from "./assets.js";
 
-import { audio } from "./audio.js";
 
 export const CONTROLS = {
     KB1: { up: "KeyW",    down: "KeyS",      left: "KeyA",      right: "KeyD"       },
@@ -132,7 +129,7 @@ class GUI {
     renderControlsScreen(ctx) {
         ctx.textAlign = "center";
         ctx.fillText("Controls selection", WIDTH/2, HEIGHT/3);
-
+        // TODO --> DORINE
     }
 
     renderCreditsScreen(ctx) {

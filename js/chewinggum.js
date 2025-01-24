@@ -52,7 +52,7 @@ export class ChewingGum extends Game {
             this.player2.catch(this.teacher.delay);
         }
         if (!this.teacher.isWatching() && this.player1.exploded || this.player2.exploded) {
-            this.teacher.stopWriting();
+            this.teacher.stopWritingAndTurns();
         }
     }
 
@@ -114,8 +114,8 @@ export class ChewingGum extends Game {
         const MARGIN = 100;
         ctx.fillStyle = "white";
         ctx.strokeStyle = "black";
-        ctx.fillRect(MARGIN, MARGIN, WIDTH / 2, HEIGHT * 0.6);
-        ctx.strokeRect(MARGIN, MARGIN, WIDTH / 2, HEIGHT * 0.6);
+        ctx.fillRect(MARGIN, MARGIN, WIDTH - 2*MARGIN, HEIGHT * 0.6);
+        ctx.strokeRect(MARGIN, MARGIN, WIDTH - 2*MARGIN, HEIGHT * 0.6);
         ctx.textAlign = "center";
         ctx.fillStyle = "black";
         ctx.fillText("Scores", WIDTH / 2, MARGIN * 1.5);
@@ -142,13 +142,14 @@ export class ChewingGum extends Game {
 }
 
 
-const TEACHER_STATES = { FACING: "green", WRITING: "black", ANGRY: "red" };
+const TEACHER_STATES = { FACING: "green", WRITING: "black", STOPPED: "#000", ANGRY: "red" };
 
 const TEACHER_WRITING_SPEED = 0.02;
 const TEACHER_WALKING_SPEED = 0.06;
 
 const MAX_DELAY = 20000;    // 20 sec.
 const DELAY_STOP = 3000;
+const DELAY_QUESTION_MARK = 200;
 
 const TEACHER_TXT = ["Tester c'est douter, bande de petits joueurs."]//, "12 ans 1ère clope, 18 ans 1ère p***, 21 ans 1ère ligne de Scheme","Je ferais avouer au pape qu'il est noir, juif et communiste."];
 
@@ -161,6 +162,7 @@ class Teacher extends Entity {
         this.minX = 100;
         this.maxX = 600;
         this.dX = -1;
+        this.question = 0;
         this.delay = DELAY_STOP / 3;
         audio.playSound("teacher-talk", "teacher-talk", 0.5, 1, true);
     }
@@ -172,6 +174,7 @@ class Teacher extends Entity {
         this.minX = 100;
         this.maxX = 600;
         this.dX = -1;
+        this.question = 0;
         this.delay = DELAY_STOP;
         audio.playSound("teacher-talk", "teacher-talk", 0.5, 1, true);
     }
@@ -181,18 +184,17 @@ class Teacher extends Entity {
             this.state = TEACHER_STATES.ANGRY;
             this.delay = DELAY_STOP;
             audio.playSound("scream" + Math.floor(Math.random() * 4),"teacher",0.8,0);
-        }
-        
+        }   
     }
 
     finishedWriting() {
         return this.line >= TEACHER_TXT.length;
     }
     isWatching() {
-        return this.state != TEACHER_STATES.WRITING;
+        return this.state != TEACHER_STATES.WRITING && this.state != TEACHER_STATES.STOPPED;
     }
-    stopWriting() {
-        this.state = TEACHER_STATES.FACING;
+    stopWritingAndTurns() {
+        this.state = TEACHER_STATES.STOPPED;
         this.delay = DELAY_STOP;
         audio.pause("teacher-talk");
     }
@@ -219,14 +221,28 @@ class Teacher extends Entity {
                         this.dX = -1;
                         this.line++;
                         if (this.line >= TEACHER_TXT.length) {
-                            this.stopWriting();
+                            this.stopWritingAndTurns();
                         }
                     }
                 }
                 if (this.delay < 0) {
-                    this.state = TEACHER_STATES.FACING;
-                    this.delay = DELAY_STOP;
+                    this.state = TEACHER_STATES.STOPPED;
+                    this.delay = DELAY_QUESTION_MARK * 6;
+                    //this.question = 1;
                     audio.pause("teacher-talk");
+                }
+                break;
+            case TEACHER_STATES.STOPPED: 
+                if (this.delay < 0) {
+                    if (this.question < 3) {
+                        this.question++;
+                        this.delay = DELAY_QUESTION_MARK;
+                    }
+                    else {
+                        this.question = 0;
+                        this.state = TEACHER_STATES.FACING;
+                        this.delay = DELAY_STOP;
+                    }
                 }
                 break;
             case TEACHER_STATES.FACING: 
@@ -271,8 +287,16 @@ class Teacher extends Entity {
         ctx.strokeRect(this.x, this.y, 80, 200);
         ctx.fillRect(this.x, this.y, 80, 200);
         ctx.fillStyle = "white";
-        const label = { "green": "Scrute", "red": "En colère", "black": "Ecrit"}
+        const label = { "green": "Scrute", "red": "En colère", "black": "Ecrit", "#000": "En arrêt"}
         ctx.fillText(label[this.state], this.x + 10, this.y + 120)
+
+        const save = ctx.font;
+        ctx.font = "30px arial";
+        ctx.fillStyle = "red";
+        this.question > 0 && ctx.fillText("?", this.x + 30, this.y - 30);
+        this.question > 1 && ctx.fillText("?", this.x + 10, this.y - 40);
+        this.question > 2 && ctx.fillText("?", this.x + 50, this.y - 20);
+        ctx.font = save;
     }
 
 }
