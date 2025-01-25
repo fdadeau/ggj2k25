@@ -90,7 +90,7 @@ class GUI {
      */
     render(ctx) {
         ctx.clearRect(0, 0, WIDTH, HEIGHT);
-        ctx.drawImage(data["salle_de_classe"], 0, 0, WIDTH, HEIGHT);
+        ctx.drawImage(data["classroom"], 0, 0, WIDTH, HEIGHT);
         ctx.font = "12px arial";
         ctx.textAlign = "left";
         ctx.fillStyle = "black";

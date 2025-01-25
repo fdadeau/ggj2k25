@@ -6,9 +6,13 @@ const data = {
     
     // images (backgrounds, titles, etc.)
     "logoGGJ": "./assets/logos/logoGGJ.png",
-    "salle_de_classe": "./assets/images/salle_de_classe.png",
-    "eleve1": "./assets/images/eleve1.png",
-    "eleve2": "./assets/images/eleve2.png",
+    "classroom": "./assets/images/classroom.png",
+    "student1": "./assets/images/student1.png",
+    "student2": "./assets/images/student2.png",
+    "teacher_body_front": "./assets/images/teacher_body_front.png",
+    "teacher_body_back": "./assets/images/teacher_body_back.png",
+    "teacher_facing": "./assets/images/teacher_facing.png",
+    "teacher_angry": "./assets/images/teacher_angry.png",
 
     
     // ambiance

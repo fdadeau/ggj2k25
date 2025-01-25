@@ -1,5 +1,6 @@
 import { Entity } from "./entity.js";
 import { audio } from "./audio.js";
+import data from "./assets.js";
 
 const TEACHER_STATES = { FACING: "green", WRITING: "black", STOPPED: "#000", ANGRY: "red" };
 
@@ -24,6 +25,7 @@ export class Teacher extends Entity {
         this.dX = -1;
         this.question = 0;
         this.delay = DELAY_STOP / 3;
+        this.body = "teacher_body_front";
         audio.playSound("teacher-talk", "teacher-talk", 0.5, 1, true);
     }
 
@@ -36,6 +38,7 @@ export class Teacher extends Entity {
         this.dX = -1;
         this.question = 0;
         this.delay = DELAY_STOP;
+        this.body = "teacher_body_front";
         audio.playSound("teacher-talk", "teacher-talk", 0.5, 1, true);
     }
 
@@ -72,6 +75,7 @@ export class Teacher extends Entity {
 
         switch (this.state) {
             case TEACHER_STATES.WRITING:
+                this.body = "teacher_body_back"
                 if (this.dX < 0) {
                     this.x += this.dX * TEACHER_WALKING_SPEED * dt;
                     if (this.x <= this.minX) {
@@ -96,6 +100,7 @@ export class Teacher extends Entity {
                 }
                 break;
             case TEACHER_STATES.STOPPED: 
+                this.body = "teacher_body_back"
                 if (this.delay < 0) {
                     if (this.question < 3) {
                         this.question++;
@@ -108,7 +113,8 @@ export class Teacher extends Entity {
                     }
                 }
                 break;
-            case TEACHER_STATES.FACING: 
+            case TEACHER_STATES.FACING:
+                this.body = "teacher_body_front"
                 if (this.delay < 0) {
                     this.delay = Math.floor(Math.random() * MAX_DELAY);
                     this.state = TEACHER_STATES.WRITING;
@@ -116,6 +122,7 @@ export class Teacher extends Entity {
                 }
                 break;
             case TEACHER_STATES.ANGRY:
+                this.body = "teacher_body_front"
                 if (this.delay < 0) {
                     this.delay = DELAY_ANGRY;
                     this.state = TEACHER_STATES.FACING;
@@ -127,7 +134,6 @@ export class Teacher extends Entity {
 
     render(ctx) {
         // black board
-        //ctx.fillStyle = "rgb(24,37,10)";
         //ctx.fillRect(this.minX, 30, 500, 250);
         // text on board
         const lineStart = this.minX + 30;
@@ -144,11 +150,24 @@ export class Teacher extends Entity {
         }
         
         // teacher
-        ctx.strokeStyle = this.state;
-        ctx.fillStyle = "gray";
-        ctx.lineWidth = 4;
-        ctx.strokeRect(this.x, this.y, 80, 200);
-        ctx.fillRect(this.x, this.y, 80, 200);
+        // ctx.strokeStyle = this.state;
+        // ctx.fillStyle = "gray";
+        // ctx.lineWidth = 4;
+        // ctx.strokeRect(this.x, this.y, 80, 200);
+        // ctx.fillRect(this.x, this.y, 80, 200);
+        //draw body
+        ctx.drawImage(data[this.body], this.x, this.y, 170, 380);
+        switch (this.state) {
+            case TEACHER_STATES.WRITING:
+                break;
+            case TEACHER_STATES.ANGRY:
+                ctx.drawImage(data["teacher_angry"], this.x, this.y, 170, 380);
+                break;
+            case TEACHER_STATES.STOPPED:
+                break;
+            case TEACHER_STATES.FACING:
+                ctx.drawImage(data["teacher_facing"], this.x, this.y, 170, 380);
+        }
         ctx.fillStyle = "white";
         const label = { "green": "Scrute", "red": "En colère", "black": "Ecrit", "#000": "En arrêt"}
         ctx.fillText(label[this.state], this.x + 10, this.y + 120)
