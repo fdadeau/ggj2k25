@@ -89,9 +89,7 @@ export class Player extends Entity {
 
     render(ctx) {
         this.bubble.render(ctx);
-        //ctx.fillStyle = "black";
-        //ctx.fillRect(this.x - 25, this.y - 20, 50, 100);
-        var img = (this.dir > 0) ? data["eleve1"] : data["eleve2"];
+        var img = (this.dir > 0) ? data["student1"] : data["student2"];
         ctx.drawImage(img, this.x - 100 -25*this.dir, this.y-100, 200, 200);
         if (this.exploded) {
             ctx.fillStyle = "red";

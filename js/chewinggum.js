@@ -20,7 +20,7 @@ export class ChewingGum extends Game {
 
     constructor(ctrl1, ctrl2) {
         super(new Player(ctrl1, COLOR1, 100, 1, 1), new Player(ctrl2, COLOR2, WIDTH - 100, -1, 2));
-        this.teacher = new Teacher(300, 120);
+        this.teacher = new Teacher(300, 75);
         this.state = STATES.INSTRUCTIONS;
     }
 
@@ -57,7 +57,7 @@ export class ChewingGum extends Game {
 
     render(ctx) {
         ctx.clearRect(0,0,WIDTH,HEIGHT);
-        ctx.drawImage(data["salle_de_classe"], 0, 0, WIDTH, HEIGHT);
+        ctx.drawImage(data["classroom"], 0, 0, WIDTH, HEIGHT);
 
         this.teacher.render(ctx);
         this.player1.render(ctx);
