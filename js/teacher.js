@@ -6,7 +6,7 @@ const TEACHER_STATES = { FACING: "green", WRITING: "black", STOPPED: "#000", ANG
 const TEACHER_WRITING_SPEED = 0.02;
 const TEACHER_WALKING_SPEED = 0.06;
 
-const MAX_DELAY = 20000;    // 20 sec.
+const MAX_DELAY = 20000;    
 const DELAY_STOP = 3000;
 const DELAY_QUESTION_MARK = 200;
 const DELAY_ANGRY = 1000;
@@ -61,6 +61,10 @@ export class Teacher extends Entity {
 
     update(dt) {
         this.delay -= dt;
+
+        if (this.state == TEACHER_STATES.FACING && this.delay + dt > DELAY_STOP / 2 && this.delay <= DELAY_STOP /2 && Math.random() > 0.4) {
+            audio.playSound("fart", "teacher", 0.1, 0);
+        }
                 
         if (this.finishedWriting()) {
             return;
