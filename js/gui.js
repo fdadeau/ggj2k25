@@ -43,7 +43,8 @@ class GUI {
             "btnPlay": new Button("Play", WIDTH*3/10, 340, 100, 30, "arial"),
             "btnControls": new Button("Controls", WIDTH*5/10, 340, 100, 30, "arial"),
             "btnCredits": new Button("Credits", WIDTH*7/10, 340, 100, 30, "arial"),
-            "btnBack": new Button("Back", WIDTH*5/6, 440, 100, 30, "arial")
+            "btnBack": new Button("Back", WIDTH*5/6, 440, 100, 30, "arial"),
+            "btnSlide": new Slider(  WIDTH / 2, HEIGHT / 3 - 65,200, 20,0,100,50 ),
         }        
     };
 
@@ -113,6 +114,7 @@ class GUI {
         if (this.state === STATE.CONTROLS_SCREEN) {
             this.renderControlsScreen(ctx);
             this.BUTTONS.btnBack.render(ctx);
+            this.BUTTONS.btnSlide.render(ctx);
             return;
         }
         if (this.state === STATE.CREDITS_SCREEN) {
@@ -128,8 +130,11 @@ class GUI {
 
     renderControlsScreen(ctx) {
         ctx.textAlign = "center";
-        ctx.fillText("Controls selection", WIDTH/2, HEIGHT/3);
-        // TODO --> DORINE
+        ctx.font = "20px Arial";
+        ctx.fillStyle = "white";
+        // Titre principal
+        ctx.fillText("Controls Selection", WIDTH / 2-80, HEIGHT / 6-30);
+        
     }
 
     renderCreditsScreen(ctx) {
@@ -192,6 +197,11 @@ class GUI {
             this.state = STATE.CREDITS_SCREEN;
             return;
         }
+
+        if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnSlide.isAt(x,y)) { 
+            this.BUTTONS.btnSlide.updateValue(x)
+            return;
+        }
     }
     dblclick(x, y) { return; }
     mousemove(x, y) { }
@@ -236,4 +246,59 @@ class Button {
     }
 }
 
+class Slider {
+
+    constructor( x, y, w, h, minValue, maxValue, initialValue) {
+        this.x = x;
+        this.y = y;
+        this.padding = 20;
+        this.height = h;
+        this.width = w;
+        this.x0 = x - w/2 - this.padding / 2;
+        this.y0 = y - h/2 - this.padding / 2;
+        this.minValue = minValue;
+        this.maxValue = maxValue;
+        this.value = initialValue; // Valeur initiale
+        this.padding = 10; // Padding autour du slider
+        this.handleX = this.x - this.width / 2 + ((this.value - this.minValue) / (this.maxValue - this.minValue)) * this.width;
+    }
+
+    render(ctx) {
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(this.x - this.width / 2, this.y);
+        ctx.lineTo(this.x + this.width / 2, this.y);
+        ctx.stroke();
+
+        ctx.fillStyle = "red";
+        ctx.beginPath();
+        ctx.arc(this.handleX, this.y, 10, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
+        ctx.font = `${this.height}px Arial`;
+        ctx.fillText(Math.round(this.value) ,this.x, this.y - this.height);
+        ctx.fillText("Volume sonore ",this.x-170, this.y);
+
+    }
+
+    isAt(x, y) {
+        const dx = x - this.handleX;
+        const dy = y - this.y;
+        return x >= this.x0 && x <= this.x0 + this.width + this.padding && y >= this.y0 && y <= this.y0 + this.height + this.padding;   
+     }
+    
+    updateValue(x){
+        this.handleX = x;
+        this.value = this.minValue + (this.maxValue - this.minValue) * (x - this.x0) / this.width;
+    }
+
+    getValue() {
+        return this.value;
+    }
+
+
+}
 export default GUI;
