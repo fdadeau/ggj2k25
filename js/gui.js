@@ -21,7 +21,8 @@ export const STATE = {
     TITLE_SCREEN: 0,
     IN_GAME: 2,
     CONTROLS_SCREEN: 3, 
-    GAMEOVER: 999               
+    GAMEOVER: 999,
+    NBPLAYERS : 2               
 }
 
 let framerate = { time: 0, frames: 0, rate: 0 };
@@ -39,13 +40,18 @@ class GUI {
         /** @type {Object} message info */
         this.info = null;
 
+        
         this.BUTTONS = {
             "btnPlay": new Button("Play", WIDTH*3/10, 340, 100, 30, "arial"),
             "btnControls": new Button("Controls", WIDTH*5/10, 340, 100, 30, "arial"),
             "btnCredits": new Button("Credits", WIDTH*7/10, 340, 100, 30, "arial"),
             "btnBack": new Button("Back", WIDTH*5/6, 440, 100, 30, "arial"),
-            "btnSlide": new Slider(  WIDTH / 2, HEIGHT / 3 - 65,200, 20,0,100,50 ),
-        }        
+            "btnSlide": new Slider(  WIDTH / 2, HEIGHT / 3 - 80,200, 20,0,99,50 ),
+            "btnRadio1": new RadioButton("1 Joueur", WIDTH / 2 - 260, HEIGHT / 2 - 120, true),
+            "btnRadio2": new RadioButton("2 Joueurs", WIDTH / 2 - 150, HEIGHT / 2 - 120, false),
+            "btnRadio3": new RadioButton("3 Joueurs", WIDTH / 2 - 40, HEIGHT / 2 - 120, false),
+            "btnRadio4": new RadioButton("4 Joueurs", WIDTH / 2 + 70, HEIGHT / 2 - 120, false)
+        }       
     };
 
 
@@ -115,6 +121,10 @@ class GUI {
             this.renderControlsScreen(ctx);
             this.BUTTONS.btnBack.render(ctx);
             this.BUTTONS.btnSlide.render(ctx);
+            this.BUTTONS.btnRadio1.render(ctx);
+            this.BUTTONS.btnRadio2.render(ctx);
+            this.BUTTONS.btnRadio3.render(ctx);
+            this.BUTTONS.btnRadio4.render(ctx);
             return;
         }
         if (this.state === STATE.CREDITS_SCREEN) {
@@ -202,6 +212,39 @@ class GUI {
             this.BUTTONS.btnSlide.updateValue(x)
             return;
         }
+
+        if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnRadio1.isAt(x,y)) { 
+            this.BUTTONS.btnRadio1.updateValueT(x)
+            this.BUTTONS.btnRadio2.updateValueF(x)
+            this.BUTTONS.btnRadio3.updateValueF(x)
+            this.BUTTONS.btnRadio4.updateValueF(x)
+            return;
+        }
+
+        if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnRadio2.isAt(x,y)) { 
+            this.BUTTONS.btnRadio2.updateValueT(x)
+            this.BUTTONS.btnRadio1.updateValueF(x)
+            this.BUTTONS.btnRadio3.updateValueF(x)
+            this.BUTTONS.btnRadio4.updateValueF(x)
+            return;
+        }
+
+        if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnRadio3.isAt(x,y)) { 
+            this.BUTTONS.btnRadio3.updateValueT(x)
+            this.BUTTONS.btnRadio1.updateValueF(x)
+            this.BUTTONS.btnRadio2.updateValueF(x)
+            this.BUTTONS.btnRadio4.updateValueF(x)
+            return;
+        }
+
+        if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnRadio4.isAt(x,y)) { 
+            this.BUTTONS.btnRadio4.updateValueT(x)
+            this.BUTTONS.btnRadio1.updateValueF(x)
+            this.BUTTONS.btnRadio2.updateValueF(x)
+            this.BUTTONS.btnRadio3.updateValueF(x)
+            return;
+        }
+
     }
     dblclick(x, y) { return; }
     mousemove(x, y) { }
@@ -258,8 +301,8 @@ class Slider {
         this.y0 = y - h/2 - this.padding / 2;
         this.minValue = minValue;
         this.maxValue = maxValue;
-        this.value = initialValue; // Valeur initiale
-        this.padding = 10; // Padding autour du slider
+        this.value = initialValue; 
+        this.padding = 10;
         this.handleX = this.x - this.width / 2 + ((this.value - this.minValue) / (this.maxValue - this.minValue)) * this.width;
     }
 
@@ -279,8 +322,9 @@ class Slider {
         ctx.fillStyle = "white";
         ctx.textAlign = "center";
         ctx.font = `${this.height}px Arial`;
-        ctx.fillText(Math.round(this.value) ,this.x, this.y - this.height);
-        ctx.fillText("Volume sonore ",this.x-170, this.y);
+        let volume = Math.round(this.value);
+        ctx.fillText( volume ,this.x + this.width/2 + 20, this.y + 5 );
+        ctx.fillText("Volume sonore ",this.x-185, this.y + 5);
 
     }
 
@@ -301,4 +345,54 @@ class Slider {
 
 
 }
+class RadioButton {
+    constructor(label, x, y, selected = false) {
+        this.label = label;
+        this.x = x;
+        this.y = y;
+        this.radius = 10; // Taille du bouton
+        this.selected = selected;
+    }
+
+    render(ctx) {
+        // Dessiner le cercle externe
+        ctx.strokeStyle = "red";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Dessiner le cercle interne si sélectionné
+        if (this.selected) {
+            ctx.fillStyle = "red";
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius / 2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Dessiner le label
+        ctx.fillStyle = "white";
+        ctx.font = "16px Arial";
+        ctx.textAlign = "left";
+        ctx.fillText(this.label, this.x + 20, this.y + 5);
+    }
+
+    isAt(x, y) {
+        // Vérifier si la souris est sur ce bouton radio
+        const dx = x - this.x;
+        const dy = y - this.y;
+        return Math.sqrt(dx * dx + dy * dy) <= this.radius;
+    }
+    updateValueT(x){
+        this.selected = true;
+        STATE.NBPLAYERS = 1 ;
+
+    }
+    updateValueF(x){
+        this.selected = false;
+    }
+}
+
+
+
 export default GUI;
