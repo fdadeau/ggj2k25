@@ -43,10 +43,8 @@ class GUI {
             "btnPlay": new Button("Play", WIDTH*3/10, 340, 100, 30, "arial"),
             "btnControls": new Button("Controls", WIDTH*5/10, 340, 100, 30, "arial"),
             "btnCredits": new Button("Credits", WIDTH*7/10, 340, 100, 30, "arial"),
-            "btnBack": new Button("Back", WIDTH*5/6, 440, 100, 30, "arial"),
-            "btnSlide": new Slider(  WIDTH / 2, HEIGHT / 3 - 65,200, 20,0,100,50 ),
+            "btnBack": new Button("Back", WIDTH*5/6, 440, 100, 30, "arial")
         }        
-
     };
 
 
@@ -92,7 +90,7 @@ class GUI {
      */
     render(ctx) {
         ctx.clearRect(0, 0, WIDTH, HEIGHT);
-        ctx.drawImage(data["salle_de_classe"], 0, 0, WIDTH, HEIGHT);
+        ctx.drawImage(data["classroom"], 0, 0, WIDTH, HEIGHT);
         ctx.font = "12px arial";
         ctx.textAlign = "left";
         ctx.fillStyle = "black";
@@ -115,7 +113,6 @@ class GUI {
         if (this.state === STATE.CONTROLS_SCREEN) {
             this.renderControlsScreen(ctx);
             this.BUTTONS.btnBack.render(ctx);
-            this.BUTTONS.btnSlide.render(ctx);
             return;
         }
         if (this.state === STATE.CREDITS_SCREEN) {
@@ -131,20 +128,20 @@ class GUI {
 
     renderControlsScreen(ctx) {
         ctx.textAlign = "center";
-        ctx.font = "20px Arial";
-        ctx.fillStyle = "white";
-        // Titre principal
-        ctx.fillText("Controls Selection", WIDTH / 2-80, HEIGHT / 6-30);
-        
-        
+        ctx.fillText("Controls selection", WIDTH/2, HEIGHT/3);
+        // TODO --> DORINE
     }
-
 
     renderCreditsScreen(ctx) {
         ctx.textAlign = "center";
         ctx.fillText("Credits screen", WIDTH/2, HEIGHT/3);
 
     }
+
+
+
+
+
 
 
     /************************************************
@@ -187,14 +184,6 @@ class GUI {
             this.state = STATE.TITLE_SCREEN;
             return;
         }
-
-        if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnSlide.isAt(x,y)) { 
-            this.BUTTONS.btnSlide.updateValue(x)
-            this.game.setVolume(this.BUTTONS.btnSlide.getValue());
-            
-            return;
-        }
-
         if (this.state === STATE.TITLE_SCREEN && this.BUTTONS.btnControls.isAt(x,y)) { 
             this.state = STATE.CONTROLS_SCREEN;
             return;
@@ -246,64 +235,5 @@ class Button {
         return x >= this.x0 && x <= this.x0 + this.width + this.padding && y >= this.y0 && y <= this.y0 + this.height + this.padding;
     }
 }
-
-class Slider {
-
-    constructor( x, y, w, h, minValue, maxValue, initialValue) {
-        this.x = x;
-        this.y = y;
-        this.padding = 20;
-        this.height = h;
-        this.width = w;
-        this.x0 = x - w/2 - this.padding / 2;
-        this.y0 = y - h/2 - this.padding / 2;
-        this.minValue = minValue;
-        this.maxValue = maxValue;
-        this.value = initialValue; // Valeur initiale
-        this.padding = 10; // Padding autour du slider
-        this.handleX = this.x - this.width / 2 + ((this.value - this.minValue) / (this.maxValue - this.minValue)) * this.width;
-    }
-
-    render(ctx) {
-        ctx.strokeStyle = "red";
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(this.x - this.width / 2, this.y);
-        ctx.lineTo(this.x + this.width / 2, this.y);
-        ctx.stroke();
-
-        ctx.fillStyle = "blue";
-        ctx.beginPath();
-        ctx.arc(this.handleX, this.y, 10, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.fillStyle = "white";
-        ctx.textAlign = "center";
-        ctx.font = `${this.height}px Arial`;
-        ctx.fillText(Math.round(this.value) ,this.x, this.y - this.height);
-        ctx.fillText("Volume sonore ",this.x-170, this.y);
-
-    }
-
-    isAt(x, y) {
-        const dx = x - this.handleX;
-        const dy = y - this.y;
-        return x >= this.x0 && x <= this.x0 + this.width + this.padding && y >= this.y0 && y <= this.y0 + this.height + this.padding;   
-     }
-    
-    updateValue(x){
-        this.handleX = x;
-        this.value = this.minValue + (this.maxValue - this.minValue) * (x - this.x0) / this.width;
-    }
-
-    getValue() {
-        return this.value;
-    }
-
-
-}
-
-
-
 
 export default GUI;
