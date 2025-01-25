@@ -103,9 +103,10 @@ export class Player extends Entity {
 
         // score 
         ctx.fillStyle = "white";
-        ctx.fillText(`Player ${this.id}`, 80 + this.id * 80, 42);
+        ctx.font = "16px crayon_libre";
+        ctx.fillText(`Player ${this.id}`, 80 + this.id * 80, 52);
         ctx.fillStyle = "red";
-        ctx.fillText("X ".repeat(this.crosses), 80 + this.id * 80, 54);
+        ctx.fillText("X ".repeat(this.crosses), 80 + this.id * 80, 67);
         if (this.delay) {
             ctx.fillStyle = "red";
         }

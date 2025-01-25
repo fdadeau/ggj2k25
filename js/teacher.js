@@ -12,7 +12,7 @@ const DELAY_STOP = 3000;
 const DELAY_QUESTION_MARK = 200;
 const DELAY_ANGRY = 1000;
 
-const TEACHER_TXT = ["Tester c'est douter, bande de petits joueurs."]//, "12 ans 1ère clope, 18 ans 1ère p***, 21 ans 1ère ligne de Scheme","Je ferais avouer au pape qu'il est noir, juif et communiste."];
+const TEACHER_TXT = ["Tester"]// c'est douter, bande de petits joueurs."]//, "12 ans 1ère clope, 18 ans 1ère p***, 21 ans 1ère ligne de Scheme","Je ferais avouer au pape qu'il est noir, juif et communiste."];
 
 export class Teacher extends Entity {
 
@@ -133,7 +133,7 @@ export class Teacher extends Entity {
         // text on board
         const lineStart = this.minX + 30;
         ctx.fillStyle = "white";
-        ctx.font = "10px monospace";
+        ctx.font = "10px crayon_libre";
         ctx.textAlign = "left";
         const txt = TEACHER_TXT[this.line];
         this.maxX = this.minX + ctx.measureText(txt).width;

@@ -96,31 +96,36 @@ export class ChewingGum extends Game {
 
     renderInstructions(ctx) {
         const MARGIN = 100;
-        ctx.fillStyle = "white";
-        ctx.strokeStyle = "black";
-        ctx.fillRect(MARGIN, MARGIN, WIDTH - MARGIN*2, HEIGHT-MARGIN*2);
-        ctx.strokeRect(MARGIN, MARGIN, WIDTH - MARGIN*2, HEIGHT-MARGIN*2);
+        // ctx.fillStyle = "white";
+        // ctx.strokeStyle = "black";
+        // ctx.fillRect(MARGIN, MARGIN, WIDTH - MARGIN*2, HEIGHT-MARGIN*2);
+        // ctx.strokeRect(MARGIN, MARGIN, WIDTH - MARGIN*2, HEIGHT-MARGIN*2);
+        ctx.drawImage(data["blackboard"], MARGIN, MARGIN,WIDTH - 2*MARGIN,  HEIGHT * 0.65);
         ctx.textAlign = "center";
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "white";
+        ctx.font = "14px crayon_libre";
         ctx.fillText("Instructions to play....", WIDTH / 2, MARGIN * 1.5);
         ctx.fillText("Press SPACE to start the game", WIDTH / 2, HEIGHT - MARGIN * 1.2);
         ctx.textAlign = "left";
-        ctx.fillText("Maintain Z (player 1) or UP (player 2) to grow a bubble of gum", MARGIN + 20, MARGIN + 100);
-        ctx.fillText("Press D (player 1) or DOWN (player 2) to swallow the bubble", MARGIN + 20, MARGIN + 130);
-        ctx.fillText("Don't have a gum bubble when the teacher is facing you!", MARGIN + 20, MARGIN + 160);
-        ctx.fillText("The bigger the bubbles, the more points you win!", MARGIN + 20, MARGIN + 210);
-        ctx.fillText("But take care: bigger bubbles are more likely to explode...", MARGIN + 20, MARGIN + 240);
+        ctx.fillText("Maintain Z (player 1) or UP (player 2) to grow a bubble of gum", MARGIN + 40, MARGIN + 100);
+        ctx.fillText("Press D (player 1) or DOWN (player 2) to swallow the bubble", MARGIN + 40, MARGIN + 130);
+        ctx.fillText("Don't have a gum bubble when the teacher is facing you!", MARGIN + 40, MARGIN + 160);
+        ctx.fillText("The bigger the bubbles, the more points you win!", MARGIN + 40, MARGIN + 210);
+        ctx.fillText("But take care: bigger bubbles are more likely to explode...", MARGIN + 40, MARGIN + 240);
     }
 
     renderScores(ctx) {
         const MARGIN = 100;
-        ctx.fillStyle = "white";
-        ctx.strokeStyle = "black";
-        ctx.fillRect(MARGIN, MARGIN, WIDTH - 2*MARGIN, HEIGHT * 0.6);
-        ctx.strokeRect(MARGIN, MARGIN, WIDTH - 2*MARGIN, HEIGHT * 0.6);
+        // ctx.fillStyle = "white";
+        // ctx.strokeStyle = "black";
+        // ctx.fillRect(MARGIN, MARGIN, WIDTH - 2*MARGIN, HEIGHT * 0.6);
+        // ctx.strokeRect(MARGIN, MARGIN, WIDTH - 2*MARGIN, HEIGHT * 0.6);
+        ctx.drawImage(data["blackboard"], MARGIN, MARGIN,WIDTH - 2*MARGIN,  HEIGHT * 0.65);
         ctx.textAlign = "center";
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "white";
+        ctx.font = "20px crayon_libre";
         ctx.fillText("Scores", WIDTH / 2, MARGIN * 1.5);
+        ctx.font = "14px crayon_libre";
         ctx.fillText("Press SPACE to restart the game or ESC to return to the menu", WIDTH / 2, HEIGHT - MARGIN * 1.2);
         ctx.textAlign = "left";
         const players = [this.player1, this.player2].sort((p1,p2) => p2.points - p1.points);
