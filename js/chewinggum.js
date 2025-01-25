@@ -7,7 +7,6 @@ import { Player } from "./player.js";
 const COLOR1 = { border: 'rgba(0, 191, 255, 0.8)', content: 'rgba(173, 216, 230, 0.7)' }
 const COLOR2 = { border: 'rgba(255, 191, 255, 0.8)', content: 'rgba(255, 216, 230, 0.7)' }
 
-import { audio } from "./audio.js";
 import data from "./assets.js";
 
 
@@ -37,6 +36,8 @@ export class ChewingGum extends Game {
         this.teacher.update(dt);
         if (this.teacher.finishedWriting() && this.teacher.delay <= 0) {
             this.state = STATES.SHOW_SCORES;
+            this.player1.bubble.radius = 0;
+            this.player2.bubble.radius = 0;
             return;
         }   
         
@@ -75,7 +76,9 @@ export class ChewingGum extends Game {
     }
 
     keydown(e) {
-        super.keydown(e);
+        if (this.state === STATES.IN_GAME) {
+            super.keydown(e);
+        }
         if (this.state == STATES.INSTRUCTIONS && e.code == "Space") {
             this.state = STATES.IN_GAME;
             return;
