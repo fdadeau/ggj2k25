@@ -6,6 +6,7 @@ const data = {
     
     // images (backgrounds, titles, etc.)
     "logoGGJ": "./assets/logos/logoGGJ.png",
+    "logoJeu": "./assets/logos/logo_gum_pop.png",
     "classroom": "./assets/images/classroom.png",
     "student1": "./assets/images/student1.png",
     "student2": "./assets/images/student2.png",
@@ -14,6 +15,7 @@ const data = {
     "teacher_facing": "./assets/images/teacher_facing.png",
     "teacher_angry": "./assets/images/teacher_angry.png",
     "leg": "./assets/images/leg.png",
+    "blackboard": "./assets/images/blackboard2.png",
 
     
     // ambiance
