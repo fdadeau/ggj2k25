@@ -153,8 +153,16 @@ export class Teacher extends Entity {
         // ctx.fillRect(this.x, this.y, 80, 200);
         //draw body
         ctx.drawImage(data[this.body], this.x, this.y, 170, 380);
-        if (this.state == TEACHER_STATES.FACING) {
-            ctx.drawImage(data["teacher_facing"], this.x, this.y, 170, 380);
+        switch (this.state) {
+            case TEACHER_STATES.WRITING:
+                break;
+            case TEACHER_STATES.ANGRY:
+                ctx.drawImage(data["teacher_angry"], this.x, this.y, 170, 380);
+                break;
+            case TEACHER_STATES.STOPPED:
+                break;
+            case TEACHER_STATES.FACING:
+                ctx.drawImage(data["teacher_facing"], this.x, this.y, 170, 380);
         }
         ctx.fillStyle = "white";
         const label = { "green": "Scrute", "red": "En colère", "black": "Ecrit", "#000": "En arrêt"}

@@ -12,6 +12,7 @@ const data = {
     "teacher_body_front": "./assets/images/teacher_body_front.png",
     "teacher_body_back": "./assets/images/teacher_body_back.png",
     "teacher_facing": "./assets/images/teacher_facing.png",
+    "teacher_angry": "./assets/images/teacher_angry.png",
 
     
     // ambiance
