@@ -56,7 +56,7 @@ export class Teacher extends Entity {
         return this.state != TEACHER_STATES.WRITING && this.state != TEACHER_STATES.STOPPED;
     }
     stopWritingAndTurns() {
-        this.state = TEACHER_STATES.STOPPED;
+        this.state = TEACHER_STATES.FACING;
         this.delay = DELAY_STOP;
         audio.pause("teacher-talk");
     }

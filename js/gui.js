@@ -11,6 +11,8 @@ import { ChewingGum }  from "./chewinggum.js";
 import data from "./assets.js";
 
 
+const DEBUG = false;
+
 export const CONTROLS = {
     KB1: { up: "KeyW",    down: "KeyS",      left: "KeyA",      right: "KeyD"       },
     KB2: { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "ArrowRight" }
@@ -95,8 +97,8 @@ class GUI {
         ctx.font = "12px arial";
         ctx.textAlign = "left";
         ctx.fillStyle = "black";
-        ctx.fillText(framerate.rate + " fps", 1, 14);
-        ctx.fillText(this.debug, 1, 30);
+        DEBUG && ctx.fillText(framerate.rate + " fps", 1, 14);
+        DEBUG && ctx.fillText(this.debug, 1, 30);
         // game in progress
         if (this.game) {
             this.game.render(ctx);
