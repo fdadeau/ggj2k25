@@ -13,18 +13,19 @@ import data from "./assets.js";
 
 const DEBUG = false;
 
-export const CONTROLS = {
-    KB1: { up: "KeyW",    down: "KeyS",      left: "KeyA",      right: "KeyD"       },
-    KB2: { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "ArrowRight" }
-}
+export const CONTROLS = [
+    { up: "KeyW",    down: "KeyS",      left: "KeyA",      right: "KeyD"       },
+    { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "ArrowRight" }, 
+    { up: "KeyF", down: "KeyC", left: "KeyX", right: "KeyV" }, 
+    { up: "KeyH", down: "KeyB", left: "KeyN", right: "KeyG" } 
+]
 
 export const STATE = { 
     LOADING: -999,                
     TITLE_SCREEN: 0,
     IN_GAME: 2,
     CONTROLS_SCREEN: 3, 
-    GAMEOVER: 999,
-    NBPLAYERS : 2               
+    GAMEOVER: 999
 }
 
 let framerate = { time: 0, frames: 0, rate: 0 };
@@ -194,7 +195,7 @@ class GUI {
     click(x,y) {
         this.debug = x+","+y;
         if (this.state === STATE.TITLE_SCREEN && this.BUTTONS.btnPlay.isAt(x,y)) {
-            this.game = new ChewingGum(CONTROLS.KB1, CONTROLS.KB2);
+            this.game = new ChewingGum(CONTROLS,this.NbPlayers);
             this.state = STATE.IN_GAME;
             return;
         }
@@ -221,6 +222,8 @@ class GUI {
             this.BUTTONS.btnRadio2.updateValueF(x)
             this.BUTTONS.btnRadio3.updateValueF(x)
             this.BUTTONS.btnRadio4.updateValueF(x)
+            this.NbPlayers = 1 ;
+
             return;
         }
 
@@ -229,6 +232,8 @@ class GUI {
             this.BUTTONS.btnRadio1.updateValueF(x)
             this.BUTTONS.btnRadio3.updateValueF(x)
             this.BUTTONS.btnRadio4.updateValueF(x)
+            this.NbPlayers = 2 ;
+
             return;
         }
 
@@ -237,6 +242,8 @@ class GUI {
             this.BUTTONS.btnRadio1.updateValueF(x)
             this.BUTTONS.btnRadio2.updateValueF(x)
             this.BUTTONS.btnRadio4.updateValueF(x)
+            this.NbPlayers = 3 ;
+
             return;
         }
 
@@ -245,6 +252,8 @@ class GUI {
             this.BUTTONS.btnRadio1.updateValueF(x)
             this.BUTTONS.btnRadio2.updateValueF(x)
             this.BUTTONS.btnRadio3.updateValueF(x)
+            this.NbPlayers = 4 ;
+
             return;
         }
 
@@ -391,7 +400,6 @@ class RadioButton {
     }
     updateValueT(x){
         this.selected = true;
-        STATE.NBPLAYERS = 1 ;
 
     }
     updateValueF(x){

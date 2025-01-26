@@ -5,8 +5,10 @@ import { Teacher } from "./teacher.js";
 import { Player } from "./player.js";
 import data from "./assets.js";
 
-const COLOR1 = { border: 'rgba(0, 191, 255, 1)', content: 'rgba(173, 216, 230, 0.7)' }
-const COLOR2 = { border: 'rgba(247, 171, 247, 1)', content: 'rgba(255, 216, 230, 0.7)' }
+const COLOR1 = { border: 'rgba(0, 191, 255, 0.8)', content: 'rgba(173, 216, 230, 0.7)' }
+const COLOR2 = { border: 'rgba(255, 191, 255, 0.8)', content: 'rgba(255, 216, 230, 0.7)' }
+const COLOR3 = { border: 'rgba(173, 235, 179, 0.8)', content: 'rgba(173, 235, 179, 0.8)' }
+const COLOR4 = { border: 'rgba( 255 , 172 , 82, 0.8)', content: 'rgba(254 , 163 , 71, 0.8)' }
 
 const STATES = { INSTRUCTIONS: 0, IN_GAME: 1, SHOW_SCORES: -1 }
 
@@ -15,8 +17,17 @@ const STATES = { INSTRUCTIONS: 0, IN_GAME: 1, SHOW_SCORES: -1 }
  */
 export class ChewingGum extends Game {
 
-    constructor(ctrl1, ctrl2) {
-        super([new Player(ctrl1, COLOR1, 100, 1, 1), new Player(ctrl2, COLOR2, WIDTH - 100, -1, 2)]);
+    constructor(ctrl,nbplayer) {
+        let instance = []
+        if (nbplayer == 2) 
+            instance = [new Player(ctrl[0], COLOR1, 100, 1, 1), new Player(ctrl[1], COLOR2, WIDTH - 100, -1, 2)];
+        if (nbplayer == 3) 
+            instance = [new Player(ctrl[0], COLOR1, 100, 1, 1), new Player(ctrl[1], COLOR2, WIDTH - 100, -1, 2), new Player(ctrl[2], COLOR3, 100, 1, 3)];
+        if (nbplayer == 4) 
+            instance = [new Player(ctrl[0], COLOR1, 100, 1, 1), new Player(ctrl[1], COLOR2, WIDTH - 100, -1, 2), new Player(ctrl[2], COLOR3, 100, 1, 3), , new Player(ctrl[3], COLOR4, 100, 1, 3)];
+        else 
+            instance = [new Player(ctrl[0], COLOR1, 100, 1, 1), new Player(ctrl[1], COLOR2, WIDTH - 100, -1, 2)];           
+        super(instance);
         this.teacher = new Teacher(300, 75);
         this.state = STATES.INSTRUCTIONS;
     }
@@ -155,7 +166,13 @@ export class ChewingGum extends Game {
         ctx.font = "16px crayon_libre";
         ctx.fillText("Press SPACE to restart the game or ESC to return to the menu", 0, y0 + h0 - 30);
         ctx.textAlign = "left";
-        const players = [this.players[0], this.players[1]].sort((p1,p2) => p2.points - p1.points);
+        
+        let playersInClass = [];
+        for (let i = 0; i < this.players.length; i++) {
+            playersInClass.push(this.players[i]);
+        }
+        const players = [playersInClass].sort((p1,p2) => p2.points - p1.points);
+        
         players.forEach((p,i) => {
             if (i == 0) {
                 ctx.fillStyle = "green";
