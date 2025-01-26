@@ -79,7 +79,7 @@ export class Teacher extends Entity {
         this.delay -= dt;
 
         if (this.state == TEACHER_STATES.FACING && !this.finishedWriting() && this.delay + dt > DELAY_STOP / 2 && this.delay <= DELAY_STOP /2 && Math.random() < 0.1) {
-            audio.playSound("fart", "teacher", 0.1, 0);
+//            audio.playSound("fart", "teacher", 0.1, 0);
         }
                 
         if (this.finishedWriting()) {
@@ -119,8 +119,16 @@ export class Teacher extends Entity {
                     }
                     else {
                         this.question = 0;
-                        this.state = TEACHER_STATES.FACING;
-                        this.delay = DELAY_STOP;
+                        if (Math.random() > 0.5) { 
+                            this.state = TEACHER_STATES.FACING;
+                            this.delay = DELAY_STOP;
+                        }
+                        else {
+                            Math.random() < 0.1 && audio.playSound("fart", "teacher", 0.1, 0);
+                            this.delay = Math.floor(Math.random() * MAX_DELAY);
+                            this.state = TEACHER_STATES.WRITING;
+                            if (this.dX > 0) audio.resume("teacher-talk");
+                        }
                     }
                 }
                 break;
