@@ -129,7 +129,16 @@ export class ChewingGum extends Game {
         const w0 = WIDTH-2*MARGIN;
         const h0 = HEIGHT-2*MARGIN;
         ctx.fillRect(x0, y0, w0, h0);
+        ctx.strokeStyle = "rgb(148,154,142)";
+        const sq = w0 / 20;
+        for (let i=0; i < w0; i += sq) {
+            ctx.strokeRect(x0 + i*sq, y0, x0+i*sq, y0+h0);
+        };
+        for (let i=0; i < h0; i += sq) {
+            ctx.strokeRect(x0, y0 + i*sq, x0+w0, y0+i*sq);
+        };
         ctx.drawImage(data["slate"], x0-40, y0-40, w0 + 80,  h0 + 80);
+
         
         ctx.textAlign = "center";
         ctx.fillStyle = "white";
@@ -167,11 +176,7 @@ export class ChewingGum extends Game {
         ctx.fillText("Press SPACE to restart the game or ESC to return to the menu", 0, y0 + h0 - 30);
         ctx.textAlign = "left";
         
-        let playersInClass = [];
-        for (let i = 0; i < this.players.length; i++) {
-            playersInClass.push(this.players[i]);
-        }
-        const players = [playersInClass].sort((p1,p2) => p2.points - p1.points);
+        const players = [...this.players].sort((p1,p2) => p2.points - p1.points);
         
         players.forEach((p,i) => {
             if (i == 0) {

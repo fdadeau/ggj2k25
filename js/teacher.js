@@ -128,8 +128,6 @@ export class Teacher extends Entity {
     }
 
     render(ctx) {
-        // black board
-        //ctx.fillRect(this.minX, 30, 500, 250);
         // text on board
         const lineStart = this.minX + 30;
         ctx.fillStyle = "white";
@@ -144,12 +142,6 @@ export class Teacher extends Entity {
             ctx.fillText(txt.substring(0, Math.floor(txt.length * (this.x-this.minX)/(this.maxX-this.minX))), lineStart, 100+this.line*30);
         }
         
-        // teacher
-        // ctx.strokeStyle = this.state;
-        // ctx.fillStyle = "gray";
-        // ctx.lineWidth = 4;
-        // ctx.strokeRect(this.x, this.y, 80, 200);
-        // ctx.fillRect(this.x, this.y, 80, 200);
         //draw body
         switch (this.state) {
             case TEACHER_STATES.WRITING:
@@ -158,7 +150,8 @@ export class Teacher extends Entity {
                 ctx.drawImage(data["teacher_body_back"], this.x, this.y, 170, 380);
                 break;
             case TEACHER_STATES.ANGRY:
-                ctx.drawImage(data["teacher_angry_arm1"], this.x, this.y, 170, 380);
+                const nb = (Math.floor(this.delay / 120) % 2) + 1;
+                ctx.drawImage(data["teacher_angry_arm" + nb], this.x, this.y, 170, 380);
                 ctx.drawImage(data["teacher_body_front"], this.x, this.y, 170, 380);
                 ctx.drawImage(data["teacher_angry"], this.x, this.y, 170, 380);
                 break;
