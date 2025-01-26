@@ -7,8 +7,6 @@ import data from "./assets.js";
 
 const MAX_CROSSES = 3;
 
-const DELAY_CHEWING = 700;
-
 /**
  * Player for ChewingGum game
  */
@@ -17,7 +15,7 @@ export class Player extends Entity {
     constructor(controls, color, x, dir, id) {
         super(x, 400, 0, 0);
         this.controls = controls;
-        this.bubble = new Bubble(x + 20*dir, 400, color, id);
+        this.bubble = new Bubble(x + 20*dir, 400, color);
         // buuble grow key is pressed 
         this.growKey = false;
         // ination delay
@@ -34,14 +32,10 @@ export class Player extends Entity {
         this.exploded = false;
         // cross
         this.crosses = 0;   
-        // delay animation
-        this.delayAnim = Math.random() * DELAY_CHEWING;
-        // legs animation
-        this.legs = { L: 0, R: 120, reset: function() { this.L = 0, this.R = 120 }, state: 0 };
     }
 
     reset() {
-        this.bubble = new Bubble(this.x + 20*this.dir, 400, this.color, this.id);
+        this.bubble = new Bubble(this.x + 20*this.dir, 400, this.color);
         this.growKey = false;
         this.delay = 0;
         this.points = 0;
@@ -63,12 +57,6 @@ export class Player extends Entity {
         else if (this.bubble.speed > 0) {
             this.checkExplosion();
         }
-        if (!this.exploded && this.bubble.radius == 0) { 
-            this.delayAnim -= dt;
-            if (this.delayAnim <= 0) {
-                this.delayAnim = DELAY_CHEWING;
-            }
-        }
     }
 
     hasBubble() {
@@ -82,9 +70,10 @@ export class Player extends Entity {
     checkExplosion() {
         if (this.bubble.radius > this.bubble.max) {
             this.bubble.explode();
-            this.points = 0
+            this.points = Math.floor(this.points / 2);
             this.exploded = true;
             this.delay = 500;
+            this.crosses++; 
             audio.pause("player"+this.id);
             audio.playSound("explosion","player"+this.id,0.4,0);
         }
@@ -94,45 +83,49 @@ export class Player extends Entity {
         this.delay = delay;
         this.exploded = false;
         this.points = 0;
-        this.crosses++;
         this.bubble.dec();
-        audio.pause("player" + this.id);
+        audio.pause("player" + this.id);;
     }
 
-    render(ctx, teacherIsFacing) {
-        
+    render(ctx) {
+        this.bubble.render(ctx);
+        //var img = (this.dir > 0) ? data["student1"] : data["student2"];
+        var img;
+        switch (this.id) {
+            case 1:
+                img = data.student1;
+                break;
+            case 2:
+                img = data.student2;
+                break;
+            case 3:
+                img = data.student1;
+                break;
+            case 4:
+                img = data.student1;
+                break;
+        }
+
+        ctx.drawImage(img, this.x - 100 -25*this.dir, this.y-100, 200, 200);
+        if (this.exploded) {
+            ctx.fillStyle = "red";
+            ctx.fontWeight = "bold";
+            ctx.fillText("PAF", this.x + 20 * this.dir, this.y-10);
+        }
+        if (this.isInactive()) {
+            ctx.fillStyle = "red";
+            ctx.fillText("GAME OVER", this.x - 30, this.y - 80);
+        }
+
         // score 
         ctx.fillStyle = "white";
-        ctx.font = "16px crayon_libre";
-        ctx.fillText(`Player ${this.id}`, 80 + this.id * 80, 52);
+        ctx.fillText(`Player ${this.id}`, 80 + this.id * 80, 42);
         ctx.fillStyle = "red";
-        ctx.fillText("X ".repeat(this.crosses), 80 + this.id * 80, 67);
+        ctx.fillText("X ".repeat(this.crosses), 80 + this.id * 80, 54);
         if (this.delay) {
             ctx.fillStyle = "red";
         }
-
-        ctx.textAlign = "right";
-        ctx.fillStyle = this.color.border;
-        ctx.fillText(`${this.points} pts`, WIDTH - 20, 50 + this.id * 40);
-        ctx.textAlign = "left";
-
-        if (this.isInactive()) {
-            ctx.drawImage(data["student"+this.id], this.x - 100 -25*this.dir, this.y-100, 200, 200);
-            ctx.drawImage(data["student"+this.id+"_black_layer"], this.x - 100 -25*this.dir, this.y-100, 200, 200);
-            return;
-        }
-
-        if (this.exploded) {
-            ctx.drawImage(data["paf"+this.id], this.x + (this.dir > 0 ? - 5 : - 100) , this.y - 30, 100, 80);
-        }
-
-        this.bubble.render(ctx);
-        ctx.drawImage(data["student"+this.id], this.x - 100 -25*this.dir, this.y-100, 200, 200);
-        
-        if (!this.exploded && !teacherIsFacing && this.delayAnim > DELAY_CHEWING / 2 && this.bubble.radius == 0) {
-            ctx.drawImage(data["studentChewing" + this.id], this.x - 100 -25*this.dir, this.y-100, 200, 200);
-        }
-
+        ctx.fillText(`${this.points} pts`, this.x - 30, this.y - 40);
     }
 
     keydown(e) {
@@ -156,19 +149,17 @@ export class Player extends Entity {
     }
 }
 
-
 const INC_SPEED = 0.08;
 const DEC_SPEED = 0.1;
 const ESSOUFFLEMENT = 0.0002;
 
 class Bubble extends Entity {
 
-    constructor(x, y, color, id) {
+    constructor(x, y, color) {
         super(x, y, 0, 0);
         this.color = color;        
         this.speed = 0;
         this.radius = 0;
-        this.id = id;
         this.max = Math.random() * 40 + 20;
     }
 
@@ -214,7 +205,6 @@ class Bubble extends Entity {
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
         ctx.fill();
         ctx.stroke();
-        ctx.drawImage(data["bubble_reflection"+this.id], this.x - this.radius, this.y - this.radius, this.radius*2, this.radius*2);
     }
 
 }
