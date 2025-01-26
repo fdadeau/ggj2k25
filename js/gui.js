@@ -50,10 +50,10 @@ class GUI {
             "btnCredits": new Button("Credits", WIDTH*7/10, 340, 100, 30, "crayon_libre"),
             "btnBack": new Button("Back", WIDTH*5/6, 440, 100, 30, "crayon_libre"),
             "btnSlide": new Slider(  WIDTH / 2, HEIGHT / 3 - 80,200, 20,0,99,50 ),
-            "btnRadio1": new RadioButton("1 Joueur", WIDTH / 2 - 260, HEIGHT / 2 - 120, true),
-            "btnRadio2": new RadioButton("2 Joueurs", WIDTH / 2 - 150, HEIGHT / 2 - 120, false),
-            "btnRadio3": new RadioButton("3 Joueurs", WIDTH / 2 - 40, HEIGHT / 2 - 120, false),
-            "btnRadio4": new RadioButton("4 Joueurs", WIDTH / 2 + 70, HEIGHT / 2 - 120, false)
+            //"btnRadio1": new RadioButton("1 Joueur", WIDTH / 2 - 260, HEIGHT / 2 - 120, true),
+            "btnRadio2": new RadioButton("2 Joueurs", WIDTH / 2 - 260, HEIGHT / 2 - 120, false),
+            "btnRadio3": new RadioButton("3 Joueurs", WIDTH / 2 - 100, HEIGHT / 2 - 120, false),
+            "btnRadio4": new RadioButton("4 Joueurs", WIDTH / 2 + 60, HEIGHT / 2 - 120, false)
         }       
     };
 
@@ -125,7 +125,7 @@ class GUI {
             this.renderControlsScreen(ctx);
             this.BUTTONS.btnBack.render(ctx);
             this.BUTTONS.btnSlide.render(ctx);
-            this.BUTTONS.btnRadio1.render(ctx);
+            //this.BUTTONS.btnRadio1.render(ctx);
             this.BUTTONS.btnRadio2.render(ctx);
             this.BUTTONS.btnRadio3.render(ctx);
             this.BUTTONS.btnRadio4.render(ctx);
@@ -144,10 +144,10 @@ class GUI {
 
     renderControlsScreen(ctx) {
         ctx.textAlign = "center";
-        ctx.font = "20px Arial";
+        ctx.font = "20px crayon_libre";
         ctx.fillStyle = "white";
         // Titre principal
-        ctx.fillText("Controls Selection", WIDTH / 2-80, HEIGHT / 6-30);
+        ctx.fillText("Panneau de contrôle", WIDTH / 2-80, HEIGHT / 6-30);
         
     }
 
@@ -216,7 +216,7 @@ class GUI {
             this.BUTTONS.btnSlide.updateValue(x)
             return;
         }
-
+/*
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnRadio1.isAt(x,y)) { 
             this.BUTTONS.btnRadio1.updateValueT(x)
             this.BUTTONS.btnRadio2.updateValueF(x)
@@ -226,10 +226,10 @@ class GUI {
 
             return;
         }
-
+*/
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnRadio2.isAt(x,y)) { 
             this.BUTTONS.btnRadio2.updateValueT(x)
-            this.BUTTONS.btnRadio1.updateValueF(x)
+            //this.BUTTONS.btnRadio1.updateValueF(x)
             this.BUTTONS.btnRadio3.updateValueF(x)
             this.BUTTONS.btnRadio4.updateValueF(x)
             this.NbPlayers = 2 ;
@@ -239,7 +239,7 @@ class GUI {
 
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnRadio3.isAt(x,y)) { 
             this.BUTTONS.btnRadio3.updateValueT(x)
-            this.BUTTONS.btnRadio1.updateValueF(x)
+            //this.BUTTONS.btnRadio1.updateValueF(x)
             this.BUTTONS.btnRadio2.updateValueF(x)
             this.BUTTONS.btnRadio4.updateValueF(x)
             this.NbPlayers = 3 ;
@@ -249,7 +249,7 @@ class GUI {
 
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnRadio4.isAt(x,y)) { 
             this.BUTTONS.btnRadio4.updateValueT(x)
-            this.BUTTONS.btnRadio1.updateValueF(x)
+            //this.BUTTONS.btnRadio1.updateValueF(x)
             this.BUTTONS.btnRadio2.updateValueF(x)
             this.BUTTONS.btnRadio3.updateValueF(x)
             this.NbPlayers = 4 ;
@@ -329,14 +329,14 @@ class Slider {
         ctx.lineTo(this.x + this.width / 2, this.y);
         ctx.stroke();
 
-        ctx.fillStyle = "red";
+        ctx.fillStyle = "rgba(0, 191, 255, 0.8)";
         ctx.beginPath();
         ctx.arc(this.handleX, this.y, 10, 0, Math.PI * 2);
         ctx.fill();
 
         ctx.fillStyle = "white";
         ctx.textAlign = "center";
-        ctx.font = `${this.height}px Arial`;
+        ctx.font = `${this.height}px crayon_libre`;
         let volume = Math.round(this.value);
         ctx.fillText( volume ,this.x + this.width/2 + 20, this.y + 5 );
         ctx.fillText("Volume sonore ",this.x-185, this.y + 5);
@@ -371,7 +371,7 @@ class RadioButton {
 
     render(ctx) {
         // Dessiner le cercle externe
-        ctx.strokeStyle = "red";
+        ctx.strokeStyle = "rgba(255, 191, 255, 0.8)";
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
@@ -379,7 +379,7 @@ class RadioButton {
 
         // Dessiner le cercle interne si sélectionné
         if (this.selected) {
-            ctx.fillStyle = "red";
+            ctx.fillStyle = "rgba(173, 235, 179, 0.8)";
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.radius / 2, 0, Math.PI * 2);
             ctx.fill();
@@ -387,7 +387,7 @@ class RadioButton {
 
         // Dessiner le label
         ctx.fillStyle = "white";
-        ctx.font = "16px Arial";
+        ctx.font = "16px crayon_libre";
         ctx.textAlign = "left";
         ctx.fillText(this.label, this.x + 20, this.y + 5);
     }
@@ -400,7 +400,6 @@ class RadioButton {
     }
     updateValueT(x){
         this.selected = true;
-
     }
     updateValueF(x){
         this.selected = false;
