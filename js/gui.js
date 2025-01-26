@@ -153,8 +153,32 @@ class GUI {
 
     renderCreditsScreen(ctx) {
         ctx.textAlign = "center";
-        ctx.fillText("Credits screen", WIDTH/2, HEIGHT/3);
-
+        ctx.font = "20px crayon_libre";
+        ctx.fillStyle = "white";
+        ctx.fillText("Credits", 350, 50);
+        ctx.font = "16px crayon_libre";
+        ctx.textAlign = "left";
+        ctx.fillText("Programming:", 140, 90);
+        ctx.fillText("Dorine, Eléa, Fred", 170, 110);
+        ctx.fillText("Visual design:", 140, 150);
+        ctx.fillText("Eléa", 170, 170);
+        ctx.fillText("Sounds:", 140, 200);
+        ctx.fillText("Faber", 170, 220);
+        ctx.save();
+        ctx.translate(420, 180);
+        ctx.rotate(0.02);
+        ctx.fillRect(-70, -90, 140, 160);
+        ctx.drawImage(data["team"], -65, -85, 130, 130);
+        ctx.fillStyle = "black";
+        ctx.font = "13px crayon_libre";
+        ctx.fillText("The fantastic team", -60, 62);
+        /*
+        ctx.fillStyle = "red";
+        ctx.beginPath();
+        ctx.arc(-30, -66, 5, 0, 2*Math.PI);
+        ctx.fill();
+        */
+        ctx.restore();
     }
 
 

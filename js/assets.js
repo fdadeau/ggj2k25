@@ -31,6 +31,7 @@ const data = {
     "paf1": "./assets/images/paf1.png",
     "paf3": "./assets/images/paf3.png",
     "paf4": "./assets/images/paf4.png",
+    "team": "./assets/images/image1.png",
     
     // ambiance
     "discussion": "./assets/sounds/discussion.mp3",

@@ -148,8 +148,14 @@ export class Teacher extends Entity {
             case TEACHER_STATES.STOPPED:
                 ctx.drawImage(data["leg"], this.x + 50, this.y + 285, 40, 90);
                 ctx.drawImage(data["leg"], this.x + 90, this.y + 285, 40, 90);
-                ctx.drawImage(data["teacher_writing_hand"], this.x, this.y, 190, 380);
-                ctx.drawImage(data["teacher_writing_arm"], this.x, this.y, 190, 380);
+                if (this.state == TEACHER_STATES.WRITING && this.dX > 0) {
+                    const dec = (this.x - this.minX) / 2 % 2;
+                    ctx.drawImage(data["teacher_writing_hand"], this.x, this.y + dec, 190, 380);
+                    ctx.drawImage(data["teacher_writing_arm"], this.x, this.y + dec, 190, 380);
+                }
+                else {
+                    ctx.drawImage(data["teacher_writing_arm"], this.x, this.y, 190, 380);
+                }
                 ctx.drawImage(data["teacher_body_back"], this.x, this.y, 170, 380);
                 break;
             case TEACHER_STATES.ANGRY:
