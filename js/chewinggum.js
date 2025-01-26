@@ -7,8 +7,8 @@ import data from "./assets.js";
 
 const COLOR1 = { border: 'rgba(0, 191, 255, 0.8)', content: 'rgba(173, 216, 230, 0.7)' }
 const COLOR2 = { border: 'rgba(255, 191, 255, 0.8)', content: 'rgba(255, 216, 230, 0.7)' }
-const COLOR3 = { border: 'rgba(173, 235, 179, 0.8)', content: 'rgba(173, 235, 179, 0.8)' }
-const COLOR4 = { border: 'rgba( 255 , 172 , 82, 0.8)', content: 'rgba(254 , 163 , 71, 0.8)' }
+const COLOR3 = { border: 'rgba(173, 235, 179, 0.8)', content: 'rgba(192, 246, 197, 0.7)' }
+const COLOR4 = { border: 'rgba( 255 , 172 , 82, 0.8)', content: 'rgba(255 , 185 , 109, 0.7)' }
 
 const STATES = { INSTRUCTIONS: 0, IN_GAME: 1, SHOW_SCORES: -1 }
 
