@@ -20,6 +20,7 @@ const data = {
     "teacher_angry": "./assets/images/teacher_angry.png",
     "leg": "./assets/images/leg.png",
     "blackboard": "./assets/images/blackboard2.png",
+    "bubble_reflection": "./assets/images/bubble_reflection.png",
 
     
     // ambiance
