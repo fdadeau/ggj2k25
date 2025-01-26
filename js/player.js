@@ -213,6 +213,7 @@ class Bubble extends Entity {
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
         ctx.fill();
         ctx.stroke();
+        ctx.drawImage(data["bubble_reflection"+this.id, this.x - this.radius/2, this.y - this.radius/2, this.radius, this.radius]);
     }
 
 }
