@@ -41,23 +41,24 @@ document.addEventListener("DOMContentLoaded", function() {
         CXT.fillStyle = '#000';
         CXT.fillRect(0, 0, WIDTH, HEIGHT);
         CXT.fillStyle = '#fff';
-        CXT.font = "bold small-caps 40px arial";
+        CXT.font = "bold small-caps 40px crayon_libre";
         // loading not yet completed
         if (current < total) {
             CXT.fillText(`Loading resources...`, WIDTH * 0.4, HEIGHT * 0.5);
-            CXT.font = "bold small-caps 40px arial";
             CXT.fillText(`(${(current / total) / 100 | 0}%)`, WIDTH * 0.75, HEIGHT * 0.5);
             return;
         }
         // loading complete!
         loaded = true;
-        CXT.font = "bold small-caps 40px arial";
+        CXT.font = "bold small-caps 40px crayon_libre";
         CXT.drawImage(data["logoGGJ"], WIDTH - 130, HEIGHT - 130, 120, 120)
-        CXT.fillText(`Resources loaded.`, WIDTH / 2, HEIGHT * 0.4);
-        CXT.fillText(`Click to start game.`, WIDTH / 2, HEIGHT * 0.6);
+        CXT.fillText(`Resources loaded!`, WIDTH / 2, HEIGHT * 0.4);
+        CXT.fillText(`Click to start game`, WIDTH / 2, HEIGHT * 0.6);
+        CXT.fillText(`(double-click to go full screen)`, WIDTH / 2, HEIGHT * 0.7);
     }
     function onError(err) {
         CXT.clearRect(0, 0, WIDTH, HEIGHT);
+        CXT.font = "bold small-caps 40px crayon_libre";
         CXT.textAlign = "center";
         CXT.fillText("Unable to load resource: " + err, WIDTH / 2, HEIGHT * 0.4);
         CXT.fillText("Solve the problem to start the game.", WIDTH / 2, HEIGHT * 0.6);

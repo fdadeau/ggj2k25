@@ -45,10 +45,10 @@ class GUI {
 
         
         this.BUTTONS = {
-            "btnPlay": new Button("Play", WIDTH*3/10, 340, 100, 30, "crayon_libre"),
-            "btnControls": new Button("Controls", WIDTH*5/10, 340, 100, 30, "crayon_libre"),
-            "btnCredits": new Button("Credits", WIDTH*7/10, 340, 100, 30, "crayon_libre"),
-            "btnBack": new Button("Back", WIDTH*9/10, 340, 100, 30, "crayon_libre"),
+            "btnPlay": new Button("Play", WIDTH*3/10, 340, 100, 40, "crayon_libre"),
+            "btnControls": new Button("Controls", WIDTH*5/10, 340, 100, 40, "crayon_libre"),
+            "btnCredits": new Button("Credits", WIDTH*7/10, 340, 100, 40, "crayon_libre"),
+            "btnBack": new Button("Back", WIDTH*9/10, 340, 100, 40, "crayon_libre"),
             "btnSlide": new Slider(  WIDTH / 2, HEIGHT / 3 - 80,200, 20,0,99,50 ),
             //"btnRadio1": new RadioButton("1 Joueur", WIDTH / 2 - 260, HEIGHT / 2 - 120, true),
             "btnRadio2": new RadioButton("2 Joueurs", WIDTH / 2 - 260, HEIGHT / 2 - 120, true),

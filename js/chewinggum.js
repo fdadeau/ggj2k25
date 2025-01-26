@@ -31,7 +31,9 @@ export class ChewingGum extends Game {
         }
         super(instance);
         this.teacher = new Teacher(300, 75);
-        this.state = STATES.INSTRUCTIONS;
+        //this.state = STATES.INSTRUCTIONS;
+        this.state = STATES.IN_GAME;
+        this.endTime = 0;
     }
 
 
@@ -47,6 +49,7 @@ export class ChewingGum extends Game {
         this.teacher.update(dt);
         if (this.teacher.finishedWriting() && this.teacher.delay <= 0) {
             this.state = STATES.SHOW_SCORES;
+            this.endTime = Date.now();
             this.players.forEach(p => p.bubble.radius = 0);
             return;
         }   
@@ -68,6 +71,7 @@ export class ChewingGum extends Game {
             this.teacher.stopWritingAndTurns();
             this.players.forEach(p => p.bubble.dec());
             this.state = STATES.SHOW_SCORES;
+            this.endTime = Date.now();
         }
         /*
         for (let i = 0; i < this.players.length; i++) {
@@ -162,8 +166,9 @@ export class ChewingGum extends Game {
     renderScores(ctx) {
         const MARGIN = 100;
         ctx.save();
-        ctx.translate(WIDTH/2, HEIGHT/2);
-        ctx.rotate(0.03);
+        const dX = Math.min((Date.now() - this.endTime) / 500, 1);
+        ctx.translate(WIDTH/2, dX * 20 + (HEIGHT/2 - 20));
+        ctx.rotate(-0.02);
         ctx.fillStyle = "#243710";
         const x0 = -WIDTH/2+MARGIN;
         const y0 = -HEIGHT/2+MARGIN;
@@ -184,7 +189,7 @@ export class ChewingGum extends Game {
         ctx.fillStyle = "white";
         ctx.font = "22px crayon_libre";
         ctx.fillText("Scores", 0, y0 + 60);
-        ctx.font = "16px crayon_libre";
+        ctx.font = "18px crayon_libre";
         ctx.fillText("Press SPACE to restart the game or ESC to return to the menu", 0, y0 + h0 - 30);
         ctx.textAlign = "left";
         

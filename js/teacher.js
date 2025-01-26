@@ -12,15 +12,23 @@ const DELAY_STOP = 3000;
 const DELAY_QUESTION_MARK = 200;
 const DELAY_ANGRY = 1000;
 
-const TEACHER_TXT = ["Tester c'est douter, bande de petits joueurs."]//, "12 ans 1ère clope, 18 ans 1ère p***, 21 ans 1ère ligne de Scheme","Je ferais avouer au pape qu'il est noir, juif et communiste."];
+const TEACHER_TXT = ["Tester c'est douter, bande de petits joueurs !", "12 ans 1ère clope, 18 ans 1ère p***, 21 ans 1ère ligne de Scheme","Je ferais avouer au pape qu'il est noir, juif et communiste."];
+
+//const TEACHER_TXT = ["abc abc abc","cde cde cde","def def def","efg efg efg efg efg efg efg efg efg efg efg efg "];
+
+const DELTA_MIN_X = [0, 41, 52, 66];
+
+const DELTA_ARM_X = [0, 2, -2, -8];
+const DELTA_ARM_Y = [0, 10, 15, 26];
+const ROTATE_ARM = [0, 0.50, 0.85, 1.10];
 
 export class Teacher extends Entity {
 
     constructor(x, y) {
-        super(x, y, 0, 0);
+        super(-40, y, 0, 0);
         this.state = TEACHER_STATES.FACING;
         this.line = 0;
-        this.minX = 100;
+        this.baseMinX = -40;
         this.maxX = 600;
         this.dX = -1;
         this.question = 0;
@@ -29,12 +37,14 @@ export class Teacher extends Entity {
         audio.playSound("teacher-talk", "teacher-talk", 0.5, 1, true);
     }
 
+    minX() {
+        return this.baseMinX - DELTA_MIN_X[this.line];
+    }
+
     reset() {
         super.reset();
         this.state = TEACHER_STATES.FACING;
         this.line = 0;
-        this.minX = 100;
-        this.maxX = 600;
         this.dX = -1;
         this.question = 0;
         this.delay = DELAY_STOP;
@@ -64,7 +74,7 @@ export class Teacher extends Entity {
     update(dt) {
         this.delay -= dt;
 
-        if (this.state == TEACHER_STATES.FACING && this.delay + dt > DELAY_STOP / 2 && this.delay <= DELAY_STOP /2 && Math.random() > 0.4) {
+        if (this.state == TEACHER_STATES.FACING && !this.finishedWriting() && this.delay + dt > DELAY_STOP / 2 && this.delay <= DELAY_STOP /2 && Math.random() < 0.1) {
             audio.playSound("fart", "teacher", 0.1, 0);
         }
                 
@@ -76,8 +86,8 @@ export class Teacher extends Entity {
             case TEACHER_STATES.WRITING:
                 if (this.dX < 0) {
                     this.x += this.dX * TEACHER_WALKING_SPEED * dt;
-                    if (this.x <= this.minX) {
-                        this.x = this.minX;
+                    if (this.x <= this.minX()) {
+                        this.x = this.minX();
                         this.dX = 1;
                     }
                 }
@@ -129,17 +139,17 @@ export class Teacher extends Entity {
 
     render(ctx) {
         // text on board
-        const lineStart = this.minX + 30;
+        const lineStart = 123;
         ctx.fillStyle = "white";
-        ctx.font = "10px crayon_libre";
+        ctx.font = "12px crayon_libre";
         ctx.textAlign = "left";
         const txt = TEACHER_TXT[this.line];
-        this.maxX = this.minX + ctx.measureText(txt).width;
+        this.maxX = this.minX() + ctx.measureText(txt).width;
         for (let i=0; i < this.line; i++) {
-            ctx.fillText(TEACHER_TXT[i], lineStart, 100+i*30);
+            ctx.fillText(TEACHER_TXT[i], lineStart, 105+i*30);
         }
         if (this.dX > 0 && txt) {
-            ctx.fillText(txt.substring(0, Math.floor(txt.length * (this.x-this.minX)/(this.maxX-this.minX))), lineStart, 100+this.line*30);
+            ctx.fillText(txt.substring(0, Math.ceil(txt.length * (this.x-this.minX())/(this.maxX-this.minX()))), lineStart, 105+this.line*30);
         }
         
         //draw body
@@ -148,13 +158,20 @@ export class Teacher extends Entity {
             case TEACHER_STATES.STOPPED:
                 ctx.drawImage(data["leg"], this.x + 50, this.y + 285, 40, 90);
                 ctx.drawImage(data["leg"], this.x + 90, this.y + 285, 40, 90);
-                if (this.state == TEACHER_STATES.WRITING && this.dX > 0) {
-                    const dec = (this.x - this.minX) / 2 % 2;
-                    ctx.drawImage(data["teacher_writing_hand"], this.x, this.y + dec, 190, 380);
-                    ctx.drawImage(data["teacher_writing_arm"], this.x, this.y + dec, 190, 380);
+                if (this.dX > 0) {
+                    //ctx.drawImage(data["teacher_writing_hand"], this.x, this.y + dec, 190, 380);
+                    //ctx.drawImage(data["teacher_writing_arm"], this.x, this.y + dec, 190, 380);
+                    const dec = (this.x - this.minX()) / 2 % 2;
+                    ctx.save();
+                    const w0 = 138 * 0.5;
+                    const h0 = 234 * 0.5;
+                    ctx.translate(this.x + 148 - DELTA_ARM_X[this.line], this.y + 108 + DELTA_ARM_Y[this.line] - dec);
+                    ctx.rotate(ROTATE_ARM[this.line]);
+                    ctx.drawImage(data["teacher_writing"], -24, -h0+34, w0, h0);
+                    ctx.restore();
                 }
                 else {
-                    ctx.drawImage(data["teacher_writing_arm"], this.x, this.y, 190, 380);
+                    ctx.drawImage(data["teacher_resting_arm"], this.x, this.y, 190, 380);
                 }
                 ctx.drawImage(data["teacher_body_back"], this.x, this.y, 170, 380);
                 break;
@@ -168,16 +185,17 @@ export class Teacher extends Entity {
                 ctx.drawImage(data["teacher_body_front"], this.x, this.y, 170, 380);
                 ctx.drawImage(data["teacher_facing"], this.x, this.y, 170, 380);
         }
+        /*
         ctx.fillStyle = "white";
         const label = { "green": "Scrute", "red": "En colère", "black": "Ecrit", "#000": "En arrêt"}
         ctx.fillText(label[this.state], this.x + 10, this.y + 120)
-
+        */
         const save = ctx.font;
-        ctx.font = "30px crayon_libre";
+        ctx.font = "40px crayon_libre";
         ctx.fillStyle = "red";
-        this.question > 0 && ctx.fillText("?", this.x + 100, this.y - 30);
-        this.question > 1 && ctx.fillText("?", this.x + 70, this.y - 10);
-        this.question > 2 && ctx.fillText("?", this.x + 80, this.y);
+        this.question > 0 && ctx.fillText("?", this.x + 75, this.y - 20);
+        this.question > 1 && ctx.fillText("?", this.x + 45, this.y);
+        this.question > 2 && ctx.fillText("?", this.x + 110, this.y - 10);
         ctx.font = save;
     }
 
