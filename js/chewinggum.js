@@ -97,7 +97,7 @@ export class ChewingGum extends Game {
         ctx.drawImage(data["classroom"], 0, 0, WIDTH, HEIGHT);
         
         // clock
-        const size = 40;
+        const size = 54;
         ctx.drawImage(data["clock"], WIDTH/2 - size/2, 30, size, size);
         const now = new Date();
         const hours = now.getHours(), mins = now.getMinutes(), secs = now.getSeconds();
@@ -105,18 +105,18 @@ export class ChewingGum extends Game {
         ctx.strokeStyle = "black";
         ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.moveTo(WIDTH / 2, 50);
+        ctx.moveTo(WIDTH / 2, 57);
         const angleH = Math.PI * 2 * hours / 12;
-        ctx.lineTo(WIDTH / 2 + 7 * Math.sin(angleH), 50 - 7 * Math.cos(angleH));
+        ctx.lineTo(WIDTH / 2 + 10 * Math.sin(angleH), 57 - 10 * Math.cos(angleH));
         ctx.stroke();
-        ctx.moveTo(WIDTH / 2, 50);
+        ctx.moveTo(WIDTH / 2, 57);
         const angleM = Math.PI * 2 * mins / 60;
-        ctx.lineTo(WIDTH / 2 + 12 * Math.sin(angleM), 50 - 12 * Math.cos(angleM));
+        ctx.lineTo(WIDTH / 2 + 15 * Math.sin(angleM), 57 - 15 * Math.cos(angleM));
         ctx.stroke();
         ctx.lineWidth = 1;
-        ctx.moveTo(WIDTH / 2, 50);
+        ctx.moveTo(WIDTH / 2, 57);
         const angleS = Math.PI * 2 * secs / 60;
-        ctx.lineTo(WIDTH / 2 + 12 * Math.sin(angleS), 50 - 12 * Math.cos(angleS));
+        ctx.lineTo(WIDTH / 2 + 15 * Math.sin(angleS), 57 - 15 * Math.cos(angleS));
         ctx.stroke();
 
 
