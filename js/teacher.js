@@ -158,6 +158,7 @@ export class Teacher extends Entity {
                 ctx.drawImage(data["teacher_body_back"], this.x, this.y, 170, 380);
                 break;
             case TEACHER_STATES.ANGRY:
+                ctx.drawImage(data["teacher_angry_arm1"], this.x, this.y, 170, 380);
                 ctx.drawImage(data["teacher_body_front"], this.x, this.y, 170, 380);
                 ctx.drawImage(data["teacher_angry"], this.x, this.y, 170, 380);
                 break;
