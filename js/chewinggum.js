@@ -180,17 +180,18 @@ export class ChewingGum extends Game {
         ctx.textAlign = "center";
         ctx.fillStyle = "white";
         ctx.font = "20px crayon_libre";
-        ctx.fillText("How to play?", 0, y0 + 42);
+        ctx.fillText("How to play?", 0, y0 + 52);
         ctx.font = "16px crayon_libre";
         ctx.fillText("Press SPACE to start the game", 0, y0 + h0 - 30);
         ctx.textAlign = "left";
-        ctx.fillText("Maintain Button 1 to grow a bubble of gum", x0+40, y0 + 80);
-        ctx.fillText("Press Button 2 to swallow the bubble", x0 + 40, y0 + 110);
-        ctx.fillText("Don't have a gum bubble when the teacher is facing you!", x0 + 40, y0 + 140);
-        ctx.fillText("The bigger the bubbles, the more points you win!", x0 + 40, y0 + 190);
-        ctx.fillText("But take care: bigger bubbles are more likely to explode...", x0 + 40, y0 + 220);
+        ctx.font = "16px crayon_libre";
+        ctx.fillText("Maintain button 1* to grow a bubble of gum.", x0+40, y0 + 88);
+        ctx.fillText("Press button 2** to swallow the bubble.", x0 + 40, y0 + 118);
+        ctx.fillText("Don't have a gum bubble when the teacher is facing you!", x0 + 40, y0 + 148);
+        ctx.fillText("Large bubbles increase your score, but are more likely to explode...", x0 + 40, y0 + 178);
+        ctx.fillText(" * " + this.players.map(p => "Player "+p.id+": "+p.controls.up).join("   "), x0+50, y0 + 208);
+        ctx.fillText("** " + this.players.map(p => "Player "+p.id+": "+p.controls.down).join("   "), x0+50, y0 + 228);
         ctx.restore();
-
     }
 
     renderScores(ctx) {
@@ -236,4 +237,3 @@ export class ChewingGum extends Game {
     }
 
 }
-

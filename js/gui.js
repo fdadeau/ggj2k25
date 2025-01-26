@@ -16,10 +16,10 @@ import data from "./assets.js";
 const DEBUG = false;
 
 export const CONTROLS = [
-    { up: "KeyW",    down: "KeyS",      left: "KeyA",      right: "KeyD"       },
-    { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "ArrowRight" }, 
-    { up: "KeyF", down: "KeyC", left: "KeyX", right: "KeyV" }, 
-    { up: "KeyO", down: "KeyL", left: "KeyK", right: "KeyM" } 
+    { up: "KeyS",    down: "KeyD"},
+    { up: "ArrowUp", down: "ArrowDown"}, 
+    { up: "KeyV", down: "KeyB" }, 
+    { up: "KeyO", down: "KeyP" } 
 ]
 
 export const STATE = { 
@@ -54,9 +54,9 @@ class GUI {
             "btnBack": new Button("Back", WIDTH*9/10, 340+75, 100, 40, "crayon_libre"),
             "btnSlide": new Slider(  WIDTH / 2, HEIGHT / 3 - 60+75,200, 20,0,99,50 ),
             //"btnRadio1": new RadioButton("1 Joueur", WIDTH / 2 - 260, HEIGHT / 2 - 120, true),
-            "btnRadio2": new RadioButton("2 Joueurs", WIDTH / 2 - 260, HEIGHT / 2 - 100 + 75, true),
-            "btnRadio3": new RadioButton("3 Joueurs", WIDTH / 2 - 100, HEIGHT / 2 - 100 + 75, false),
-            "btnRadio4": new RadioButton("4 Joueurs", WIDTH / 2 + 60, HEIGHT / 2 - 100 + 75, false)
+            "btnRadio2": new RadioButton("2 players", WIDTH / 2 - 260, HEIGHT / 2 - 100 + 75, true),
+            "btnRadio3": new RadioButton("3 players", WIDTH / 2 - 100, HEIGHT / 2 - 100 + 75, false),
+            "btnRadio4": new RadioButton("4 players", WIDTH / 2 + 60, HEIGHT / 2 - 100 + 75, false)
         }       
     };
 
@@ -163,11 +163,11 @@ class GUI {
         ctx.fillText("Credits", 350, 60+75);
         ctx.font = "16px crayon_libre";
         ctx.textAlign = "left";
-        ctx.fillText("Programming:", 140, 100+75);
+        ctx.fillText("Programming", 140, 100+75);
         ctx.fillText("Dorine, Eléa, Fred", 170, 120+75);
-        ctx.fillText("Visual design:", 140, 160+75);
+        ctx.fillText("Visual design", 140, 160+75);
         ctx.fillText("Eléa", 170, 180+75);
-        ctx.fillText("Sounds:", 140, 210+75);
+        ctx.fillText("Sounds", 140, 210+75);
         ctx.fillText("Fabrice", 170, 230+75);
         ctx.save();
         ctx.translate(420, 180+75);
