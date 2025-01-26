@@ -24,8 +24,7 @@ export class ChewingGum extends Game {
     }
 
     restart() {
-        this.player1.reset();
-        this.player2.reset();
+        this.players.forEach(p => p.reset());   
         this.teacher.reset();
         this.state = STATES.INSTRUCTIONS;
     }
@@ -36,23 +35,22 @@ export class ChewingGum extends Game {
         this.teacher.update(dt);
         if (this.teacher.finishedWriting() && this.teacher.delay <= 0) {
             this.state = STATES.SHOW_SCORES;
-            this.player1.bubble.radius = 0;
-            this.player2.bubble.radius = 0;
+            this.players.forEach(p => p.bubble.radius = 0);
             return;
         }   
         
         // propagate to players
         super.update(dt);
-        if (this.teacher.isWatching() && this.player1.hasBubble()) {
-            this.teacher.upset();
-            this.player1.catch(this.teacher.delay);
-        }
-        if (this.teacher.isWatching() && this.player2.hasBubble()) {
-            this.teacher.upset();
-            this.player2.catch(this.teacher.delay);
-        }
-        if (!this.teacher.isWatching() && this.player1.exploded || this.player2.exploded) {
-            this.teacher.stopWritingAndTurns();
+
+        for (let i = 0; i < this.players.length; i++) {
+            if (this.teacher.isWatching() && this.players[i].hasBubble()) {
+                this.teacher.upset();
+                this.players[i].catch(this.teacher.delay);
+            }
+            if (!this.teacher.isWatching() && this.players[i].exploded) {
+                this.teacher.stopWritingAndTurns();
+            }
+
         }
     }
 
@@ -61,8 +59,7 @@ export class ChewingGum extends Game {
         ctx.drawImage(data["classroom"], 0, 0, WIDTH, HEIGHT);
 
         this.teacher.render(ctx);
-        this.player1.render(ctx, this.teacher.isWatching());
-        this.player2.render(ctx, this.teacher.isWatching());
+        this.players.forEach(player => player.render(ctx));
 
         // instructions
         switch (this.state) {
@@ -128,7 +125,7 @@ export class ChewingGum extends Game {
         ctx.font = "16px crayon_libre";
         ctx.fillText("Press SPACE to restart the game or ESC to return to the menu", WIDTH / 2, HEIGHT - MARGIN * 1.2);
         ctx.textAlign = "left";
-        const players = [this.player1, this.player2].sort((p1,p2) => p2.points - p1.points);
+        const players = [this.players[0], this.players[1]].sort((p1,p2) => p2.points - p1.points);
         players.forEach((p,i) => {
             if (i == 0) {
                 ctx.fillStyle = "green";
