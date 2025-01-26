@@ -7,7 +7,6 @@ import { HEIGHT, WIDTH } from "./app.js";
 export class Game {
 
     /**
-     * 
      * @param {Player} player1 
      * @param {Player} player2 
      * @param {Player[]} players Array of Player objects
@@ -23,8 +22,6 @@ export class Game {
      * @param {number} dt elapsed time since last update
      */
     update(dt) {
-        this.player1.update(dt);
-        this.player2.update(dt);   
         this.players.forEach(player => player.update(dt));
     }
 
@@ -35,8 +32,6 @@ export class Game {
      */
     render(ctx) {
         ctx.clearRect(0, 0, WIDTH, HEIGHT);
-        this.player1.render(ctx);
-        this.player2.render(ctx);
         this.players.forEach(player => player.render(ctx));
     }  
 
@@ -46,8 +41,6 @@ export class Game {
      * @param {KeyboardEvent} e 
      */
     keydown(e) {
-        this.player1.keydown(e);
-        this.player2.keydown(e);
         this.players.forEach(player => player.keydown(e));
     }
     /**
@@ -55,8 +48,6 @@ export class Game {
      * @param {KeyboardEvent} e 
      */
     keyup(e) {
-        this.player1.keyup(e);
-        this.player2.keyup(e);
         this.players.forEach(player => player.keyup(e));
     }   
 
