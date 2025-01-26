@@ -48,10 +48,10 @@ class GUI {
 
         
         this.BUTTONS = {
-            "btnPlay": new Button("Play", WIDTH*3/10, 340+75, 100, 40, "crayon_libre"),
-            "btnControls": new Button("Controls", WIDTH*5/10, 340+75, 100, 40, "crayon_libre"),
-            "btnCredits": new Button("Credits", WIDTH*7/10, 340+75, 100, 40, "crayon_libre"),
-            "btnBack": new Button("Back", WIDTH*9/10, 340+75, 100, 40, "crayon_libre"),
+            "btnPlay": new Button("Play", WIDTH*3/10, 350+75, 100, 40, "crayon_libre"),
+            "btnControls": new Button("Controls", WIDTH*5/10, 350+75, 100, 40, "crayon_libre"),
+            "btnCredits": new Button("Credits", WIDTH*7/10, 350+75, 100, 40, "crayon_libre"),
+            "btnBack": new Button("Back", WIDTH*9/10, 350+75, 100, 40, "crayon_libre"),
             "btnSlide": new Slider(  WIDTH / 2, HEIGHT / 3 - 60+75,200, 20,0,99,50 ),
             //"btnRadio1": new RadioButton("1 Joueur", WIDTH / 2 - 260, HEIGHT / 2 - 120, true),
             "btnRadio2": new RadioButton("2 players", WIDTH / 2 - 260, HEIGHT / 2 - 100 + 75, true),
@@ -124,7 +124,10 @@ class GUI {
             this.BUTTONS.btnCredits.render(ctx);
             ctx.font = "20px crayon_libre";
             ctx.fillStyle = "black"
+            ctx.fillText("Game set for", 730, 170);
             ctx.fillText(this.NbPlayers + " players", 730, 200);
+            ctx.fillText("Press play", 730, 270);
+            ctx.fillText(" to start!", 730, 300);
             return;
         }
         if (this.state === STATE.CONTROLS_SCREEN) {
@@ -135,10 +138,19 @@ class GUI {
             this.BUTTONS.btnRadio2.render(ctx);
             this.BUTTONS.btnRadio3.render(ctx);
             this.BUTTONS.btnRadio4.render(ctx);
+            ctx.font = "20px crayon_libre";
+            ctx.fillStyle = "black"
+            ctx.fillText("Game setup", 670, 170);
             return;
         }
         if (this.state === STATE.CREDITS_SCREEN) {
             this.renderCreditsScreen(ctx);
+            ctx.font = "20px crayon_libre";
+            ctx.fillStyle = "black"
+            ctx.fillText("The game was", 670, 160);
+            ctx.fillText("made during ", 680, 190);
+            ctx.drawImage(data["logoGGJ"], 700, 210, 80, 80);
+            ctx.fillText("Besançon 2025", 670, 310);
             this.BUTTONS.btnBack.render(ctx);
             return;
         }

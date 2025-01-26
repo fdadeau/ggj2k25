@@ -120,6 +120,18 @@ export class ChewingGum extends Game {
         ctx.stroke();
 
 
+        this.players.forEach(p => {
+            ctx.fillStyle = p.delay > 0 ? "red" : "white";
+            ctx.font = "16px crayon_libre";
+            let x = 40 + p.id * 110;
+            if (p.id == this.players.length) {
+                x = 40 + 4 * 110;
+            }
+            ctx.fillText(`Player ${p.id}`, x, 52+75);
+            ctx.fillStyle = "red";
+            ctx.fillText("X ".repeat(p.crosses), x, 70+75);
+        });
+
         this.teacher.render(ctx);
         ctx.drawImage(data["tables"], 0, 0, WIDTH, HEIGHT);
         

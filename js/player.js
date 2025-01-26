@@ -102,15 +102,6 @@ export class Player extends Entity {
     render(ctx, teacherIsFacing) {
         
         // score 
-        ctx.fillStyle = "white";
-        ctx.font = "16px crayon_libre";
-        ctx.fillText(`Player ${this.id}`, 80 + this.id * 100, 52+75);
-        ctx.fillStyle = "red";
-        ctx.fillText("X ".repeat(this.crosses), 80 + this.id * 100, 70+75);
-        if (this.delay) {
-            ctx.fillStyle = "red";
-        }
-
         ctx.textAlign = "right";
         ctx.fillStyle = this.color.border;
         ctx.fillText(`${this.points} pts`, WIDTH - 20, 50+75 + this.id * 40);
@@ -184,6 +175,7 @@ class Bubble extends Entity {
     }
     dec() {
         this.speed = -DEC_SPEED;
+        this.max = Math.random() * 40 + 20;
     }
     explode() {
         this.speed = 0;

@@ -160,12 +160,12 @@ export class Teacher extends Entity {
         switch (this.state) {
             case TEACHER_STATES.WRITING:
             case TEACHER_STATES.STOPPED:
+                const dec = (this.x - this.minX()) / 4 % 2;
                 ctx.drawImage(data["leg"], this.x + 50, this.y + 285, 40, 90);
                 ctx.drawImage(data["leg"], this.x + 90, this.y + 285, 40, 90);
                 if (this.dX > 0) {
                     //ctx.drawImage(data["teacher_writing_hand"], this.x, this.y + dec, 190, 380);
                     //ctx.drawImage(data["teacher_writing_arm"], this.x, this.y + dec, 190, 380);
-                    const dec = (this.x - this.minX()) / 2 % 2;
                     ctx.save();
                     const w0 = 138 * 0.5;
                     const h0 = 234 * 0.5;
@@ -173,11 +173,12 @@ export class Teacher extends Entity {
                     ctx.rotate(ROTATE_ARM[this.line]);
                     ctx.drawImage(data["teacher_writing"], -24, -h0+34, w0, h0);
                     ctx.restore();
+                    ctx.drawImage(data["teacher_body_back"], this.x, this.y, 170, 380);
                 }
                 else {
                     ctx.drawImage(data["teacher_resting_arm"], this.x, this.y, 190, 380);
+                    ctx.drawImage(data["teacher_body_back"], this.x, this.y, 170, 380);
                 }
-                ctx.drawImage(data["teacher_body_back"], this.x, this.y, 170, 380);
                 break;
             case TEACHER_STATES.ANGRY:
                 const nb = (Math.floor(this.delay / 120) % 2) + 1;
