@@ -123,9 +123,9 @@ export class ChewingGum extends Game {
         ctx.drawImage(data["blackboard"], MARGIN, MARGIN,WIDTH - 2*MARGIN,  HEIGHT * 0.65);
         ctx.textAlign = "center";
         ctx.fillStyle = "white";
-        ctx.font = "20px crayon_libre";
+        ctx.font = "22px crayon_libre";
         ctx.fillText("Scores", WIDTH / 2, MARGIN * 1.5);
-        ctx.font = "14px crayon_libre";
+        ctx.font = "16px crayon_libre";
         ctx.fillText("Press SPACE to restart the game or ESC to return to the menu", WIDTH / 2, HEIGHT - MARGIN * 1.2);
         ctx.textAlign = "left";
         const players = [this.player1, this.player2].sort((p1,p2) => p2.points - p1.points);
@@ -139,9 +139,9 @@ export class ChewingGum extends Game {
             else {
                 ctx.fillStyle = "black";
             }
-            ctx.fillText(`${i+1}. Player ${p.id}`, WIDTH / 2 - 100, MARGIN + 120 + i * 20);
+            ctx.fillText(`${i+1}. Player ${p.id}`, WIDTH / 2 - 100, MARGIN + 120 + i * 30);
             ctx.textAlign = "right";
-            ctx.fillText(`${p.points}`, WIDTH / 2 + 100, MARGIN + 120 + i * 20);
+            ctx.fillText(`${p.points}`, WIDTH / 2 + 100, MARGIN + 120 + i * 30);
             ctx.textAlign = "left";
         });
     }

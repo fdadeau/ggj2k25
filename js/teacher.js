@@ -175,11 +175,11 @@ export class Teacher extends Entity {
         ctx.fillText(label[this.state], this.x + 10, this.y + 120)
 
         const save = ctx.font;
-        ctx.font = "30px arial";
+        ctx.font = "30px crayon_libre";
         ctx.fillStyle = "red";
-        this.question > 0 && ctx.fillText("?", this.x + 30, this.y - 30);
-        this.question > 1 && ctx.fillText("?", this.x - 10, this.y - 10);
-        this.question > 2 && ctx.fillText("?", this.x + 70, this.y);
+        this.question > 0 && ctx.fillText("?", this.x + 100, this.y - 30);
+        this.question > 1 && ctx.fillText("?", this.x + 70, this.y - 10);
+        this.question > 2 && ctx.fillText("?", this.x + 80, this.y);
         ctx.font = save;
     }
 

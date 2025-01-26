@@ -44,10 +44,10 @@ class GUI {
 
         
         this.BUTTONS = {
-            "btnPlay": new Button("Play", WIDTH*3/10, 340, 100, 30, "arial"),
-            "btnControls": new Button("Controls", WIDTH*5/10, 340, 100, 30, "arial"),
-            "btnCredits": new Button("Credits", WIDTH*7/10, 340, 100, 30, "arial"),
-            "btnBack": new Button("Back", WIDTH*5/6, 440, 100, 30, "arial"),
+            "btnPlay": new Button("Play", WIDTH*3/10, 340, 100, 30, "crayon_libre"),
+            "btnControls": new Button("Controls", WIDTH*5/10, 340, 100, 30, "crayon_libre"),
+            "btnCredits": new Button("Credits", WIDTH*7/10, 340, 100, 30, "crayon_libre"),
+            "btnBack": new Button("Back", WIDTH*5/6, 440, 100, 30, "crayon_libre"),
             "btnSlide": new Slider(  WIDTH / 2, HEIGHT / 3 - 80,200, 20,0,99,50 ),
             "btnRadio1": new RadioButton("1 Joueur", WIDTH / 2 - 260, HEIGHT / 2 - 120, true),
             "btnRadio2": new RadioButton("2 Joueurs", WIDTH / 2 - 150, HEIGHT / 2 - 120, false),
@@ -272,7 +272,7 @@ class Button {
     }
 
     render(ctx) {
-
+        const save = ctx.font;
         ctx.verticalAlign = "middle";
         ctx.textAlign = "center";
         if (this.font == false) {
@@ -282,9 +282,12 @@ class Button {
         }
         
         ctx.strokeStyle = "black";
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "white";
+        ctx.fillRect(this.x - this.width / 2, this.y - this.height * 0.7, this.width, this.height);
         ctx.strokeRect(this.x - this.width / 2, this.y - this.height * 0.7, this.width, this.height);
+        ctx.fillStyle = "black";
         ctx.fillText(this.txt, this.x, this.y);
+        ctx.font = save;
     }
 
     isAt(x, y) {
