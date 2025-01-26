@@ -159,15 +159,15 @@ class GUI {
         ctx.textAlign = "center";
         ctx.font = "20px crayon_libre";
         ctx.fillStyle = "white";
-        ctx.fillText("Credits", 350, 50);
+        ctx.fillText("Credits", 350, 60);
         ctx.font = "16px crayon_libre";
         ctx.textAlign = "left";
-        ctx.fillText("Programming:", 140, 90);
-        ctx.fillText("Dorine, Eléa, Fred", 170, 110);
-        ctx.fillText("Visual design:", 140, 150);
-        ctx.fillText("Eléa", 170, 170);
-        ctx.fillText("Sounds:", 140, 200);
-        ctx.fillText("Faber", 170, 220);
+        ctx.fillText("Programming:", 140, 100);
+        ctx.fillText("Dorine, Eléa, Fred", 170, 120);
+        ctx.fillText("Visual design:", 140, 160);
+        ctx.fillText("Eléa", 170, 180);
+        ctx.fillText("Sounds:", 140, 210);
+        ctx.fillText("Fabrice", 170, 230);
         ctx.save();
         ctx.translate(420, 180);
         ctx.rotate(0.02);
@@ -367,7 +367,7 @@ class Slider {
         let volume = Math.min(Math.round(this.value),100);
         audio.setVolume(volume/100);
         ctx.fillText( volume ,this.x + this.width/2 + 20, this.y + 5 );
-        ctx.fillText("Volume sonore ",this.x-185, this.y + 5);
+        ctx.fillText("Sound volume",this.x-185, this.y + 5);
 
     }
 

@@ -150,7 +150,7 @@ export class ChewingGum extends Game {
         ctx.textAlign = "center";
         ctx.fillStyle = "white";
         ctx.font = "20px crayon_libre";
-        ctx.fillText("Instructions to play", 0, y0 + 42);
+        ctx.fillText("How to play?", 0, y0 + 42);
         ctx.font = "16px crayon_libre";
         ctx.fillText("Press SPACE to start the game", 0, y0 + h0 - 30);
         ctx.textAlign = "left";
