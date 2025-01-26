@@ -18,7 +18,7 @@ const STATES = { INSTRUCTIONS: 0, IN_GAME: 1, SHOW_SCORES: -1 }
 export class ChewingGum extends Game {
 
     constructor(ctrl1, ctrl2) {
-        super(new Player(ctrl1, COLOR1, 100, 1, 1), new Player(ctrl2, COLOR2, WIDTH - 100, -1, 2));
+        super([new Player(ctrl1, COLOR1, 100, 1, 1), new Player(ctrl2, COLOR2, WIDTH - 100, -1, 2)]);
         this.teacher = new Teacher(300, 75);
         this.state = STATES.INSTRUCTIONS;
     }
