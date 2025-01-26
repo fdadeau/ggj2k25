@@ -122,6 +122,9 @@ class GUI {
             this.BUTTONS.btnPlay.render(ctx);
             this.BUTTONS.btnControls.render(ctx);
             this.BUTTONS.btnCredits.render(ctx);
+            ctx.font = "20px crayon_libre";
+            ctx.fillStyle = "black"
+            ctx.fillText(this.NbPlayers + " players", 730, 200);
             return;
         }
         if (this.state === STATE.CONTROLS_SCREEN) {
@@ -141,7 +144,6 @@ class GUI {
         }
         //
         this.BUTTONS.btnBack.render(ctx);
-
     }
 
 
