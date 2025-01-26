@@ -41,6 +41,7 @@ const data = {
     "paf3": "./assets/images/paf3.png",
     "paf4": "./assets/images/paf4.png",
     "team": "./assets/images/team.png",
+    "clock": "./assets/images/clock.png",
     
     // ambiance
     "discussion": "./assets/sounds/discussion.mp3",
