@@ -145,8 +145,11 @@ export class Teacher extends Entity {
         //draw body
         switch (this.state) {
             case TEACHER_STATES.WRITING:
+            case TEACHER_STATES.STOPPED:
                 ctx.drawImage(data["leg"], this.x + 50, this.y + 285, 40, 90);
                 ctx.drawImage(data["leg"], this.x + 90, this.y + 285, 40, 90);
+                ctx.drawImage(data["teacher_writing_hand"], this.x, this.y, 190, 380);
+                ctx.drawImage(data["teacher_writing_arm"], this.x, this.y, 190, 380);
                 ctx.drawImage(data["teacher_body_back"], this.x, this.y, 170, 380);
                 break;
             case TEACHER_STATES.ANGRY:
@@ -154,11 +157,6 @@ export class Teacher extends Entity {
                 ctx.drawImage(data["teacher_angry_arm" + nb], this.x, this.y, 170, 380);
                 ctx.drawImage(data["teacher_body_front"], this.x, this.y, 170, 380);
                 ctx.drawImage(data["teacher_angry"], this.x, this.y, 170, 380);
-                break;
-            case TEACHER_STATES.STOPPED:
-                ctx.drawImage(data["leg"], this.x + 50, this.y + 285, 40, 90);
-                ctx.drawImage(data["leg"], this.x + 90, this.y + 285, 40, 90);
-                ctx.drawImage(data["teacher_body_back"], this.x, this.y, 170, 380);
                 break;
             case TEACHER_STATES.FACING:
                 ctx.drawImage(data["teacher_body_front"], this.x, this.y, 170, 380);

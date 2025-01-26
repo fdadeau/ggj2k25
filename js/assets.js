@@ -20,6 +20,8 @@ const data = {
     "teacher_angry": "./assets/images/teacher_angry.png",
     "teacher_angry_arm1": "./assets/images/teacher_angry_arm1.png",
     "teacher_angry_arm2": "./assets/images/teacher_angry_arm2.png",
+    "teacher_writing_hand": "./assets/images/teacher_writing_hand.png",
+    "teacher_writing_arm": "./assets/images/teacher_writing_arm.png",
     "leg": "./assets/images/leg.png",
     "blackboard": "./assets/images/blackboard2.png",
     "bubble_reflection1": "./assets/images/bubble_reflection1.png",
