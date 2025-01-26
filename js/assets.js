@@ -10,6 +10,8 @@ const data = {
     "classroom": "./assets/images/classroom.png",
     "student1": "./assets/images/student1.png",
     "student2": "./assets/images/student2.png",
+    "studentChewing1": "./assets/images/jaw_student1.png",
+    "studentChewing2": "./assets/images/jaw_student2.png",
     "teacher_body_front": "./assets/images/teacher_body_front.png",
     "teacher_body_back": "./assets/images/teacher_body_back.png",
     "teacher_facing": "./assets/images/teacher_facing.png",

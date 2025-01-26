@@ -61,8 +61,8 @@ export class ChewingGum extends Game {
         ctx.drawImage(data["classroom"], 0, 0, WIDTH, HEIGHT);
 
         this.teacher.render(ctx);
-        this.player1.render(ctx);
-        this.player2.render(ctx);
+        this.player1.render(ctx, this.teacher.isWatching());
+        this.player2.render(ctx, this.teacher.isWatching());
 
         // instructions
         switch (this.state) {

@@ -7,6 +7,8 @@ import data from "./assets.js";
 
 const MAX_CROSSES = 3;
 
+const DELAY_CHEWING = 700;
+
 /**
  * Player for ChewingGum game
  */
@@ -32,6 +34,10 @@ export class Player extends Entity {
         this.exploded = false;
         // cross
         this.crosses = 0;   
+        // delay animation
+        this.delayAnim = 0;
+        // legs animation
+        this.legs = { L: 0, R: 120, reset: function() { this.L = 0, this.R = 120 }, state: 0 };
     }
 
     reset() {
@@ -56,6 +62,12 @@ export class Player extends Entity {
         }
         else if (this.bubble.speed > 0) {
             this.checkExplosion();
+        }
+        if (!this.exploded && this.bubble.radius == 0) { 
+            this.delayAnim -= dt;
+            if (this.delayAnim <= 0) {
+                this.delayAnim = DELAY_CHEWING;
+            }
         }
     }
 
@@ -87,20 +99,8 @@ export class Player extends Entity {
         audio.pause("player" + this.id);;
     }
 
-    render(ctx) {
-        this.bubble.render(ctx);
-        var img = (this.dir > 0) ? data["student1"] : data["student2"];
-        ctx.drawImage(img, this.x - 100 -25*this.dir, this.y-100, 200, 200);
-        if (this.exploded) {
-            ctx.fillStyle = "red";
-            ctx.fontWeight = "bold";
-            ctx.fillText("PAF", this.x + 20 * this.dir, this.y-10);
-        }
-        if (this.isInactive()) {
-            ctx.fillStyle = "red";
-            ctx.fillText("GAME OVER", this.x - 30, this.y - 80);
-        }
-
+    render(ctx, teacherIsFacing) {
+        
         // score 
         ctx.fillStyle = "white";
         ctx.font = "16px crayon_libre";
@@ -111,6 +111,24 @@ export class Player extends Entity {
             ctx.fillStyle = "red";
         }
         ctx.fillText(`${this.points} pts`, this.x - 30, this.y - 40);
+
+        if (this.isInactive()) {
+            ctx.fillStyle = "red";
+            ctx.fillText("GAME OVER", this.x - 30, this.y - 80);
+            return;
+        }
+
+        this.bubble.render(ctx);
+        ctx.drawImage(data["student"+this.id], this.x - 100 -25*this.dir, this.y-100, 200, 200);
+        if (this.exploded) {
+            ctx.fillStyle = "red";
+            ctx.fontWeight = "bold";
+            ctx.fillText("PAF", this.x + 20 * this.dir, this.y-10);
+        }
+        else if (!teacherIsFacing && this.delayAnim > DELAY_CHEWING / 2 && this.bubble.radius == 0) {
+            ctx.drawImage(data["studentChewing" + this.id], this.x - 100 -25*this.dir, this.y-100, 200, 200);
+        }
+
     }
 
     keydown(e) {
@@ -133,6 +151,7 @@ export class Player extends Entity {
         }
     }
 }
+
 
 const INC_SPEED = 0.08;
 const DEC_SPEED = 0.1;
