@@ -1,0 +1,20 @@
+prompt 1 
+Créer une image d'avatar d'équipe de concepteur de jeux vidéo.
+Il y a 3 personnes (1 homme, deux femmes), et un chat gris
+L'homme est svelte, 40 ans, et possède un marteau doré
+Une des 2 femmes est brune, aux yeux marrons, aux cheveux courts, bouclés. Elle a 20 ans. elle est malicieuse et svelte
+Une des 2 femmes est blonde, aux yeux verts,et aux cheveux chatains, longs et raides. Elle a 35 ans. 
+Les 3 personnes sont mal habillées
+Le chat gris ressemble à yukito (un chat à l'oreille gauche coupée)
+
+resultat : image 1
+
+prompt 2 :
+C'est presque ca !
+Ajustements :
+la femme brune a les cheveux courts et bouclés
+la femme blonde a des cheveux plus lairs
+l'homme a le marteau doré
+le chat a l'oreille droite abimée
+
+resultat : image 2
