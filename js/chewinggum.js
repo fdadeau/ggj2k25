@@ -3,12 +3,10 @@ import { WIDTH, HEIGHT } from "./app.js";
 import { Game } from "./game.js";
 import { Teacher } from "./teacher.js";
 import { Player } from "./player.js";
-
-const COLOR1 = { border: 'rgba(0, 191, 255, 0.8)', content: 'rgba(173, 216, 230, 0.7)' }
-const COLOR2 = { border: 'rgba(255, 191, 255, 0.8)', content: 'rgba(255, 216, 230, 0.7)' }
-
 import data from "./assets.js";
 
+const COLOR1 = { border: 'rgba(0, 191, 255, 0.8)', content: 'rgba(173, 216, 230, 0.7)' }
+const COLOR2 = { border: 'rgba(247, 171, 247, 0.8)', content: 'rgba(255, 216, 230, 0.7)' }
 
 const STATES = { INSTRUCTIONS: 0, IN_GAME: 1, SHOW_SCORES: -1 }
 
