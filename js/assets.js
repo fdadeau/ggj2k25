@@ -25,6 +25,10 @@ const data = {
     "bubble_reflection1": "./assets/images/bubble_reflection1.png",
     "bubble_reflection2": "./assets/images/bubble_reflection2.png",
     "slate": "./assets/images/slate_boder.png",
+    "paf_pink": "./assets/images/paf_pink.png",
+    "paf_blue": "./assets/images/paf_blue.png",
+    "paf_green": "./assets/images/paf_green.png",
+    "paf_orange": "./assets/images/paf_orange.png",
     
     // ambiance
     "discussion": "./assets/sounds/discussion.mp3",
