@@ -22,6 +22,7 @@ const data = {
     "teacher_angry_arm2": "./assets/images/teacher_angry_arm2.png",
     "teacher_writing_hand": "./assets/images/teacher_writing_hand.png",
     "teacher_writing_arm": "./assets/images/teacher_writing_arm.png",
+    "teacher_writing": "./assets/images/teacher_writing.png",
     "teacher_resting_arm": "./assets/images/teacher_resting_arm.png",
     "leg": "./assets/images/leg.png",
     "blackboard": "./assets/images/blackboard2.png",
