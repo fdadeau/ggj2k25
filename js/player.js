@@ -44,15 +44,18 @@ export class Player extends Entity {
         this.bubble = new Bubble(this.x + 20*this.dir, 400, this.color, this.id);
         this.growKey = false;
         this.delay = 0;
+        this.delayAnim = Math.random() * DELAY_CHEWING;
         this.points = 0;
         this.exploded = false;
         this.crosses = 0;
     }
 
-    update(dt) {
+    update(dt, teacherIsFacing) {
         if (this.isInactive()) return;
         this.bubble.update(dt);
-        this.points += Math.floor(this.bubble.radius);
+        if (this.bubble.speed >= 0) {
+            this.points += Math.floor(this.bubble.radius);
+        }
         if (this.delay > 0) {
             this.delay -= dt;
             if (this.delay <= 0) {
@@ -63,7 +66,8 @@ export class Player extends Entity {
         else if (this.bubble.speed > 0) {
             this.checkExplosion();
         }
-        if (!this.exploded && this.bubble.radius == 0) { 
+
+        if (!teacherIsFacing && !this.exploded && this.bubble.radius == 0) { 
             this.delayAnim -= dt;
             if (this.delayAnim <= 0) {
                 this.delayAnim = DELAY_CHEWING;
@@ -106,7 +110,7 @@ export class Player extends Entity {
         ctx.font = "16px crayon_libre";
         ctx.fillText(`Player ${this.id}`, 80 + this.id * 80, 52);
         ctx.fillStyle = "red";
-        ctx.fillText("X ".repeat(this.crosses), 80 + this.id * 80, 67);
+        ctx.fillText("X ".repeat(this.crosses), 80 + this.id * 80, 70);
         if (this.delay) {
             ctx.fillStyle = "red";
         }

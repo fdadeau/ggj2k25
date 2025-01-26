@@ -56,10 +56,8 @@ export class ChewingGum extends Game {
             return;
         }   
         
-        // propagate to players
-        super.update(dt);
-
         this.players.forEach(p => {
+            p.update(dt, this.teacher.isWatching());
             if (this.teacher.isWatching() && p.hasBubble() && p.delay === 0) {
                 this.teacher.upset();
                 p.catch(this.teacher.delay);
