@@ -34,6 +34,7 @@ export class Teacher extends Entity {
         this.question = 0;
         this.delay = DELAY_STOP / 3;
         this.body = "teacher_body_front";
+        this.lastScream = -1;
         audio.playSound("teacher-talk", "teacher-talk", 0.5, 1, true);
     }
 
@@ -55,7 +56,12 @@ export class Teacher extends Entity {
         if (this.state == TEACHER_STATES.FACING) {
             this.state = TEACHER_STATES.ANGRY;
             this.delay = DELAY_STOP;
-            audio.playSound("scream" + Math.floor(Math.random() * 4),"teacher",0.8,0);
+            let scr =  Math.floor(Math.random() * 4);
+            while (scr == this.lastScream) {
+                scr =  Math.floor(Math.random() * 4);
+            }
+            this.lastScream = scr;
+            audio.playSound("scream" + scr, "teacher", 0.8, 0);
         }   
     }
 
