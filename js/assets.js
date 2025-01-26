@@ -12,6 +12,8 @@ const data = {
     "student2": "./assets/images/student2.png",
     "studentChewing1": "./assets/images/jaw_student1.png",
     "studentChewing2": "./assets/images/jaw_student2.png",
+    "student1_black_layer": "./assets/images/student1_black_layer.png",
+    "student2_black_layer": "./assets/images/student2_black_layer.png",
     "teacher_body_front": "./assets/images/teacher_body_front.png",
     "teacher_body_back": "./assets/images/teacher_body_back.png",
     "teacher_facing": "./assets/images/teacher_facing.png",
