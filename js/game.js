@@ -10,10 +10,12 @@ export class Game {
      * 
      * @param {Player} player1 
      * @param {Player} player2 
+     * @param {Player[]} players Array of Player objects
      */
-    constructor(player1, player2) {
-        this.player1 = player1;
-        this.player2 = player2;
+    constructor(players) {
+        this.player1 = players[0];
+        this.player2 =  players[1];
+        this.players = players; 
     }
 
     /**
@@ -23,6 +25,7 @@ export class Game {
     update(dt) {
         this.player1.update(dt);
         this.player2.update(dt);   
+        this.players.forEach(player => player.update(dt));
     }
 
 
@@ -34,6 +37,7 @@ export class Game {
         ctx.clearRect(0, 0, WIDTH, HEIGHT);
         this.player1.render(ctx);
         this.player2.render(ctx);
+        this.players.forEach(player => player.render(ctx));
     }  
 
     
@@ -44,6 +48,7 @@ export class Game {
     keydown(e) {
         this.player1.keydown(e);
         this.player2.keydown(e);
+        this.players.forEach(player => player.keydown(e));
     }
     /**
      * Called when a key is released. 
@@ -52,6 +57,7 @@ export class Game {
     keyup(e) {
         this.player1.keyup(e);
         this.player2.keyup(e);
+        this.players.forEach(player => player.keyup(e));
     }   
 
 }   
