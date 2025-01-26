@@ -197,9 +197,13 @@ export class Teacher extends Entity {
         const save = ctx.font;
         ctx.font = "40px crayon_libre";
         ctx.fillStyle = "red";
-        this.question > 0 && ctx.fillText("?", this.x + 75, this.y - 20);
-        this.question > 1 && ctx.fillText("?", this.x + 45, this.y);
-        this.question > 2 && ctx.fillText("?", this.x + 110, this.y - 10);
+        ctx.strokeStyle = "black";
+        this.question > 0 && ctx.fillText("?", this.x + 75, this.y - 10);
+        this.question > 0 && ctx.strokeText("?", this.x + 75, this.y - 10);
+        this.question > 1 && ctx.fillText("?", this.x + 45, this.y + 10);
+        this.question > 1 && ctx.strokeText("?", this.x + 45, this.y+ 10);
+        this.question > 2 && ctx.fillText("?", this.x + 110, this.y);
+        this.question > 2 && ctx.strokeText("?", this.x + 110, this.y);
         ctx.font = save;
     }
 

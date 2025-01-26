@@ -189,6 +189,7 @@ class Bubble extends Entity {
         this.speed = 0;
         this.save = null;
         this.radius = 0;
+        this.max = Math.random() * 40 + 20;
     }
 
     update(dt) {
