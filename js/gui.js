@@ -4,7 +4,6 @@
 
 import { audio } from "./audio.js";
 
-
 import { WIDTH, HEIGHT } from "./app.js";
 
 import { Game } from "./game.js";

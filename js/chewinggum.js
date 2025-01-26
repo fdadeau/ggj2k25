@@ -123,10 +123,6 @@ export class ChewingGum extends Game {
 
     renderInstructions(ctx) {
         const MARGIN = 100;
-        // ctx.fillStyle = "white";
-        // ctx.strokeStyle = "black";
-        // ctx.fillRect(MARGIN, MARGIN, WIDTH - MARGIN*2, HEIGHT-MARGIN*2);
-        // ctx.strokeRect(MARGIN, MARGIN, WIDTH - MARGIN*2, HEIGHT-MARGIN*2);
         ctx.save();
         ctx.translate(WIDTH/2, HEIGHT/2);
         ctx.rotate(0.03);
@@ -145,7 +141,6 @@ export class ChewingGum extends Game {
             ctx.strokeRect(x0, y0 + i, w0, 0);
         };
         ctx.drawImage(data["slate"], x0-40, y0-40, w0 + 80,  h0 + 80);
-
         
         ctx.textAlign = "center";
         ctx.fillStyle = "white";

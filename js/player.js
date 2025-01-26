@@ -8,6 +8,7 @@ import data from "./assets.js";
 const MAX_CROSSES = 3;
 
 const DELAY_CHEWING = 700;
+const DELAY_EXPLOSION = 500;
 
 /**
  * Player for ChewingGum game
@@ -36,8 +37,6 @@ export class Player extends Entity {
         this.crosses = 0;   
         // delay animation
         this.delayAnim = Math.random() * DELAY_CHEWING;
-        // legs animation
-        this.legs = { L: 0, R: 120, reset: function() { this.L = 0, this.R = 120 }, state: 0 };
     }
 
     reset() {
@@ -63,8 +62,13 @@ export class Player extends Entity {
                 this.exploded = false;
             }
         }
-        else if (this.bubble.speed > 0) {
-            this.checkExplosion();
+        else if (this.bubble.speed > 0 && this.bubble.radius > this.bubble.max) {
+            this.bubble.explode();
+            this.points = 0
+            this.exploded = true;
+            this.delay = DELAY_EXPLOSION;
+            audio.pause("player"+this.id);
+            audio.playSound("explosion","player"+this.id,0.4,0);
         }
 
         if (!teacherIsFacing && !this.exploded && this.bubble.radius == 0) { 
@@ -83,16 +87,6 @@ export class Player extends Entity {
         return this.crosses >= MAX_CROSSES;
     }
 
-    checkExplosion() {
-        if (this.bubble.radius > this.bubble.max) {
-            this.bubble.explode();
-            this.points = 0
-            this.exploded = true;
-            this.delay = 500;
-            audio.pause("player"+this.id);
-            audio.playSound("explosion","player"+this.id,0.4,0);
-        }
-    }
 
     catch(delay) {
         this.delay = delay;
