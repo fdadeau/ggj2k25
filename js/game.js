@@ -7,13 +7,9 @@ import { HEIGHT, WIDTH } from "./app.js";
 export class Game {
 
     /**
-     * @param {Player} player1 
-     * @param {Player} player2 
      * @param {Player[]} players Array of Player objects
      */
     constructor(players) {
-        this.player1 = players[0];
-        this.player2 =  players[1];
         this.players = players; 
     }
 
