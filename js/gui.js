@@ -51,7 +51,7 @@ class GUI {
             "btnBack": new Button("Back", WIDTH*9/10, 340, 100, 30, "crayon_libre"),
             "btnSlide": new Slider(  WIDTH / 2, HEIGHT / 3 - 80,200, 20,0,99,50 ),
             //"btnRadio1": new RadioButton("1 Joueur", WIDTH / 2 - 260, HEIGHT / 2 - 120, true),
-            "btnRadio2": new RadioButton("2 Joueurs", WIDTH / 2 - 260, HEIGHT / 2 - 120, false),
+            "btnRadio2": new RadioButton("2 Joueurs", WIDTH / 2 - 260, HEIGHT / 2 - 120, true),
             "btnRadio3": new RadioButton("3 Joueurs", WIDTH / 2 - 100, HEIGHT / 2 - 120, false),
             "btnRadio4": new RadioButton("4 Joueurs", WIDTH / 2 + 60, HEIGHT / 2 - 120, false)
         }       
@@ -336,7 +336,7 @@ class Slider {
         ctx.fillStyle = "white";
         ctx.textAlign = "center";
         ctx.font = `${this.height}px crayon_libre`;
-        let volume = Math.round(this.value);
+        let volume = Math.min(Math.round(this.value),100);
         ctx.fillText( volume ,this.x + this.width/2 + 20, this.y + 5 );
         ctx.fillText("Volume sonore ",this.x-185, this.y + 5);
 
