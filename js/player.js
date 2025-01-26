@@ -17,7 +17,7 @@ export class Player extends Entity {
     constructor(controls, color, x, dir, id) {
         super(x, 400, 0, 0);
         this.controls = controls;
-        this.bubble = new Bubble(x + 20*dir, 400, color);
+        this.bubble = new Bubble(x + 20*dir, 400, color, id);
         // buuble grow key is pressed 
         this.growKey = false;
         // ination delay
@@ -41,7 +41,7 @@ export class Player extends Entity {
     }
 
     reset() {
-        this.bubble = new Bubble(this.x + 20*this.dir, 400, this.color);
+        this.bubble = new Bubble(this.x + 20*this.dir, 400, this.color, this.id);
         this.growKey = false;
         this.delay = 0;
         this.points = 0;
@@ -111,12 +111,12 @@ export class Player extends Entity {
             ctx.fillStyle = "red";
         }
 
+        ctx.textAlign = "right";
         ctx.fillStyle = this.color.border;
-        ctx.fillText(`${this.points} pts`, WIDTH - 100, 50 + this.id * 40);
+        ctx.fillText(`${this.points} pts`, WIDTH - 20, 50 + this.id * 40);
+        ctx.textAlign = "left";
 
         if (this.isInactive()) {
-            //ctx.fillStyle = "red";
-            //ctx.fillText("GAME OVER", this.x - 30, this.y - 80);
             ctx.drawImage(data["student"+this.id], this.x - 100 -25*this.dir, this.y-100, 200, 200);
             ctx.drawImage(data["student"+this.id+"_black_layer"], this.x - 100 -25*this.dir, this.y-100, 200, 200);
             return;
@@ -163,11 +163,12 @@ const ESSOUFFLEMENT = 0.0002;
 
 class Bubble extends Entity {
 
-    constructor(x, y, color) {
+    constructor(x, y, color, id) {
         super(x, y, 0, 0);
         this.color = color;        
         this.speed = 0;
         this.radius = 0;
+        this.id = id;
         this.max = Math.random() * 40 + 20;
     }
 
@@ -213,7 +214,7 @@ class Bubble extends Entity {
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
         ctx.fill();
         ctx.stroke();
-        ctx.drawImage(data["bubble_reflection"+this.id, this.x - this.radius/2, this.y - this.radius/2, this.radius, this.radius]);
+        ctx.drawImage(data["bubble_reflection"+this.id], this.x - this.radius, this.y - this.radius, this.radius*2, this.radius*2);
     }
 
 }

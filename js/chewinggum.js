@@ -40,16 +40,30 @@ export class ChewingGum extends Game {
         // propagate to players
         super.update(dt);
 
+        this.players.forEach(p => {
+            if (this.teacher.isWatching() && p.hasBubble() && p.delay === 0) {
+                this.teacher.upset();
+                p.catch(this.teacher.delay);
+            }
+            if (!this.teacher.isWatching() && p.exploded) {
+                this.teacher.stopWritingAndTurns();
+            }
+        });
+
+        if (this.players.filter(p => !p.isInactive()).length == 1) {
+            this.teacher.stopWritingAndTurns();
+            this.players.forEach(p => p.bubble.dec());
+            this.state = STATES.SHOW_SCORES;
+        }
+        /*
         for (let i = 0; i < this.players.length; i++) {
             if (this.teacher.isWatching() && this.players[i].hasBubble() && this.players[i].delay == 0) {
                 this.teacher.upset();
                 this.players[i].catch(this.teacher.delay);
             }
-            if (!this.teacher.isWatching() && this.players[i].exploded) {
-                this.teacher.stopWritingAndTurns();
-            }
-
         }
+        */
+
     }
 
     render(ctx) {
@@ -57,7 +71,7 @@ export class ChewingGum extends Game {
         ctx.drawImage(data["classroom"], 0, 0, WIDTH, HEIGHT);
 
         this.teacher.render(ctx);
-        this.players.forEach(player => player.render(ctx));
+        this.players.forEach(player => player.render(ctx, this.teacher.isWatching()));
 
         // instructions
         switch (this.state) {
