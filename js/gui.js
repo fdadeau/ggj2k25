@@ -42,6 +42,7 @@ class GUI {
         this.debug = null;
         /** @type {Object} message info */
         this.info = null;
+        this.NbPlayers = 2;
 
         
         this.BUTTONS = {
