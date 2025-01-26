@@ -38,9 +38,10 @@ switch (nbplayer) {
         instance.push(new Player(ctrl[3], COLOR4, WIDTH - 100, -1, 4));
         break ;
     }
-            
     super(instance);
-
+    this.teacher = new Teacher(300, 75);
+    this.state = STATES.INSTRUCTIONS;
+    }
     restart() {
         this.players.forEach(p => p.reset());   
         this.teacher.reset();
