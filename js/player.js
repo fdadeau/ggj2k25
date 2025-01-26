@@ -35,7 +35,7 @@ export class Player extends Entity {
         // cross
         this.crosses = 0;   
         // delay animation
-        this.delayAnim = 0;
+        this.delayAnim = Math.random() * DELAY_CHEWING;
         // legs animation
         this.legs = { L: 0, R: 120, reset: function() { this.L = 0, this.R = 120 }, state: 0 };
     }
@@ -82,10 +82,9 @@ export class Player extends Entity {
     checkExplosion() {
         if (this.bubble.radius > this.bubble.max) {
             this.bubble.explode();
-            this.points = Math.floor(this.points / 2);
+            this.points = 0
             this.exploded = true;
             this.delay = 500;
-            this.crosses++; 
             audio.pause("player"+this.id);
             audio.playSound("explosion","player"+this.id,0.4,0);
         }
@@ -95,8 +94,9 @@ export class Player extends Entity {
         this.delay = delay;
         this.exploded = false;
         this.points = 0;
+        this.crosses++;
         this.bubble.dec();
-        audio.pause("player" + this.id);;
+        audio.pause("player" + this.id);
     }
 
     render(ctx, teacherIsFacing) {
@@ -110,11 +110,15 @@ export class Player extends Entity {
         if (this.delay) {
             ctx.fillStyle = "red";
         }
-        ctx.fillText(`${this.points} pts`, this.x - 30, this.y - 40);
+
+        ctx.fillStyle = this.color.border;
+        ctx.fillText(`${this.points} pts`, WIDTH - 100, 50 + this.id * 40);
 
         if (this.isInactive()) {
-            ctx.fillStyle = "red";
-            ctx.fillText("GAME OVER", this.x - 30, this.y - 80);
+            //ctx.fillStyle = "red";
+            //ctx.fillText("GAME OVER", this.x - 30, this.y - 80);
+            ctx.drawImage(data["student"+this.id], this.x - 100 -25*this.dir, this.y-100, 200, 200);
+            ctx.drawImage(data["student"+this.id+"_black_layer"], this.x - 100 -25*this.dir, this.y-100, 200, 200);
             return;
         }
 
