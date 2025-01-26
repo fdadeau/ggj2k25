@@ -194,6 +194,7 @@ class Bubble extends Entity {
         if (this.speed > 0) {
             this.speed -= ESSOUFFLEMENT * dt;
             if (this.speed < ESSOUFFLEMENT * 30) {
+            //    console.log("top");
                 this.speed = ESSOUFFLEMENT * 30;
             }
         }

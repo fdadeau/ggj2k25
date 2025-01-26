@@ -2,6 +2,9 @@
  * Class describing the Graphical User Interface
  */
 
+import { audio } from "./audio.js";
+
+
 import { WIDTH, HEIGHT } from "./app.js";
 
 import { Game } from "./game.js";
@@ -42,6 +45,7 @@ class GUI {
         this.debug = null;
         /** @type {Object} message info */
         this.info = null;
+        this.NbPlayers = 2;
 
         
         this.BUTTONS = {
@@ -361,6 +365,7 @@ class Slider {
         ctx.textAlign = "center";
         ctx.font = `${this.height}px crayon_libre`;
         let volume = Math.min(Math.round(this.value),100);
+        audio.setVolume(volume/100);
         ctx.fillText( volume ,this.x + this.width/2 + 20, this.y + 5 );
         ctx.fillText("Volume sonore ",this.x-185, this.y + 5);
 

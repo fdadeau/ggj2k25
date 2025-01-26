@@ -6,6 +6,7 @@ import { data } from "./loader.js";
 export const audio = {
 
     ambiance: null,
+    volumeRate : 1,
     playMusic: function(which, volume, dontPlay) {
         if (data[which] && data[which] instanceof HTMLAudioElement) {
             if (this.ambiance != null) {
@@ -13,6 +14,7 @@ export const audio = {
             }
             this.ambiance = data[which];
             this.ambiance.volume = volume ? volume : 0.4;
+            this.ambiance.volume *= this.volumeRate;
             this.ambiance.currentTime = 0;
             this.ambiance.loop = true;
             this.ambiance.play();    
@@ -27,6 +29,7 @@ export const audio = {
             }
             this.sounds[channel] = data[which];
             this.sounds[channel].volume = volume ? volume : 0.5;
+            this.sounds[channel].volume =  this.sounds[channel].volume *this.volumeRate;
             this.sounds[channel].currentTime = 0;
             this.sounds[channel].loop = loop ? loop : false;
             if (!wait) {
@@ -39,6 +42,9 @@ export const audio = {
         return this.sounds[channel] && !this.sounds[channel].paused;// && this.sounds[channel].currentTime > 0;
     },
 
+    setVolume: function(vol) {
+       this.volumeRate = vol;
+    },
 
     reset: function() {
         this.pause();
