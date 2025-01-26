@@ -5,7 +5,7 @@ import data from "./assets.js";
 const TEACHER_STATES = { FACING: "green", WRITING: "black", STOPPED: "#000", ANGRY: "red" };
 
 const TEACHER_WRITING_SPEED = 0.02;
-const TEACHER_WALKING_SPEED = 0.06;
+const TEACHER_WALKING_SPEED = 0.07;
 
 const MAX_DELAY = 20000;    
 const DELAY_STOP = 3000;
@@ -25,7 +25,7 @@ const ROTATE_ARM = [0, 0.50, 0.85, 1.10];
 export class Teacher extends Entity {
 
     constructor(x, y) {
-        super(-40, y, 0, 0);
+        super(x, y, 0, 0);
         this.state = TEACHER_STATES.FACING;
         this.line = 0;
         this.baseMinX = -40;
@@ -65,6 +65,10 @@ export class Teacher extends Entity {
     isWatching() {
         return this.state != TEACHER_STATES.WRITING && this.state != TEACHER_STATES.STOPPED;
     }
+    isAngry() {
+        return this.state == TEACHER_STATES.ANGRY;
+    }
+
     stopWritingAndTurns() {
         this.state = TEACHER_STATES.FACING;
         this.delay = DELAY_STOP;
@@ -146,10 +150,10 @@ export class Teacher extends Entity {
         const txt = TEACHER_TXT[this.line];
         this.maxX = this.minX() + ctx.measureText(txt).width;
         for (let i=0; i < this.line; i++) {
-            ctx.fillText(TEACHER_TXT[i], lineStart, 105+i*30);
+            ctx.fillText(TEACHER_TXT[i], lineStart, 180+i*30);
         }
         if (this.dX > 0 && txt) {
-            ctx.fillText(txt.substring(0, Math.ceil(txt.length * (this.x-this.minX())/(this.maxX-this.minX()))), lineStart, 105+this.line*30);
+            ctx.fillText(txt.substring(0, Math.ceil(txt.length * (this.x-this.minX())/(this.maxX-this.minX()))), lineStart, 180+this.line*30);
         }
         
         //draw body

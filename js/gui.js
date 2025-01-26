@@ -19,7 +19,7 @@ export const CONTROLS = [
     { up: "KeyW",    down: "KeyS",      left: "KeyA",      right: "KeyD"       },
     { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "ArrowRight" }, 
     { up: "KeyF", down: "KeyC", left: "KeyX", right: "KeyV" }, 
-    { up: "KeyH", down: "KeyB", left: "KeyN", right: "KeyG" } 
+    { up: "KeyO", down: "KeyL", left: "KeyK", right: "KeyM" } 
 ]
 
 export const STATE = { 
@@ -48,15 +48,15 @@ class GUI {
 
         
         this.BUTTONS = {
-            "btnPlay": new Button("Play", WIDTH*3/10, 340, 100, 40, "crayon_libre"),
-            "btnControls": new Button("Controls", WIDTH*5/10, 340, 100, 40, "crayon_libre"),
-            "btnCredits": new Button("Credits", WIDTH*7/10, 340, 100, 40, "crayon_libre"),
-            "btnBack": new Button("Back", WIDTH*9/10, 340, 100, 40, "crayon_libre"),
-            "btnSlide": new Slider(  WIDTH / 2, HEIGHT / 3 - 80,200, 20,0,99,50 ),
+            "btnPlay": new Button("Play", WIDTH*3/10, 340+75, 100, 40, "crayon_libre"),
+            "btnControls": new Button("Controls", WIDTH*5/10, 340+75, 100, 40, "crayon_libre"),
+            "btnCredits": new Button("Credits", WIDTH*7/10, 340+75, 100, 40, "crayon_libre"),
+            "btnBack": new Button("Back", WIDTH*9/10, 340+75, 100, 40, "crayon_libre"),
+            "btnSlide": new Slider(  WIDTH / 2, HEIGHT / 3 - 60+75,200, 20,0,99,50 ),
             //"btnRadio1": new RadioButton("1 Joueur", WIDTH / 2 - 260, HEIGHT / 2 - 120, true),
-            "btnRadio2": new RadioButton("2 Joueurs", WIDTH / 2 - 260, HEIGHT / 2 - 120, true),
-            "btnRadio3": new RadioButton("3 Joueurs", WIDTH / 2 - 100, HEIGHT / 2 - 120, false),
-            "btnRadio4": new RadioButton("4 Joueurs", WIDTH / 2 + 60, HEIGHT / 2 - 120, false)
+            "btnRadio2": new RadioButton("2 Joueurs", WIDTH / 2 - 260, HEIGHT / 2 - 100 + 75, true),
+            "btnRadio3": new RadioButton("3 Joueurs", WIDTH / 2 - 100, HEIGHT / 2 - 100 + 75, false),
+            "btnRadio4": new RadioButton("4 Joueurs", WIDTH / 2 + 60, HEIGHT / 2 - 100 + 75, false)
         }       
     };
 
@@ -116,7 +116,7 @@ class GUI {
         }
         // no current game
         if (this.state === STATE.TITLE_SCREEN) { 
-            ctx.drawImage(data["logoJeu"], 220, 50, 240, 200);
+            ctx.drawImage(data["logoJeu"], 220, 50+75, 240, 200);
             // ctx.fillStyle = "white";
             // ctx.fillText("Title goes here", 300, 100);
             this.BUTTONS.btnPlay.render(ctx);
@@ -147,10 +147,10 @@ class GUI {
 
     renderControlsScreen(ctx) {
         ctx.textAlign = "center";
-        ctx.font = "20px crayon_libre";
+        ctx.font = "22px crayon_libre";
         ctx.fillStyle = "white";
         // Titre principal
-        ctx.fillText("Panneau de contrôle", WIDTH / 2-80, HEIGHT / 6-30);
+        ctx.fillText("Controls", WIDTH / 2-80, HEIGHT / 6-20+75);
         
     }
 
@@ -158,29 +158,23 @@ class GUI {
         ctx.textAlign = "center";
         ctx.font = "20px crayon_libre";
         ctx.fillStyle = "white";
-        ctx.fillText("Credits", 350, 60);
+        ctx.fillText("Credits", 350, 60+75);
         ctx.font = "16px crayon_libre";
         ctx.textAlign = "left";
-        ctx.fillText("Programming:", 140, 100);
-        ctx.fillText("Dorine, Eléa, Fred", 170, 120);
-        ctx.fillText("Visual design:", 140, 160);
-        ctx.fillText("Eléa", 170, 180);
-        ctx.fillText("Sounds:", 140, 210);
-        ctx.fillText("Fabrice", 170, 230);
+        ctx.fillText("Programming:", 140, 100+75);
+        ctx.fillText("Dorine, Eléa, Fred", 170, 120+75);
+        ctx.fillText("Visual design:", 140, 160+75);
+        ctx.fillText("Eléa", 170, 180+75);
+        ctx.fillText("Sounds:", 140, 210+75);
+        ctx.fillText("Fabrice", 170, 230+75);
         ctx.save();
-        ctx.translate(420, 180);
+        ctx.translate(420, 180+75);
         ctx.rotate(0.02);
         ctx.fillRect(-70, -90, 140, 160);
         ctx.drawImage(data["team"], -65, -85, 130, 130);
         ctx.fillStyle = "black";
         ctx.font = "13px crayon_libre";
         ctx.fillText("The fantastic team", -60, 62);
-        /*
-        ctx.fillStyle = "red";
-        ctx.beginPath();
-        ctx.arc(-30, -66, 5, 0, 2*Math.PI);
-        ctx.fill();
-        */
         ctx.restore();
     }
 

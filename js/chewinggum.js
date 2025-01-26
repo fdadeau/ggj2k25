@@ -5,10 +5,12 @@ import { Teacher } from "./teacher.js";
 import { Player } from "./player.js";
 import data from "./assets.js";
 
-const COLOR1 = { border: 'rgba(0, 191, 255, 0.8)', content: 'rgba(173, 216, 230, 0.7)' }
-const COLOR2 = { border: 'rgba(255, 191, 255, 0.8)', content: 'rgba(255, 216, 230, 0.7)' }
-const COLOR3 = { border: 'rgba(173, 235, 179, 0.8)', content: 'rgba(192, 246, 197, 0.7)' }
-const COLOR4 = { border: 'rgba( 255 , 172 , 82, 0.8)', content: 'rgba(255 , 185 , 109, 0.7)' }
+const COLORS = { 
+    1: { border: 'rgba(0, 191, 255, 0.8)', content: 'rgba(173, 216, 230, 0.7)' },
+    2: { border: 'rgba(255, 191, 255, 0.8)', content: 'rgba(255, 216, 230, 0.7)' },
+    3: { border: 'rgba(173, 235, 179, 0.8)', content: 'rgba(192, 246, 197, 0.7)' },
+    4: { border: 'rgba( 255 , 172 , 82, 0.8)', content: 'rgba(255 , 185 , 109, 0.7)' }
+}
 
 const STATES = { INSTRUCTIONS: 0, IN_GAME: 1, SHOW_SCORES: -1 }
 
@@ -18,25 +20,30 @@ const STATES = { INSTRUCTIONS: 0, IN_GAME: 1, SHOW_SCORES: -1 }
 export class ChewingGum extends Game {
 
     constructor(ctrl,nbplayer) {
-        let instance = [new Player(ctrl[0], COLOR1, 100, 1, 1)];
+        const instance = [];
         // Ajout des joueurs supplémentaires en fonction du nombre de joueurs
         switch (nbplayer) {
             case 2:
-                instance.push(new Player(ctrl[1], COLOR2, WIDTH - 100, -1, 2));
+                const skin1 = Math.floor(Math.random() * 2) + 1;
+                const skin2 = Math.floor(Math.random() * 2) + 3;
+                instance.push(new Player(ctrl[0], COLORS[skin1], 100, 1, 1, skin1));
+                instance.push(new Player(ctrl[1], COLORS[skin2], WIDTH - 100, -1, 2, skin2));
                 break ;
             case 3:
-                instance.push(new Player(ctrl[1], COLOR2, 300, 1, 2));
-                instance.push(new Player(ctrl[2], COLOR3, WIDTH - 100, -1, 3));
+                const skin3 = Math.floor(Math.random() * 2) + 3;
+                instance.push(new Player(ctrl[0], COLORS[1], 100, 1, 1, 1))
+                instance.push(new Player(ctrl[2], COLORS[2], 300, 1, 2, 2));
+                instance.push(new Player(ctrl[1], COLORS[skin3], WIDTH - 100, -1, 3, skin3));
                 break ;
             case 4:
-                console.log("4 players");
-                instance.push(new Player(ctrl[1], COLOR2, 300, 1, 2));
-                instance.push(new Player(ctrl[2], COLOR3,  WIDTH - 300, -1, 3));
-                instance.push(new Player(ctrl[3], COLOR4, WIDTH - 100, -1, 4));
+                instance.push(new Player(ctrl[0], COLORS[1], 100, 1, 1, 1))
+                instance.push(new Player(ctrl[2], COLORS[2], 300, 1, 2, 2));
+                instance.push(new Player(ctrl[3], COLORS[3], WIDTH - 300, -1, 3, 3));
+                instance.push(new Player(ctrl[1], COLORS[4], WIDTH - 100, -1, 4, 4));
                 break ;
         }
         super(instance);
-        this.teacher = new Teacher(300, 75);
+        this.teacher = new Teacher(300, 150);
         this.state = STATES.INSTRUCTIONS;
     }
     restart() {
@@ -56,8 +63,9 @@ export class ChewingGum extends Game {
             return;
         }   
         
+        this.players.forEach(p => p.update(dt, this.teacher.isWatching()));
+
         this.players.forEach(p => {
-            p.update(dt, this.teacher.isWatching());
             if (this.teacher.isWatching() && p.hasBubble() && p.delay === 0) {
                 this.teacher.upset();
                 p.catch(this.teacher.delay);
@@ -67,7 +75,7 @@ export class ChewingGum extends Game {
             }
         });
 
-        if (this.players.filter(p => !p.isInactive()).length == 1) {
+        if (!this.teacher.isAngry() && this.players.filter(p => !p.isInactive()).length == 1) {
             this.teacher.stopWritingAndTurns();
             this.players.forEach(p => p.bubble.dec());
             this.state = STATES.SHOW_SCORES;
@@ -87,8 +95,11 @@ export class ChewingGum extends Game {
     render(ctx) {
         ctx.clearRect(0,0,WIDTH,HEIGHT);
         ctx.drawImage(data["classroom"], 0, 0, WIDTH, HEIGHT);
-
+        
         this.teacher.render(ctx);
+        ctx.drawImage(data["tables"], 0, 0, WIDTH, HEIGHT);
+        
+        this.players.forEach(p => p.bubble.render(ctx));
         this.players.forEach(player => player.render(ctx, this.teacher.isWatching()));
 
         // instructions

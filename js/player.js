@@ -15,7 +15,7 @@ const DELAY_EXPLOSION = 500;
  */
 export class Player extends Entity {
 
-    constructor(controls, color, x, dir, id) {
+    constructor(controls, color, x, dir, id, skin) {
         super(x, 400, 0, 0);
         this.controls = controls;
         this.bubble = new Bubble(x + 20*dir, 400, color, id);
@@ -35,12 +35,14 @@ export class Player extends Entity {
         this.exploded = false;
         // cross
         this.crosses = 0;   
+        // skin of the character 
+        this.skin = skin;
         // delay animation
         this.delayAnim = Math.random() * DELAY_CHEWING;
     }
 
     reset() {
-        this.bubble = new Bubble(this.x + 20*this.dir, 400, this.color, this.id);
+        this.bubble = new Bubble(this.x + 20*this.dir, 400, this.color, this.skin);
         this.growKey = false;
         this.delay = 0;
         this.delayAnim = Math.random() * DELAY_CHEWING;
@@ -102,33 +104,33 @@ export class Player extends Entity {
         // score 
         ctx.fillStyle = "white";
         ctx.font = "16px crayon_libre";
-        ctx.fillText(`Player ${this.id}`, 80 + this.id * 80, 52);
+        ctx.fillText(`Player ${this.id}`, 80 + this.id * 80, 52+75);
         ctx.fillStyle = "red";
-        ctx.fillText("X ".repeat(this.crosses), 80 + this.id * 80, 70);
+        ctx.fillText("X ".repeat(this.crosses), 80 + this.id * 80, 70+75);
         if (this.delay) {
             ctx.fillStyle = "red";
         }
 
         ctx.textAlign = "right";
         ctx.fillStyle = this.color.border;
-        ctx.fillText(`${this.points} pts`, WIDTH - 20, 50 + this.id * 40);
+        ctx.fillText(`${this.points} pts`, WIDTH - 20, 50+75 + this.id * 40);
         ctx.textAlign = "left";
 
         if (this.isInactive()) {
-            ctx.drawImage(data["student"+this.id], this.x - 100 -25*this.dir, this.y-100, 200, 200);
-            ctx.drawImage(data["student"+this.id+"_black_layer"], this.x - 100 -25*this.dir, this.y-100, 200, 200);
+            ctx.drawImage(data["student"+this.skin], this.x - 100 -25*this.dir, this.y-100, 200, 200);
+            ctx.drawImage(data["student"+this.skin+"_black_layer"], this.x - 100 -25*this.dir, this.y-100, 200, 200);
             return;
         }
 
         if (this.exploded) {
-            ctx.drawImage(data["paf"+this.id], this.x + (this.dir > 0 ? - 5 : - 100) , this.y - 30, 100, 80);
+            ctx.drawImage(data["paf"+this.skin], this.x + (this.dir > 0 ? - 5 : - 100) , this.y - 30, 100, 80);
         }
 
-        this.bubble.render(ctx);
-        ctx.drawImage(data["student"+this.id], this.x - 100 -25*this.dir, this.y-100, 200, 200);
+        //this.bubble.render(ctx);
+        ctx.drawImage(data["student"+this.skin], this.x - 100 -25*this.dir, this.y-100, 200, 200);
         
         if (!this.exploded && !teacherIsFacing && this.delayAnim > DELAY_CHEWING / 2 && this.bubble.radius == 0) {
-            ctx.drawImage(data["studentChewing" + this.id], this.x - 100 -25*this.dir, this.y-100, 200, 200);
+            ctx.drawImage(data["studentChewing" + this.skin], this.x - 100 -25*this.dir, this.y-100, 200, 200);
         }
 
     }
@@ -212,7 +214,7 @@ class Bubble extends Entity {
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
         ctx.fill();
         ctx.stroke();
-        ctx.drawImage(data["bubble_reflection"+this.id], this.x - this.radius, this.y - this.radius, this.radius*2, this.radius*2);
+        ctx.drawImage(data["bubble_reflection"+(this.dir > 0 ? "1" : "2")], this.x - this.radius, this.y - this.radius, this.radius*2, this.radius*2);
     }
 
 }
