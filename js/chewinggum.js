@@ -19,21 +19,27 @@ export class ChewingGum extends Game {
 
 
     constructor(ctrl,nbplayer) {
-        let instance = []
-        instance = [new Player(ctrl[0], COLOR1, 100, 1, 1), new Player(ctrl[1], COLOR2, WIDTH - 100, -1, 2)];
-        switch (nbplayer) {
-            case 2:
-                instance = [new Player(ctrl[0], COLOR1, 100, 1, 1), new Player(ctrl[1], COLOR2, WIDTH - 100, -1, 2)];
-            case 3:
-                instance = [new Player(ctrl[0], COLOR1, 100, 1, 1), new Player(ctrl[1], COLOR2, WIDTH - 100, -1, 2), new Player(ctrl[2], COLOR3, 100, 1, 3)];
-            case 4:
-                instance = [new Player(ctrl[0], COLOR1, 100, 1, 1), new Player(ctrl[1], COLOR2, WIDTH - 100, -1, 2), new Player(ctrl[2], COLOR3, 100, 1, 3), , new Player(ctrl[3], COLOR4, 100, 1, 3)];           
-        }
-        super(instance);
-        this.teacher = new Teacher(300, 75);
-        this.state = STATES.INSTRUCTIONS;
+      let instance = [
+    new Player(ctrl[0], COLOR1, 100, 1, 1)
+];
+// Ajout des joueurs supplémentaires en fonction du nombre de joueurs
+switch (nbplayer) {
+    case 2:
+        instance.push(new Player(ctrl[1], COLOR2, WIDTH - 100, -1, 2));
+        break ;
+    case 3:
+        instance.push(new Player(ctrl[1], COLOR2, 300, 1, 2));
+        instance.push(new Player(ctrl[2], COLOR3, WIDTH - 100, -1, 3));
+        break ;
+    case 4:
+        console.log("4 players");
+        instance.push(new Player(ctrl[1], COLOR2, 300, 1, 2));
+        instance.push(new Player(ctrl[2], COLOR3,  WIDTH - 300, -1, 3));
+        instance.push(new Player(ctrl[3], COLOR4, WIDTH - 100, -1, 4));
+        break ;
     }
-
+            
+    super(instance);
 
     restart() {
         this.players.forEach(p => p.reset());   
