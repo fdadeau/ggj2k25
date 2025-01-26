@@ -5,8 +5,8 @@ import { Teacher } from "./teacher.js";
 import { Player } from "./player.js";
 import data from "./assets.js";
 
-const COLOR1 = { border: 'rgba(0, 191, 255, 0.8)', content: 'rgba(173, 216, 230, 0.7)' }
-const COLOR2 = { border: 'rgba(247, 171, 247, 0.8)', content: 'rgba(255, 216, 230, 0.7)' }
+const COLOR1 = { border: 'rgba(0, 191, 255, 1)', content: 'rgba(173, 216, 230, 0.7)' }
+const COLOR2 = { border: 'rgba(247, 171, 247, 1)', content: 'rgba(255, 216, 230, 0.7)' }
 
 const STATES = { INSTRUCTIONS: 0, IN_GAME: 1, SHOW_SCORES: -1 }
 
@@ -109,33 +109,51 @@ export class ChewingGum extends Game {
         // ctx.strokeStyle = "black";
         // ctx.fillRect(MARGIN, MARGIN, WIDTH - MARGIN*2, HEIGHT-MARGIN*2);
         // ctx.strokeRect(MARGIN, MARGIN, WIDTH - MARGIN*2, HEIGHT-MARGIN*2);
-        ctx.drawImage(data["blackboard"], MARGIN, MARGIN,WIDTH - 2*MARGIN,  HEIGHT * 0.65);
+        ctx.save();
+        ctx.translate(WIDTH/2, HEIGHT/2);
+        ctx.rotate(0.03);
+        ctx.fillStyle = "#243710";
+        const x0 = -WIDTH/2+MARGIN;
+        const y0 = -HEIGHT/2+MARGIN;
+        const w0 = WIDTH-2*MARGIN;
+        const h0 = HEIGHT-2*MARGIN;
+        ctx.fillRect(x0, y0, w0, h0);
+        ctx.drawImage(data["slate"], x0-40, y0-40, w0 + 80,  h0 + 80);
+        
         ctx.textAlign = "center";
         ctx.fillStyle = "white";
-        ctx.font = "14px crayon_libre";
-        ctx.fillText("Instructions to play....", WIDTH / 2, MARGIN * 1.5);
-        ctx.fillText("Press SPACE to start the game", WIDTH / 2, HEIGHT - MARGIN * 1.2);
+        ctx.font = "16px crayon_libre";
+        ctx.fillText("Instructions to play....", 0, y0 + 40);
+        ctx.fillText("Press SPACE to start the game", 0, y0 + h0 - 30);
         ctx.textAlign = "left";
-        ctx.fillText("Maintain Z (player 1) or UP (player 2) to grow a bubble of gum", MARGIN + 40, MARGIN + 100);
-        ctx.fillText("Press D (player 1) or DOWN (player 2) to swallow the bubble", MARGIN + 40, MARGIN + 130);
-        ctx.fillText("Don't have a gum bubble when the teacher is facing you!", MARGIN + 40, MARGIN + 160);
-        ctx.fillText("The bigger the bubbles, the more points you win!", MARGIN + 40, MARGIN + 210);
-        ctx.fillText("But take care: bigger bubbles are more likely to explode...", MARGIN + 40, MARGIN + 240);
+        ctx.fillText("Maintain Z (player 1) or UP (player 2) to grow a bubble of gum", x0+40, y0 + 80);
+        ctx.fillText("Press D (player 1) or DOWN (player 2) to swallow the bubble", x0 + 40, y0 + 110);
+        ctx.fillText("Don't have a gum bubble when the teacher is facing you!", x0 + 40, y0 + 140);
+        ctx.fillText("The bigger the bubbles, the more points you win!", x0 + 40, y0 + 190);
+        ctx.fillText("But take care: bigger bubbles are more likely to explode...", x0 + 40, y0 + 220);
+        ctx.restore();
+
     }
 
     renderScores(ctx) {
         const MARGIN = 100;
-        // ctx.fillStyle = "white";
-        // ctx.strokeStyle = "black";
-        // ctx.fillRect(MARGIN, MARGIN, WIDTH - 2*MARGIN, HEIGHT * 0.6);
-        // ctx.strokeRect(MARGIN, MARGIN, WIDTH - 2*MARGIN, HEIGHT * 0.6);
-        ctx.drawImage(data["blackboard"], MARGIN, MARGIN,WIDTH - 2*MARGIN,  HEIGHT * 0.65);
+        ctx.save();
+        ctx.translate(WIDTH/2, HEIGHT/2);
+        ctx.rotate(0.03);
+        ctx.fillStyle = "#243710";
+        const x0 = -WIDTH/2+MARGIN;
+        const y0 = -HEIGHT/2+MARGIN;
+        const w0 = WIDTH-2*MARGIN;
+        const h0 = HEIGHT-2*MARGIN;
+        ctx.fillRect(x0, y0, w0, h0);
+        ctx.drawImage(data["slate"], x0-40, y0-40, w0 + 80,  h0 + 80);
+        
         ctx.textAlign = "center";
         ctx.fillStyle = "white";
         ctx.font = "22px crayon_libre";
-        ctx.fillText("Scores", WIDTH / 2, MARGIN * 1.5);
+        ctx.fillText("Scores", 0, y0 + 60);
         ctx.font = "16px crayon_libre";
-        ctx.fillText("Press SPACE to restart the game or ESC to return to the menu", WIDTH / 2, HEIGHT - MARGIN * 1.2);
+        ctx.fillText("Press SPACE to restart the game or ESC to return to the menu", 0, y0 + h0 - 30);
         ctx.textAlign = "left";
         const players = [this.players[0], this.players[1]].sort((p1,p2) => p2.points - p1.points);
         players.forEach((p,i) => {
@@ -148,11 +166,12 @@ export class ChewingGum extends Game {
             else {
                 ctx.fillStyle = "black";
             }
-            ctx.fillText(`${i+1}. Player ${p.id}`, WIDTH / 2 - 100, MARGIN + 120 + i * 30);
+            ctx.fillText(`${i+1}. Player ${p.id}`, 0 - 100, y0 + 120 + i * 30);
             ctx.textAlign = "right";
-            ctx.fillText(`${p.points}`, WIDTH / 2 + 100, MARGIN + 120 + i * 30);
+            ctx.fillText(`${p.points}`, 0 + 100, y0 + 120 + i * 30);
             ctx.textAlign = "left";
         });
+        ctx.restore();
     }
 
 }

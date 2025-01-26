@@ -22,7 +22,7 @@ const data = {
     "blackboard": "./assets/images/blackboard2.png",
     "bubble_reflection1": "./assets/images/bubble_reflection1.png",
     "bubble_reflection2": "./assets/images/bubble_reflection2.png",
-
+    "slate": "./assets/images/slate_boder.png",
     
     // ambiance
     "discussion": "./assets/sounds/discussion.mp3",
