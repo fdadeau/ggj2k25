@@ -48,7 +48,7 @@ class GUI {
             "btnPlay": new Button("Play", WIDTH*3/10, 340, 100, 30, "crayon_libre"),
             "btnControls": new Button("Controls", WIDTH*5/10, 340, 100, 30, "crayon_libre"),
             "btnCredits": new Button("Credits", WIDTH*7/10, 340, 100, 30, "crayon_libre"),
-            "btnBack": new Button("Back", WIDTH*5/6, 440, 100, 30, "crayon_libre"),
+            "btnBack": new Button("Back", WIDTH*9/10, 340, 100, 30, "crayon_libre"),
             "btnSlide": new Slider(  WIDTH / 2, HEIGHT / 3 - 80,200, 20,0,99,50 ),
             "btnRadio1": new RadioButton("1 Joueur", WIDTH / 2 - 260, HEIGHT / 2 - 120, true),
             "btnRadio2": new RadioButton("2 Joueurs", WIDTH / 2 - 150, HEIGHT / 2 - 120, false),
@@ -290,11 +290,10 @@ class Button {
             ctx.font = `${this.height/2}px ` + this.font;
         }
         
-        ctx.strokeStyle = "black";
+        ctx.fillStyle = "#243710";
+        ctx.fillRect(this.x - this.width / 2, this.y - this.height *0.7, this.width, this.height);
+        ctx.drawImage(data["slate"], this.x - this.width / 2 - 5, this.y - this.height *0.7 - 5, this.width + 10, this.height + 10)
         ctx.fillStyle = "white";
-        ctx.fillRect(this.x - this.width / 2, this.y - this.height * 0.7, this.width, this.height);
-        ctx.strokeRect(this.x - this.width / 2, this.y - this.height * 0.7, this.width, this.height);
-        ctx.fillStyle = "black";
         ctx.fillText(this.txt, this.x, this.y);
         ctx.font = save;
     }

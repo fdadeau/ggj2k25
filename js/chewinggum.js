@@ -129,25 +129,26 @@ export class ChewingGum extends Game {
         const w0 = WIDTH-2*MARGIN;
         const h0 = HEIGHT-2*MARGIN;
         ctx.fillRect(x0, y0, w0, h0);
-        ctx.strokeStyle = "rgb(148,154,142)";
-        const sq = w0 / 20;
+        ctx.strokeStyle = "rgb(148,154,142, 0.5)";
+        const sq = 30;
         for (let i=0; i < w0; i += sq) {
-            ctx.strokeRect(x0 + i*sq, y0, x0+i*sq, y0+h0);
+            ctx.strokeRect(x0 + i, y0, 0, h0);
         };
         for (let i=0; i < h0; i += sq) {
-            ctx.strokeRect(x0, y0 + i*sq, x0+w0, y0+i*sq);
+            ctx.strokeRect(x0, y0 + i, w0, 0);
         };
         ctx.drawImage(data["slate"], x0-40, y0-40, w0 + 80,  h0 + 80);
 
         
         ctx.textAlign = "center";
         ctx.fillStyle = "white";
+        ctx.font = "20px crayon_libre";
+        ctx.fillText("Instructions to play", 0, y0 + 42);
         ctx.font = "16px crayon_libre";
-        ctx.fillText("Instructions to play....", 0, y0 + 40);
         ctx.fillText("Press SPACE to start the game", 0, y0 + h0 - 30);
         ctx.textAlign = "left";
-        ctx.fillText("Maintain Z (player 1) or UP (player 2) to grow a bubble of gum", x0+40, y0 + 80);
-        ctx.fillText("Press D (player 1) or DOWN (player 2) to swallow the bubble", x0 + 40, y0 + 110);
+        ctx.fillText("Maintain Button 1 to grow a bubble of gum", x0+40, y0 + 80);
+        ctx.fillText("Press Button 2 to swallow the bubble", x0 + 40, y0 + 110);
         ctx.fillText("Don't have a gum bubble when the teacher is facing you!", x0 + 40, y0 + 140);
         ctx.fillText("The bigger the bubbles, the more points you win!", x0 + 40, y0 + 190);
         ctx.fillText("But take care: bigger bubbles are more likely to explode...", x0 + 40, y0 + 220);
@@ -166,6 +167,14 @@ export class ChewingGum extends Game {
         const w0 = WIDTH-2*MARGIN;
         const h0 = HEIGHT-2*MARGIN;
         ctx.fillRect(x0, y0, w0, h0);
+        ctx.strokeStyle = "rgb(148,154,142, 0.5)";
+        const sq = 30;
+        for (let i=0; i < w0; i += sq) {
+            ctx.strokeRect(x0 + i, y0, 0, h0);
+        };
+        for (let i=0; i < h0; i += sq) {
+            ctx.strokeRect(x0, y0 + i, w0, 0);
+        };
         ctx.drawImage(data["slate"], x0-40, y0-40, w0 + 80,  h0 + 80);
         
         ctx.textAlign = "center";
