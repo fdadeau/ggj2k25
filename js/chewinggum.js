@@ -17,20 +17,23 @@ const STATES = { INSTRUCTIONS: 0, IN_GAME: 1, SHOW_SCORES: -1 }
  */
 export class ChewingGum extends Game {
 
+
     constructor(ctrl,nbplayer) {
         let instance = []
-        if (nbplayer == 2) 
-            instance = [new Player(ctrl[0], COLOR1, 100, 1, 1), new Player(ctrl[1], COLOR2, WIDTH - 100, -1, 2)];
-        if (nbplayer == 3) 
-            instance = [new Player(ctrl[0], COLOR1, 100, 1, 1), new Player(ctrl[1], COLOR2, WIDTH - 100, -1, 2), new Player(ctrl[2], COLOR3, 100, 1, 3)];
-        if (nbplayer == 4) 
-            instance = [new Player(ctrl[0], COLOR1, 100, 1, 1), new Player(ctrl[1], COLOR2, WIDTH - 100, -1, 2), new Player(ctrl[2], COLOR3, 100, 1, 3), , new Player(ctrl[3], COLOR4, 100, 1, 3)];
-        else 
-            instance = [new Player(ctrl[0], COLOR1, 100, 1, 1), new Player(ctrl[1], COLOR2, WIDTH - 100, -1, 2)];           
+        instance = [new Player(ctrl[0], COLOR1, 100, 1, 1), new Player(ctrl[1], COLOR2, WIDTH - 100, -1, 2)];
+        switch (nbplayer) {
+            case 2:
+                instance = [new Player(ctrl[0], COLOR1, 100, 1, 1), new Player(ctrl[1], COLOR2, WIDTH - 100, -1, 2)];
+            case 3:
+                instance = [new Player(ctrl[0], COLOR1, 100, 1, 1), new Player(ctrl[1], COLOR2, WIDTH - 100, -1, 2), new Player(ctrl[2], COLOR3, 100, 1, 3)];
+            case 4:
+                instance = [new Player(ctrl[0], COLOR1, 100, 1, 1), new Player(ctrl[1], COLOR2, WIDTH - 100, -1, 2), new Player(ctrl[2], COLOR3, 100, 1, 3), , new Player(ctrl[3], COLOR4, 100, 1, 3)];           
+        }
         super(instance);
         this.teacher = new Teacher(300, 75);
         this.state = STATES.INSTRUCTIONS;
     }
+
 
     restart() {
         this.players.forEach(p => p.reset());   
