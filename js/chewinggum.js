@@ -24,7 +24,8 @@ export class ChewingGum extends Game {
     }
 
     restart() {
-        this.players.forEach(player => player.update(dt));
+        this.player1.reset();
+        this.player2.reset();
         this.teacher.reset();
         this.state = STATES.INSTRUCTIONS;
     }
@@ -35,26 +36,24 @@ export class ChewingGum extends Game {
         this.teacher.update(dt);
         if (this.teacher.finishedWriting() && this.teacher.delay <= 0) {
             this.state = STATES.SHOW_SCORES;
-            this.players.forEach(player => player.bubble.radius = 0);
+            this.player1.bubble.radius = 0;
+            this.player2.bubble.radius = 0;
             return;
         }   
         
         // propagate to players
         super.update(dt);
-
-        for (let i = 0; i < this.players.length; i++) {
-            if (this.teacher.isWatching() && this.players[i].hasBubble()) {
-                this.teacher.upset();
-                this.players[i].catch(this.teacher.delay);
-            }
+        if (this.teacher.isWatching() && this.player1.hasBubble()) {
+            this.teacher.upset();
+            this.player1.catch(this.teacher.delay);
         }
-
-        for (let i = 0; i < this.players.length; i++) {
-            if (!this.teacher.isWatching() && this.players[i].exploded) {
-                this.teacher.stopWritingAndTurns();
-            }        
+        if (this.teacher.isWatching() && this.player2.hasBubble()) {
+            this.teacher.upset();
+            this.player2.catch(this.teacher.delay);
         }
-
+        if (!this.teacher.isWatching() && this.player1.exploded || this.player2.exploded) {
+            this.teacher.stopWritingAndTurns();
+        }
     }
 
     render(ctx) {
@@ -62,7 +61,8 @@ export class ChewingGum extends Game {
         ctx.drawImage(data["classroom"], 0, 0, WIDTH, HEIGHT);
 
         this.teacher.render(ctx);
-        this.players.forEach(player => player.render(ctx));
+        this.player1.render(ctx);
+        this.player2.render(ctx);
 
         // instructions
         switch (this.state) {
