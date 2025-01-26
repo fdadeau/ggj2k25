@@ -122,14 +122,14 @@ export class Player extends Entity {
             return;
         }
 
+        if (this.exploded) {
+            ctx.drawImage(data["paf"+this.id], this.x + (this.dir > 0 ? - 5 : - 100) , this.y - 30, 100, 80);
+        }
+
         this.bubble.render(ctx);
         ctx.drawImage(data["student"+this.id], this.x - 100 -25*this.dir, this.y-100, 200, 200);
-        if (this.exploded) {
-            ctx.fillStyle = "red";
-            ctx.fontWeight = "bold";
-            ctx.fillText("PAF", this.x + 20 * this.dir, this.y-10);
-        }
-        else if (!teacherIsFacing && this.delayAnim > DELAY_CHEWING / 2 && this.bubble.radius == 0) {
+        
+        if (!this.exploded && !teacherIsFacing && this.delayAnim > DELAY_CHEWING / 2 && this.bubble.radius == 0) {
             ctx.drawImage(data["studentChewing" + this.id], this.x - 100 -25*this.dir, this.y-100, 200, 200);
         }
 

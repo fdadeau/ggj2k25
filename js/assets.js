@@ -25,10 +25,10 @@ const data = {
     "bubble_reflection1": "./assets/images/bubble_reflection1.png",
     "bubble_reflection2": "./assets/images/bubble_reflection2.png",
     "slate": "./assets/images/slate_boder.png",
-    "paf_pink": "./assets/images/paf_pink.png",
-    "paf_blue": "./assets/images/paf_blue.png",
-    "paf_green": "./assets/images/paf_green.png",
-    "paf_orange": "./assets/images/paf_orange.png",
+    "paf2": "./assets/images/paf2.png",
+    "paf1": "./assets/images/paf1.png",
+    "paf3": "./assets/images/paf3.png",
+    "paf4": "./assets/images/paf4.png",
     
     // ambiance
     "discussion": "./assets/sounds/discussion.mp3",
