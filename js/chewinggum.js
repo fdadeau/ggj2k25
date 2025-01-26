@@ -191,15 +191,7 @@ export class ChewingGum extends Game {
         const players = [...this.players].sort((p1,p2) => p2.points - p1.points);
         
         players.forEach((p,i) => {
-            if (i == 0) {
-                ctx.fillStyle = "green";
-            }
-            else if (i == players.length-1) {
-                ctx.fillStyle = "red";
-            }
-            else {
-                ctx.fillStyle = "black";
-            }
+            ctx.fillStyle = "white";
             ctx.fillText(`${i+1}. Player ${p.id}`, 0 - 100, y0 + 120 + i * 30);
             ctx.textAlign = "right";
             ctx.fillText(`${p.points}`, 0 + 100, y0 + 120 + i * 30);
