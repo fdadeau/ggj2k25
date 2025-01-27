@@ -349,7 +349,7 @@ class GUI {
             return;
         }
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput3down.isAt(x,y)) { 
-            this.BUTTONS.btnInput2down.isFocused = true;
+            this.BUTTONS.btnInput3down.isFocused = true;
             return;
         }
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput4up.isAt(x,y)) { 
@@ -554,11 +554,11 @@ class InputControl {
         this.isFocused = true;
     }
     
-    setKey(key) {
+    setKey(e) {
         if (this.isFocused) {
-            this.key = key;
+            this.key = e.code;
             this.isFocused = false;
-            ctrls[0] = key;
+            ctrls[0] = e.code;
         }
     }
 }
