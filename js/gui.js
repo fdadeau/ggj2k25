@@ -257,6 +257,19 @@ class GUI {
         this.BUTTONS.btnInput4up.setKey(e);
         this.BUTTONS.btnInput4down.setKey(e);
     }
+    
+    defocus() {
+        this.BUTTONS.btnInput1up.isFocused = false;
+        this.BUTTONS.btnInput1down.isFocused = false;
+        this.BUTTONS.btnInput2up.isFocused = false;
+        this.BUTTONS.btnInput2down.isFocused = false;
+        this.BUTTONS.btnInput3up.isFocused = false;
+        this.BUTTONS.btnInput3down.isFocused = false;
+        this.BUTTONS.btnInput4up.isFocused = false;
+        this.BUTTONS.btnInput4down.isFocused = false;
+    }
+
+
     /**
      * Click on the canvas. 
      * @param {number} x X-coordinate relative to the canvas
@@ -328,35 +341,42 @@ class GUI {
             return;
         }
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput1up.isAt(x,y)) { 
-
+            this.defocus();
             this.BUTTONS.btnInput1up.isFocused = true;
             return;
         }
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput1down.isAt(x,y)) { 
+            this.defocus();
             this.BUTTONS.btnInput1down.isFocused = true;
             return;
         }
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput2up.isAt(x,y)) { 
+            this.defocus();
             this.BUTTONS.btnInput2up.isFocused = true;
             return;
         }
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput2down.isAt(x,y)) { 
+            this.defocus();
             this.BUTTONS.btnInput2down.isFocused = true;
             return;
         }
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput3up.isAt(x,y)) { 
+            this.defocus();
             this.BUTTONS.btnInput3up.isFocused = true;
             return;
         }
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput3down.isAt(x,y)) { 
+            this.defocus();
             this.BUTTONS.btnInput3down.isFocused = true;
             return;
         }
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput4up.isAt(x,y)) { 
+            this.defocus();
             this.BUTTONS.btnInput4up.isFocused = true;
             return;
         }
-        if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput4down.isAt(x,y) ) { 
+        if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput4down.isAt(x,y) ) {
+            this.defocus(); 
             this.BUTTONS.btnInput4down.isFocused = true;
             return;
         }
@@ -510,6 +530,7 @@ class RadioButton {
     }
 }
 
+
 class InputControl {
     constructor(label, x, y, width, height,id) {
         this.label = label;
@@ -534,10 +555,10 @@ class InputControl {
             ctx.fillText("Player" + number, this.x, this.y - 15 );
         }
         // Dessiner la zone de saisie
-        ctx.strokeStyle = this.isFocused ? "lightblue" : "white";
+        ctx.strokeStyle = this.isFocused ? "rgba( 255 , 172 , 82, 0.8)" : "white";
+        
         ctx.lineWidth = 2;
         ctx.strokeRect(this.x, this.y, this.width, this.height);
-
         // Afficher la touche sélectionnée
         ctx.fillStyle = "white";
         ctx.font = "12px crayon_libre";
@@ -550,16 +571,31 @@ class InputControl {
         return x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height;
     }
 
+
     focus() {
-        this.isFocused = true;
+        this.BUTTONS.btnInput1up.isFocused = false;
+        this.BUTTONS.btnInput1down.isFocused = false;
+        this.BUTTONS.btnInput2up.isFocused = false;
+        this.BUTTONS.btnInput2down.isFocused = false;
+        this.BUTTONS.btnInput3up.isFocused = false;
+        this.BUTTONS.btnInput3down.isFocused = false;
+        this.BUTTONS.btnInput4up.isFocused = false;
+        this.BUTTONS.btnInput4down.isFocused = false;    
     }
     
     setKey(e) {
-        if (this.isFocused) {
+        if (this.isFocused && !ctrls.includes(e.code)) {
             this.key = e.code;
             this.isFocused = false;
-            ctrls[0] = e.code;
+            ctrls[this.id] = e.code;
+            this.updateCtrl();
         }
+    }
+    updateCtrl() {
+        CONTROLS[0] = { up: ctrls[0], down: ctrls[1]};
+        CONTROLS[1] = { up: ctrls[2], down: ctrls[3]};
+        CONTROLS[2] = { up: ctrls[4], down: ctrls[5]};
+        CONTROLS[3] = { up: ctrls[6], down: ctrls[7]};
     }
 }
 
