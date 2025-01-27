@@ -3,7 +3,7 @@ Gum Top
 
 A game made at the Global Game Jam 2025 in Besançon, on the theme "Bubble".
 
-![Presentation image of the game](https://fdadeau.github.io/ggj2k25/images/presentation_image.png)
+![Presentation image of the game](https://fdadeau.github.io/ggj2k25/assets/images/presentation_image.png)
 
 Gum Top is a 2 to 4 player game in which students have to build the largest bubble of gum, when the teacher is not watching the classroom. 
 
