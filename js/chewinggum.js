@@ -6,10 +6,10 @@ import { Player } from "./player.js";
 import data from "./assets.js";
 
 const COLORS = { 
-    1: { border: 'rgba(0, 191, 255, 0.8)', content: 'rgba(173, 216, 230, 0.7)' },
-    2: { border: 'rgba(255, 191, 255, 0.8)', content: 'rgba(255, 216, 230, 0.7)' },
-    3: { border: 'rgba(173, 235, 179, 0.8)', content: 'rgba(192, 246, 197, 0.7)' },
-    4: { border: 'rgba( 255 , 172 , 82, 0.8)', content: 'rgba(255 , 185 , 109, 0.7)' }
+    1: { border: 'rgba(0, 191, 255, 0.8)', content: 'rgba(173, 216, 230, 0.7)', score: 'rgba(0, 191, 255, 0.8)' },
+    2: { border: 'rgba(255, 191, 255, 0.8)', content: 'rgba(255, 216, 230, 0.7)', score: 'rgba(255, 117, 255, 0.8)' },
+    3: { border: 'rgba(173, 235, 179, 0.8)', content: 'rgba(192, 246, 197, 0.7)', score: 'rgba(76, 225, 91, 0.8)' },
+    4: { border: 'rgba( 255 , 172 , 82, 0.8)', content: 'rgba(255 , 185 , 109, 0.7)' , score: 'rgba(255, 154, 46, 0.8)' },
 }
 
 const STATES = { INSTRUCTIONS: 0, IN_GAME: 1, SHOW_SCORES: -1 }
