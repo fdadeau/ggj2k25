@@ -50,7 +50,7 @@ export class ChewingGum extends Game {
     restart() {
         this.players.forEach(p => p.reset());   
         this.teacher.reset();
-        this.state = STATES.INSTRUCTIONS;
+        this.state = STATES.IN_GAME;
     }
 
     update(dt) {
@@ -158,12 +158,11 @@ export class ChewingGum extends Game {
             super.keydown(e);
         }
         if (this.state == STATES.INSTRUCTIONS && e.code == "Space") {
-            this.state = STATES.IN_GAME;
+            this.restart();
             return;
         }
         if (this.state == STATES.SHOW_SCORES && e.code == "Space") {
             this.restart();
-            this.state = STATES.IN_GAME;
             return;
         }
         if (this.state == STATES.SHOW_SCORES && e.code == "Escape") {

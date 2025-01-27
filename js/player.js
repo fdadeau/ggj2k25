@@ -52,8 +52,8 @@ export class Player extends Entity {
     }
 
     update(dt, teacherIsFacing) {
-        if (this.isInactive()) return;
         this.bubble.update(dt);
+        if (this.isInactive()) return;
         if (this.bubble.speed >= 0) {
             this.points += Math.floor(this.bubble.radius);
         }
@@ -97,6 +97,7 @@ export class Player extends Entity {
         this.crosses++;
         this.bubble.dec();
         audio.pause("player" + this.id);
+        audio.playSound("chtoing", "player" + this.id, 0.4, 0);
     }
 
     render(ctx, teacherIsFacing) {

@@ -56,6 +56,7 @@ const data = {
     "scream2": "./assets/sounds/scream2.mp3",
     "scream3": "./assets/sounds/scream3.mp3",
     "bell": "./assets/sounds/school-bell.mp3",
+    "brouhaha": "./assets/sounds/brouhaha.mp3",
     "fart": "./assets/sounds/fart.mp3"
 }
 
