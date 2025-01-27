@@ -15,12 +15,17 @@ import data from "./assets.js";
 
 const DEBUG = false;
 
+let ctrls = [ "KeyW", "KeyS", "ArrowUp", "ArrowDown", "KeyF", "KeyC", "KeyO", "KeyL" ];
+
+
+
 export const CONTROLS = [
-    { up: "KeyS",    down: "KeyD"},
-    { up: "ArrowUp", down: "ArrowDown"}, 
-    { up: "KeyV", down: "KeyB" }, 
-    { up: "KeyO", down: "KeyP" } 
+    { up: ctrls[0],    down: ctrls[1]},
+    { up: ctrls[2], down: ctrls[3]}, 
+    { up: ctrls[4], down: ctrls[5]}, 
+    { up: ctrls[6], down: ctrls[7] } 
 ]
+
 
 export const STATE = { 
     LOADING: -999,                
@@ -54,9 +59,17 @@ class GUI {
             "btnBack": new Button("Back", WIDTH*9/10, 350+75, 100, 40, "crayon_libre"),
             "btnSlide": new Slider(  WIDTH / 2, HEIGHT / 3 - 60+75,200, 20,0,99,50 ),
             //"btnRadio1": new RadioButton("1 Joueur", WIDTH / 2 - 260, HEIGHT / 2 - 120, true),
-            "btnRadio2": new RadioButton("2 players", WIDTH / 2 - 260, HEIGHT / 2 - 100 + 75, true),
-            "btnRadio3": new RadioButton("3 players", WIDTH / 2 - 100, HEIGHT / 2 - 100 + 75, false),
-            "btnRadio4": new RadioButton("4 players", WIDTH / 2 + 60, HEIGHT / 2 - 100 + 75, false)
+            "btnRadio2": new RadioButton("2 players", WIDTH / 2 - 260, HEIGHT / 2 - 35, true),
+            "btnRadio3": new RadioButton("3 players", WIDTH / 2 - 100, HEIGHT / 2 - 35, false),
+            "btnRadio4": new RadioButton("4 players", WIDTH / 2 + 60, HEIGHT / 2 - 35, false),
+            "btnInput1up": new InputControl("grow", WIDTH / 2 - 255, HEIGHT / 2 + 20 , 65, 25, 0),
+            "btnInput1down": new InputControl("sip", WIDTH / 2 - 255, HEIGHT / 2 + 55 , 65, 25, 1),
+            "btnInput2up": new InputControl("grow", WIDTH / 2 - 145, HEIGHT / 2 + 20 , 65, 25, 2),
+            "btnInput2down": new InputControl("sip", WIDTH / 2 - 145, HEIGHT / 2 + 55 , 65, 25, 3),
+            "btnInput3up": new InputControl("grow", WIDTH / 2 - 35, HEIGHT / 2 + 20 , 65, 25, 4),
+            "btnInput3down": new InputControl("sip", WIDTH / 2 - 35, HEIGHT / 2 + 55 , 65, 25, 5),
+            "btnInput4up": new InputControl("grow", WIDTH / 2 +  85, HEIGHT / 2 + 20 , 65, 25, 6),
+            "btnInput4down": new InputControl("sip", WIDTH / 2 + 85, HEIGHT / 2 + 55 , 65, 25, 7)        
         }       
     };
 
@@ -138,9 +151,24 @@ class GUI {
             this.BUTTONS.btnRadio2.render(ctx);
             this.BUTTONS.btnRadio3.render(ctx);
             this.BUTTONS.btnRadio4.render(ctx);
+            this.BUTTONS.btnInput1up.render(ctx);
+            this.BUTTONS.btnInput1down.render(ctx);
+            this.BUTTONS.btnInput2up.render(ctx);
+            this.BUTTONS.btnInput2down.render(ctx);
+            if (this.NbPlayers >= 3) {
+                this.BUTTONS.btnInput3up.render(ctx);
+                this.BUTTONS.btnInput3down.render(ctx);
+            }
+
+            if (this.NbPlayers == 4) {
+                this.BUTTONS.btnInput4up.render(ctx);
+                this.BUTTONS.btnInput4down.render(ctx);
+            }
+
+
             ctx.font = "20px crayon_libre";
             ctx.fillStyle = "black"
-            ctx.fillText("Game setup", 670, 170);
+            ctx.fillText("Game setup", 730, 170);
             return;
         }
         if (this.state === STATE.CREDITS_SCREEN) {
@@ -220,6 +248,14 @@ class GUI {
         if (this.game) {
             this.game.keyup(e);
         }
+        this.BUTTONS.btnInput1up.setKey(e);
+        this.BUTTONS.btnInput1down.setKey(e);
+        this.BUTTONS.btnInput2up.setKey(e);
+        this.BUTTONS.btnInput2down.setKey(e);
+        this.BUTTONS.btnInput3up.setKey(e);
+        this.BUTTONS.btnInput3down.setKey(e);
+        this.BUTTONS.btnInput4up.setKey(e);
+        this.BUTTONS.btnInput4down.setKey(e);
     }
     /**
      * Click on the canvas. 
@@ -289,6 +325,39 @@ class GUI {
             this.BUTTONS.btnRadio3.updateValueF(x)
             this.NbPlayers = 4 ;
 
+            return;
+        }
+        if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput1up.isAt(x,y)) { 
+
+            this.BUTTONS.btnInput1up.isFocused = true;
+            return;
+        }
+        if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput1down.isAt(x,y)) { 
+            this.BUTTONS.btnInput1down.isFocused = true;
+            return;
+        }
+        if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput2up.isAt(x,y)) { 
+            this.BUTTONS.btnInput2up.isFocused = true;
+            return;
+        }
+        if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput2down.isAt(x,y)) { 
+            this.BUTTONS.btnInput2down.isFocused = true;
+            return;
+        }
+        if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput3up.isAt(x,y)) { 
+            this.BUTTONS.btnInput3up.isFocused = true;
+            return;
+        }
+        if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput3down.isAt(x,y)) { 
+            this.BUTTONS.btnInput2down.isFocused = true;
+            return;
+        }
+        if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput4up.isAt(x,y)) { 
+            this.BUTTONS.btnInput4up.isFocused = true;
+            return;
+        }
+        if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput4down.isAt(x,y) ) { 
+            this.BUTTONS.btnInput4down.isFocused = true;
             return;
         }
 
@@ -438,6 +507,59 @@ class RadioButton {
     }
     updateValueF(x){
         this.selected = false;
+    }
+}
+
+class InputControl {
+    constructor(label, x, y, width, height,id) {
+        this.label = label;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.key = ctrls[id]; 
+        this.isFocused = false; 
+        this.id = id;
+    }
+
+    render(ctx) {
+        // Dessiner le label
+        ctx.fillStyle = "white";
+        ctx.font = "12px crayon_libre";
+        ctx.textAlign = "left";
+        ctx.fillText(this.label, this.x - 30, this.y + 15 );
+
+        if (this.id %2 == 0) {
+            let number = Math.floor(this.id / 2) + 1;   
+            ctx.fillText("Player" + number, this.x, this.y - 15 );
+        }
+        // Dessiner la zone de saisie
+        ctx.strokeStyle = this.isFocused ? "lightblue" : "white";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(this.x, this.y, this.width, this.height);
+
+        // Afficher la touche sélectionnée
+        ctx.fillStyle = "white";
+        ctx.font = "12px crayon_libre";
+        ctx.textAlign = "center";
+        ctx.fillText(this.key, this.x + this.width / 2, this.y + this.height / 2 + 5);
+    }
+
+    isAt(x, y) {
+        // Vérifier si la souris est dans la zone
+        return x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height;
+    }
+
+    focus() {
+        this.isFocused = true;
+    }
+    
+    setKey(key) {
+        if (this.isFocused) {
+            this.key = key;
+            this.isFocused = false;
+            ctrls[0] = key;
+        }
     }
 }
 
