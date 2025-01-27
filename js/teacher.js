@@ -79,6 +79,7 @@ export class Teacher extends Entity {
     stopWritingAndTurns() {
         this.state = TEACHER_STATES.FACING;
         this.delay = DELAY_STOP;
+        audio.pause("teacher-talk");
     }
 
     update(dt) {
