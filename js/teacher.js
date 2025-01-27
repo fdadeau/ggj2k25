@@ -63,9 +63,6 @@ export class Teacher extends Entity {
             this.lastScream = scr;
             audio.playSound("scream" + scr, "teacher", 0.8, 0);
         }   
-        else if (this.state === TEACHER_STATES.ANGRY) {
-            audio.restart("teacher");
-        }
     }
 
     finishedWriting() {
