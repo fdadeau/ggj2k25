@@ -54,6 +54,7 @@ export class Teacher extends Entity {
 
     upset() {
         if (this.state == TEACHER_STATES.FACING || this.state == TEACHER_STATES.ANGRY) {
+            audio.pause("teacher-talk");
             this.state = TEACHER_STATES.ANGRY;
             this.delay = DELAY_STOP;
             let scr =  Math.floor(Math.random() * 4);

@@ -58,6 +58,7 @@ export class ChewingGum extends Game {
 
         this.teacher.update(dt);
         if (this.teacher.finishedWriting() && this.teacher.delay <= 0) {
+            audio.playSound("bell", "teacher-talk", 0.4, 0);
             this.state = STATES.SHOW_SCORES;
             this.endTime = Date.now();
             this.players.forEach(p => p.bubble.radius = 0);
