@@ -103,7 +103,7 @@ export class Player extends Entity {
         
         // score 
         ctx.textAlign = "right";
-        ctx.fillStyle = this.color.border;
+        ctx.fillStyle = this.color.score;
         ctx.fillText(`${this.points} pts`, WIDTH - 20, 50+75 + this.id * 40);
         ctx.textAlign = "left";
 
