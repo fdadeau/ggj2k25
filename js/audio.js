@@ -46,6 +46,12 @@ export const audio = {
        this.volumeRate = vol;
     },
 
+    restart: function(channel) {
+        if (this.sounds[channel]) {
+            this.sounds[channel].currentTime = 0;
+        }
+    },
+
     reset: function() {
         this.pause();
         if (this.ambiance) {

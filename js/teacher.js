@@ -53,7 +53,7 @@ export class Teacher extends Entity {
     }
 
     upset() {
-        if (this.state == TEACHER_STATES.FACING) {
+        if (this.state == TEACHER_STATES.FACING || this.state == TEACHER_STATES.ANGRY) {
             this.state = TEACHER_STATES.ANGRY;
             this.delay = DELAY_STOP;
             let scr =  Math.floor(Math.random() * 4);
@@ -63,6 +63,9 @@ export class Teacher extends Entity {
             this.lastScream = scr;
             audio.playSound("scream" + scr, "teacher", 0.8, 0);
         }   
+        else if (this.state === TEACHER_STATES.ANGRY) {
+            audio.restart("teacher");
+        }
     }
 
     finishedWriting() {
@@ -78,11 +81,13 @@ export class Teacher extends Entity {
     stopWritingAndTurns() {
         this.state = TEACHER_STATES.FACING;
         this.delay = DELAY_STOP;
-        audio.pause("teacher-talk");
     }
 
     update(dt) {
         this.delay -= dt;
+        if (this.delay <= 0) {
+            this.delay = 0;
+        }
 
         if (this.state == TEACHER_STATES.FACING && !this.finishedWriting() && this.delay + dt > DELAY_STOP / 2 && this.delay <= DELAY_STOP /2 && Math.random() < 0.1) {
 //            audio.playSound("fart", "teacher", 0.1, 0);
@@ -111,14 +116,14 @@ export class Teacher extends Entity {
                         }
                     }
                 }
-                if (this.delay < 0) {
+                if (this.delay <= 0) {
                     this.state = TEACHER_STATES.STOPPED;
                     this.delay = DELAY_QUESTION_MARK * 3;
                     audio.pause("teacher-talk");
                 }
                 break;
             case TEACHER_STATES.STOPPED: 
-                if (this.delay < 0) {
+                if (this.delay <= 0) {
                     if (this.question < 3) {
                         this.question++;
                         this.delay = DELAY_QUESTION_MARK;
@@ -139,14 +144,14 @@ export class Teacher extends Entity {
                 }
                 break;
             case TEACHER_STATES.FACING:
-                if (this.delay < 0) {
+                if (this.delay <= 0) {
                     this.delay = Math.floor(Math.random() * MAX_DELAY);
                     this.state = TEACHER_STATES.WRITING;
                     audio.resume("teacher-talk");
                 }
                 break;
             case TEACHER_STATES.ANGRY:
-                if (this.delay < 0) {
+                if (this.delay <= 0) {
                     this.delay = DELAY_ANGRY;
                     this.state = TEACHER_STATES.FACING;
                 }

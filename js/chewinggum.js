@@ -3,6 +3,7 @@ import { WIDTH, HEIGHT } from "./app.js";
 import { Game } from "./game.js";
 import { Teacher } from "./teacher.js";
 import { Player } from "./player.js";
+import { audio } from "./audio.js";
 import data from "./assets.js";
 
 const COLORS = { 
@@ -79,6 +80,7 @@ export class ChewingGum extends Game {
             this.teacher.stopWritingAndTurns();
             this.players.forEach(p => p.bubble.dec());
             this.state = STATES.SHOW_SCORES;
+            audio.playSound("bell", "teacher-talk", 0.4, 0);
             this.endTime = Date.now();
         }
         /*
