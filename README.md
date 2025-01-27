@@ -16,5 +16,5 @@ Development Team
 ----------------
 
 The team: Elea (and her golden hammer), Fred, Dorine
-![The fantastic team](https://fdadeau.github.io/ggj2k25/images/presentation_image.png)
+![The fantastic team](https://fdadeau.github.io/ggj2k25/assets/images/team.png)
 
