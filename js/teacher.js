@@ -79,7 +79,6 @@ export class Teacher extends Entity {
     stopWritingAndTurns() {
         this.state = TEACHER_STATES.FACING;
         this.delay = DELAY_STOP;
-        audio.pause("classroom");
     }
 
     update(dt) {
@@ -119,7 +118,6 @@ export class Teacher extends Entity {
                     this.state = TEACHER_STATES.STOPPED;
                     this.delay = DELAY_QUESTION_MARK * 3;
                     audio.pause("teacher-talk");
-                    audio.pause("classroom");
                 }
                 break;
             case TEACHER_STATES.STOPPED: 
@@ -138,7 +136,6 @@ export class Teacher extends Entity {
                             Math.random() < 0.1 && audio.playSound("fart", "teacher", 0.1, 0);
                             this.delay = Math.floor(Math.random() * MAX_DELAY);
                             this.state = TEACHER_STATES.WRITING;
-                            audio.restart("classroom");
                             if (this.dX > 0) { 
                                 audio.resume("teacher-talk");
                             }
@@ -151,7 +148,6 @@ export class Teacher extends Entity {
                     this.delay = Math.floor(Math.random() * MAX_DELAY);
                     this.state = TEACHER_STATES.WRITING;
                     audio.resume("teacher-talk");
-                    audio.playSound("brouhaha", "classroom", 0.02, 1);
                 }
                 break;
             case TEACHER_STATES.ANGRY:

@@ -51,6 +51,7 @@ export class ChewingGum extends Game {
         this.players.forEach(p => p.reset());   
         this.teacher.reset();
         this.state = STATES.IN_GAME;
+        audio.playSound("bell", "game", 0.3, 0);
     }
 
     update(dt) {
@@ -58,7 +59,8 @@ export class ChewingGum extends Game {
 
         this.teacher.update(dt);
         if (this.teacher.finishedWriting() && this.teacher.delay <= 0) {
-            audio.playSound("bell", "teacher-talk", 0.4, 0);
+            //audio.playSound("bell", "teacher-talk", 0.4, 0);
+            audio.playSound("applause", "teacher-talk", 0.3, 0);
             this.state = STATES.SHOW_SCORES;
             this.endTime = Date.now();
             this.players.forEach(p => p.bubble.radius = 0);
