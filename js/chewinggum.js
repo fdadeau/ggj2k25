@@ -150,6 +150,7 @@ export class ChewingGum extends Game {
     }
 
     keydown(e) {
+        e.preventDefault();
         if (this.state === STATES.IN_GAME) {
             super.keydown(e);
         }
@@ -164,6 +165,7 @@ export class ChewingGum extends Game {
         }
         if (this.state == STATES.SHOW_SCORES && e.code == "Escape") {
             this.over = true;
+            
         }
     }
 
