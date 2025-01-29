@@ -16,7 +16,7 @@ const TEACHER_TXT = ["Tester c'est douter, bande de petits joueurs !", "12 ans 1
 
 //const TEACHER_TXT = ["abc abc abc","cde cde cde","def def def","efg efg efg efg efg efg efg efg efg efg efg efg "];
 
-const DELTA_MIN_X = [0, 41, 52, 66];
+const DELTA_MIN_X = [0, 5, 18, 17];
 
 const DELTA_ARM_X = [0, 2, -2, -8];
 const DELTA_ARM_Y = [0, 10, 15, 26];
@@ -28,7 +28,7 @@ export class Teacher extends Entity {
         super(x, y, 0, 0);
         this.state = TEACHER_STATES.FACING;
         this.line = 0;
-        this.baseMinX = -40;
+        this.baseMinX = -34;
         this.maxX = 600;
         this.dX = -1;
         this.question = 0;
@@ -39,7 +39,7 @@ export class Teacher extends Entity {
     }
 
     minX() {
-        return this.baseMinX - DELTA_MIN_X[this.line];
+        return this.baseMinX + DELTA_MIN_X[this.line];
     }
 
     reset() {
@@ -188,11 +188,12 @@ export class Teacher extends Entity {
                     //ctx.drawImage(data["teacher_writing_hand"], this.x, this.y + dec, 190, 380);
                     //ctx.drawImage(data["teacher_writing_arm"], this.x, this.y + dec, 190, 380);
                     ctx.save();
-                    const w0 = 138 * 0.5;
-                    const h0 = 234 * 0.5;
-                    ctx.translate(this.x + 148 - DELTA_ARM_X[this.line], this.y + 108 + DELTA_ARM_Y[this.line] - dec);
-                    ctx.rotate(ROTATE_ARM[this.line]);
-                    ctx.drawImage(data["teacher_writing"], -24, -h0+34, w0, h0);
+                    // const w0 = 138 * 0.5;
+                    // const h0 = 234 * 0.5;
+                    // ctx.translate(this.x + 148 - DELTA_ARM_X[this.line], this.y + 108 + DELTA_ARM_Y[this.line] - dec);
+                    // ctx.rotate(ROTATE_ARM[this.line]);
+                    // ctx.drawImage(data["teacher_writing"], -24, -h0+34, w0, h0);
+                    ctx.drawImage(data["teacher_writing"+this.line], this.x, this.y + dec, 190, 380);
                     ctx.restore();
                     ctx.drawImage(data["teacher_body_back"], this.x, this.y, 170, 380);
                 }
