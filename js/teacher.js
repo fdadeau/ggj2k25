@@ -111,6 +111,7 @@ export class Teacher extends Entity {
                         this.dX = -1;
                         this.line++;
                         if (this.line >= TEACHER_TXT.length) {
+                            audio.playSound("bell", "teacher-talk", 0.4, 0);
                             this.stopWritingAndTurns();
                         }
                     }
