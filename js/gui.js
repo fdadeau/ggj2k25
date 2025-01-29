@@ -73,7 +73,16 @@ class GUI {
         }       
     };
 
-
+    initializeControls() {
+        if (this.NbPlayers === 3) {
+            ctrls = ["KeyQ", "KeyA", "KeyY", "KeyH", "ArrowUp", "ArrowDown", "KeyO", "KeyL"];
+        } else if (this.NbPlayers === 4) {
+            ctrls = ["KeyQ", "KeyA", "KeyR", "KeyF", "KeyO", "KeyL", "ArrowUp", "ArrowDown"];
+        } else {
+            ctrls = ["KeyW", "KeyS", "ArrowUp", "ArrowDown", "KeyF", "KeyC", "KeyO", "KeyL"];
+        }
+    }
+    
     /**
      * Displays the message on the screen
      * @param {string} txt message to display
@@ -107,8 +116,6 @@ class GUI {
             }
         }
     }
-
-
 
     /**
      * Renders the GUI
@@ -155,14 +162,20 @@ class GUI {
             this.BUTTONS.btnInput1down.render(ctx);
             this.BUTTONS.btnInput2up.render(ctx);
             this.BUTTONS.btnInput2down.render(ctx);
+
+
+        
             if (this.NbPlayers >= 3) {
                 this.BUTTONS.btnInput3up.render(ctx);
                 this.BUTTONS.btnInput3down.render(ctx);
+
+
             }
 
             if (this.NbPlayers == 4) {
                 this.BUTTONS.btnInput4up.render(ctx);
                 this.BUTTONS.btnInput4down.render(ctx);
+
             }
 
 
@@ -316,7 +329,11 @@ class GUI {
             //this.BUTTONS.btnRadio1.updateValueF(x)
             this.BUTTONS.btnRadio3.updateValueF(x)
             this.BUTTONS.btnRadio4.updateValueF(x)
+            let tempPlayers = this.NbPlayers;
             this.NbPlayers = 2 ;
+            if (tempPlayers != this.NbPlayers) {
+                this.initializeControls();
+            }
 
             return;
         }
@@ -326,7 +343,12 @@ class GUI {
             //this.BUTTONS.btnRadio1.updateValueF(x)
             this.BUTTONS.btnRadio2.updateValueF(x)
             this.BUTTONS.btnRadio4.updateValueF(x)
+            let tempPlayers = this.NbPlayers;
             this.NbPlayers = 3 ;
+            if (tempPlayers != this.NbPlayers) {
+                this.initializeControls();
+            }
+
 
             return;
         }
@@ -336,7 +358,11 @@ class GUI {
             //this.BUTTONS.btnRadio1.updateValueF(x)
             this.BUTTONS.btnRadio2.updateValueF(x)
             this.BUTTONS.btnRadio3.updateValueF(x)
+            let tempPlayers = this.NbPlayers;
             this.NbPlayers = 4 ;
+            if (tempPlayers != this.NbPlayers) {
+                this.initializeControls();
+            }
 
             return;
         }
@@ -532,14 +558,14 @@ class RadioButton {
 
 
 class InputControl {
-    constructor(label, x, y, width, height,id) {
+    constructor(label, x, y, width, height, id) {
         this.label = label;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.key = ctrls[id]; 
-        this.isFocused = false; 
+        this.code = ctrls[id];
+        this.isFocused = false;
         this.id = id;
     }
 
@@ -548,54 +574,78 @@ class InputControl {
         ctx.fillStyle = "white";
         ctx.font = "12px crayon_libre";
         ctx.textAlign = "left";
-        ctx.fillText(this.label, this.x - 30, this.y + 15 );
-
-        if (this.id %2 == 0) {
-            let number = Math.floor(this.id / 2) + 1;   
-            ctx.fillText("Player" + number, this.x, this.y - 15 );
+        ctx.fillText(this.label, this.x - 30, this.y + 15);
+    
+        if (this.id % 2 === 0) {
+            let number = Math.floor(this.id / 2) + 1;
+            ctx.fillText("Player " + number, this.x, this.y - 15);
         }
+    
         // Dessiner la zone de saisie
-        ctx.strokeStyle = this.isFocused ? "rgba( 255 , 172 , 82, 0.8)" : "white";
-        
+        ctx.strokeStyle = this.isFocused ? "rgba(255, 172, 82, 0.8)" : "white";
         ctx.lineWidth = 2;
         ctx.strokeRect(this.x, this.y, this.width, this.height);
-        // Afficher la touche sélectionnée
+    
+        // Afficher la touche sélectionnée en temps réel à partir de `ctrls`
         ctx.fillStyle = "white";
         ctx.font = "12px crayon_libre";
         ctx.textAlign = "center";
-        ctx.fillText(this.key, this.x + this.width / 2, this.y + this.height / 2 + 5);
+    
+        let mykey = ctrls[this.id].startsWith("Key") 
+            ? ctrls[this.id].slice(3).toUpperCase() 
+            : ctrls[this.id];
+        mykey = { A: "Q", Q: "A", Z: "W", W: "Z" }[mykey] || mykey;
+        ctx.fillText(mykey, this.x + this.width / 2, this.y + this.height / 2 + 5);
     }
-
+    
     isAt(x, y) {
         // Vérifier si la souris est dans la zone
         return x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height;
     }
 
-
     focus() {
-        this.BUTTONS.btnInput1up.isFocused = false;
-        this.BUTTONS.btnInput1down.isFocused = false;
-        this.BUTTONS.btnInput2up.isFocused = false;
-        this.BUTTONS.btnInput2down.isFocused = false;
-        this.BUTTONS.btnInput3up.isFocused = false;
-        this.BUTTONS.btnInput3down.isFocused = false;
-        this.BUTTONS.btnInput4up.isFocused = false;
-        this.BUTTONS.btnInput4down.isFocused = false;    
-    }
-    
-    setKey(e) {
-        if (this.isFocused && !ctrls.includes(e.code)) {
-            this.key = e.code;
-            this.isFocused = false;
-            ctrls[this.id] = e.code;
-            this.updateCtrl();
+        // Désactiver le focus pour tous les boutons
+        for (let button in this.BUTTONS) {
+            if (this.BUTTONS[button]) {
+                this.BUTTONS[button].isFocused = false;
+            }
         }
     }
+
+
+
+
+
+    setKey(e) {
+        if (this.isFocused) {
+            const existingIndex = ctrls.indexOf(e.code);
+    
+            if (existingIndex === -1) {
+                // Si la touche n'est pas utilisée, on l'assigne directement
+                this.code = e.code;
+                ctrls[this.id] = e.code;
+            } else {
+                // Si la touche est déjà utilisée, on permute
+                const temp = ctrls[existingIndex];
+                ctrls[existingIndex] = ctrls[this.id];
+                ctrls[this.id] = temp;
+                this.code = e.code;
+            }
+    
+            this.isFocused = false;
+            this.updateCtrl(); // Met à jour CONTROLS et redessine
+        }
+    }
+    
+
     updateCtrl() {
-        CONTROLS[0] = { up: ctrls[0], down: ctrls[1]};
-        CONTROLS[1] = { up: ctrls[2], down: ctrls[3]};
-        CONTROLS[2] = { up: ctrls[4], down: ctrls[5]};
-        CONTROLS[3] = { up: ctrls[6], down: ctrls[7]};
+        // Mettre à jour les contrôles avec les nouvelles valeurs
+        CONTROLS[0] = { up: ctrls[0], down: ctrls[1] };
+        CONTROLS[1] = { up: ctrls[2], down: ctrls[3] };
+        CONTROLS[2] = { up: ctrls[4], down: ctrls[5] };
+        CONTROLS[3] = { up: ctrls[6], down: ctrls[7] };
+
+        render(ctx); // Redessiner après mise à jour
     }
 }
 

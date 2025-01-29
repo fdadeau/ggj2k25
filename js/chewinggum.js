@@ -33,14 +33,14 @@ export class ChewingGum extends Game {
             case 3:
                 const skin3 = Math.floor(Math.random() * 2) + 3;
                 instance.push(new Player(ctrl[0], COLORS[1], 100, 1, 1, 1))
-                instance.push(new Player(ctrl[2], COLORS[2], 300, 1, 2, 2));
-                instance.push(new Player(ctrl[1], COLORS[skin3], WIDTH - 100, -1, 3, skin3));
+                instance.push(new Player(ctrl[1], COLORS[2], 300, 1, 2, 2));
+                instance.push(new Player(ctrl[2], COLORS[skin3], WIDTH - 100, -1, 3, skin3));
                 break ;
             case 4:
                 instance.push(new Player(ctrl[0], COLORS[1], 100, 1, 1, 1))
-                instance.push(new Player(ctrl[2], COLORS[2], 300, 1, 2, 2));
-                instance.push(new Player(ctrl[3], COLORS[3], WIDTH - 300, -1, 3, 3));
-                instance.push(new Player(ctrl[1], COLORS[4], WIDTH - 100, -1, 4, 4));
+                instance.push(new Player(ctrl[1], COLORS[2], 300, 1, 2, 2));
+                instance.push(new Player(ctrl[2], COLORS[3], WIDTH - 300, -1, 3, 3));
+                instance.push(new Player(ctrl[3], COLORS[4], WIDTH - 100, -1, 4, 4));
                 break ;
         }
         super(instance);
