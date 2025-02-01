@@ -86,9 +86,10 @@ document.addEventListener("DOMContentLoaded", function() {
             mainloop();
             return;
         }
+
         const rect = CVS.getBoundingClientRect();
-        const x = (e.clientX - rect.left) * (CVS.width / rect.width) | 0; 
-        const y = (e.clientY - rect.top) * (CVS.height / rect.height) | 0;
+        const x = (e.clientX - rect.left) * (WIDTH / rect.width) | 0; 
+        const y = (e.clientY - rect.top) * (HEIGHT / rect.height) | 0;
         
         const r = gui.click(x, y);
     });

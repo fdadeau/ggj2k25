@@ -12,30 +12,36 @@ const DELAY_STOP = 3000;
 const DELAY_QUESTION_MARK = 200;
 const DELAY_ANGRY = 1000;
 
-const TEACHER_TXT = ["Tester c'est douter, bande de petits joueurs !", "12 ans 1ère clope, 18 ans 1ère p***, 21 ans 1ère ligne de Scheme","Je ferais avouer au pape qu'il est noir, juif et communiste."];
-
-//const TEACHER_TXT = ["abc abc abc","cde cde cde","def def def","efg efg efg efg efg efg efg efg efg efg efg efg "];
+const TEACHER_TXT = [
+    "Tester c'est douter, bande de petits joueurs !", 
+    "12 ans 1ère clope, 15 ans 1ère cuite, 18 ans 1ère p***, 21 ans 1ère ligne de Scheme",
+    "Je ferais avouer au pape qu'il est noir, juif et communiste.",
+    "My students are f*cking baffled.",
+    "I'm still able to f*ck as far as I know.",
+    "I'm not afraid of s*x!",
+    "Les machines de Turing c'est un rouleau de PQ qu'on déroule.",
+    "Le dernier qui m'a dit que j'étais un petit joueur, sa nana l'a reconnu à ses godasses.",
+    "Croyez-moi, le harcèlement, ça paie !",
+    "Tu préfères faire du XML Schema ou te faire sauter le caisson ?",
+    "Chacun pour soi, la trique pour tous !",
+    "Le dernier qui m'a dit que j'étais un petit joueur, je l'ai décalqué contre un mur."
+];
 
 const DELTA_MIN_X = [0, 5, 18, 17];
-
-const DELTA_ARM_X = [0, 2, -2, -8];
-const DELTA_ARM_Y = [0, 10, 15, 26];
-const ROTATE_ARM = [0, 0.50, 0.85, 1.10];
 
 export class Teacher extends Entity {
 
     constructor(x, y) {
         super(x, y, 0, 0);
-        this.state = TEACHER_STATES.FACING;
-        this.line = 0;
+        // base minimal X value
         this.baseMinX = -34;
+        // maximal X value (depending on the line)
         this.maxX = 600;
-        this.dX = -1;
-        this.question = 0;
-        this.delay = DELAY_STOP / 3;
         this.body = "teacher_body_front";
+        // last used scream (for not performing the same twice in a row)
         this.lastScream = -1;
-        audio.playSound("teacher-talk", "teacher-talk", 0.5, 1, true);
+        // call reinit that set the other parameters
+        this.reset();        
     }
 
     minX() {
@@ -44,12 +50,26 @@ export class Teacher extends Entity {
 
     reset() {
         super.reset();
+        // state
         this.state = TEACHER_STATES.FACING;
+        // line of text that is currently written
         this.line = 0;
+        // movement direction 
         this.dX = -1;
+        // number of "?" above teacher's head
         this.question = 0;
-        this.delay = DELAY_STOP;
+        // delay before doing anything
+        this.delay = DELAY_STOP / 3;
+        // loads and pauses the talk
         audio.playSound("teacher-talk", "teacher-talk", 0.6, 1, true);
+        // 
+        this.txt = [];
+        while (this.txt.length < 3) {
+            let t = TEACHER_TXT[Math.floor(Math.random() * TEACHER_TXT.length)];
+            if (this.txt.indexOf(t) < 0) {
+                this.txt.push(t);
+            }
+        }
     }
 
     upset() {
@@ -67,7 +87,7 @@ export class Teacher extends Entity {
     }
 
     finishedWriting() {
-        return this.line >= TEACHER_TXT.length;
+        return this.line >= this.txt.length;
     }
     isWatching() {
         return this.state != TEACHER_STATES.WRITING && this.state != TEACHER_STATES.STOPPED;
@@ -79,6 +99,7 @@ export class Teacher extends Entity {
     stopWritingAndTurns() {
         this.state = TEACHER_STATES.FACING;
         this.delay = DELAY_STOP;
+        this.question = 0;
         audio.pause("teacher-talk");
     }
 
@@ -86,10 +107,6 @@ export class Teacher extends Entity {
         this.delay -= dt;
         if (this.delay <= 0) {
             this.delay = 0;
-        }
-
-        if (this.state == TEACHER_STATES.FACING && !this.finishedWriting() && this.delay + dt > DELAY_STOP / 2 && this.delay <= DELAY_STOP /2 && Math.random() < 0.1) {
-//            audio.playSound("fart", "teacher", 0.1, 0);
         }
                 
         if (this.finishedWriting()) {
@@ -110,10 +127,7 @@ export class Teacher extends Entity {
                     if (this.x > this.maxX) {
                         this.dX = -1;
                         this.line++;
-                        if (this.line >= TEACHER_TXT.length) {
-                            audio.playSound("bell", "teacher-talk", 0.4, 0);
-                            this.stopWritingAndTurns();
-                        }
+                        this.stopWritingAndTurns();
                     }
                 }
                 if (this.delay <= 0) {
@@ -124,8 +138,8 @@ export class Teacher extends Entity {
                 break;
             case TEACHER_STATES.STOPPED: 
                 if (this.delay <= 0) {
-                    if (this.question < 3) {
-                        this.question++;
+                    if (this.question < 4) {
+                        this.question += 1;
                         this.delay = DELAY_QUESTION_MARK;
                     }
                     else {
@@ -168,10 +182,10 @@ export class Teacher extends Entity {
         ctx.fillStyle = "white";
         ctx.font = "12px crayon_libre";
         ctx.textAlign = "left";
-        const txt = TEACHER_TXT[this.line];
+        const txt = this.txt[this.line];
         this.maxX = this.minX() + ctx.measureText(txt).width;
         for (let i=0; i < this.line; i++) {
-            ctx.fillText(TEACHER_TXT[i], lineStart, 180+i*30);
+            ctx.fillText(this.txt[i], lineStart, 180+i*30);
         }
         if (this.dX > 0 && txt) {
             ctx.fillText(txt.substring(0, Math.ceil(txt.length * (this.x-this.minX())/(this.maxX-this.minX()))), lineStart, 180+this.line*30);
@@ -181,26 +195,16 @@ export class Teacher extends Entity {
         switch (this.state) {
             case TEACHER_STATES.WRITING:
             case TEACHER_STATES.STOPPED:
-                const dec = (this.x - this.minX()) / 4 % 2;
+                const dec = (this.x - this.minX()) / 2 % 2;
                 ctx.drawImage(data["leg"], this.x + 50, this.y + 285, 40, 90);
                 ctx.drawImage(data["leg"], this.x + 90, this.y + 285, 40, 90);
                 if (this.dX > 0) {
-                    //ctx.drawImage(data["teacher_writing_hand"], this.x, this.y + dec, 190, 380);
-                    //ctx.drawImage(data["teacher_writing_arm"], this.x, this.y + dec, 190, 380);
-                    ctx.save();
-                    // const w0 = 138 * 0.5;
-                    // const h0 = 234 * 0.5;
-                    // ctx.translate(this.x + 148 - DELTA_ARM_X[this.line], this.y + 108 + DELTA_ARM_Y[this.line] - dec);
-                    // ctx.rotate(ROTATE_ARM[this.line]);
-                    // ctx.drawImage(data["teacher_writing"], -24, -h0+34, w0, h0);
                     ctx.drawImage(data["teacher_writing"+this.line], this.x, this.y + dec, 190, 380);
-                    ctx.restore();
-                    ctx.drawImage(data["teacher_body_back"], this.x, this.y, 170, 380);
                 }
                 else {
                     ctx.drawImage(data["teacher_resting_arm"], this.x, this.y, 190, 380);
-                    ctx.drawImage(data["teacher_body_back"], this.x, this.y, 170, 380);
                 }
+                ctx.drawImage(data["teacher_body_back"], this.x, this.y, 170, 380);
                 break;
             case TEACHER_STATES.ANGRY:
                 const nb = (Math.floor(this.delay / 120) % 2) + 1;

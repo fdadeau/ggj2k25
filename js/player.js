@@ -39,6 +39,8 @@ export class Player extends Entity {
         this.skin = skin;
         // delay animation
         this.delayAnim = Math.random() * DELAY_CHEWING;
+        // timestamp of character's elimination
+        this.eliminatedAt = Infinity;
     }
 
     reset() {
@@ -49,6 +51,7 @@ export class Player extends Entity {
         this.points = 0;
         this.exploded = false;
         this.crosses = 0;
+        this.eliminatedAt = Infinity;
     }
 
     update(dt, teacherIsFacing) {
@@ -95,6 +98,9 @@ export class Player extends Entity {
         this.exploded = false;
         this.points = 0;
         this.crosses++;
+        if (this.crosses == MAX_CROSSES) {
+            this.eliminatedAt = Date.now();
+        }
         this.bubble.dec();
         audio.pause("player" + this.id);
         audio.playSound("chtoing", "player" + this.id, 0.4, 0);
@@ -106,6 +112,10 @@ export class Player extends Entity {
         ctx.textAlign = "right";
         ctx.fillStyle = this.color.score;
         ctx.fillText(`${this.points} pts`, WIDTH - 20, 50+75 + this.id * 40);
+        if (this.isInactive()) {
+            const l = 30;
+            ctx.fillRect(WIDTH-20-l, 50+71 + this.id * 40, l, 1);
+        }
         ctx.textAlign = "left";
 
         if (this.isInactive()) {
@@ -118,7 +128,6 @@ export class Player extends Entity {
             ctx.drawImage(data["paf"+this.skin], this.x + (this.dir > 0 ? - 5 : - 100) , this.y - 30, 100, 80);
         }
 
-        //this.bubble.render(ctx);
         ctx.drawImage(data["student"+this.skin], this.x - 100 -25*this.dir, this.y-100, 200, 200);
         
         if (!this.exploded && !teacherIsFacing && this.delayAnim > DELAY_CHEWING / 2 && this.bubble.radius == 0) {
@@ -189,7 +198,6 @@ class Bubble extends Entity {
         if (this.speed > 0) {
             this.speed -= ESSOUFFLEMENT * dt;
             if (this.speed < ESSOUFFLEMENT * 30) {
-            //    console.log("top");
                 this.speed = ESSOUFFLEMENT * 30;
             }
         }

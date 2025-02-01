@@ -57,19 +57,18 @@ class GUI {
             "btnControls": new Button("Controls", WIDTH*5/10, 350+75, 100, 40, "crayon_libre"),
             "btnCredits": new Button("Credits", WIDTH*7/10, 350+75, 100, 40, "crayon_libre"),
             "btnBack": new Button("Back", WIDTH*9/10, 350+75, 100, 40, "crayon_libre"),
-            "btnSlide": new Slider(  WIDTH / 2, HEIGHT / 3 - 60+75,200, 20,0,99,50 ),
-            //"btnRadio1": new RadioButton("1 Joueur", WIDTH / 2 - 260, HEIGHT / 2 - 120, true),
-            "btnRadio2": new RadioButton("2 players", WIDTH / 2 - 260, HEIGHT / 2 - 35, true),
-            "btnRadio3": new RadioButton("3 players", WIDTH / 2 - 100, HEIGHT / 2 - 35, false),
-            "btnRadio4": new RadioButton("4 players", WIDTH / 2 + 60, HEIGHT / 2 - 35, false),
-            "btnInput1up": new InputControl("grow", WIDTH / 2 - 255, HEIGHT / 2 + 20 , 65, 25, 0),
-            "btnInput1down": new InputControl("sip", WIDTH / 2 - 255, HEIGHT / 2 + 55 , 65, 25, 1),
-            "btnInput2up": new InputControl("grow", WIDTH / 2 - 145, HEIGHT / 2 + 20 , 65, 25, 2),
-            "btnInput2down": new InputControl("sip", WIDTH / 2 - 145, HEIGHT / 2 + 55 , 65, 25, 3),
-            "btnInput3up": new InputControl("grow", WIDTH / 2 - 35, HEIGHT / 2 + 20 , 65, 25, 4),
-            "btnInput3down": new InputControl("sip", WIDTH / 2 - 35, HEIGHT / 2 + 55 , 65, 25, 5),
-            "btnInput4up": new InputControl("grow", WIDTH / 2 +  85, HEIGHT / 2 + 20 , 65, 25, 6),
-            "btnInput4down": new InputControl("sip", WIDTH / 2 + 85, HEIGHT / 2 + 55 , 65, 25, 7)        
+            "btnSlide": new Slider(  WIDTH / 2, HEIGHT / 3 - 60+70,200, 20,0,99,50 ),
+            "btnRadio2": new RadioButton("2 players", 200, HEIGHT / 2 - 35, 100, 24, true),
+            "btnRadio3": new RadioButton("3 players", 350, HEIGHT / 2 - 35, 100, 24, false),
+            "btnRadio4": new RadioButton("4 players", 500, HEIGHT / 2 - 35, 100, 24, false),
+            "btnInput1up": new InputControl("grow", 190, HEIGHT / 2 + 20 , 65, 25, 0),
+            "btnInput1down": new InputControl("sip", 190, HEIGHT / 2 + 55 , 65, 25, 1),
+            "btnInput2up": new InputControl("grow", 265, HEIGHT / 2 + 20 , 65, 25, 2),
+            "btnInput2down": new InputControl("sip", 265, HEIGHT / 2 + 55 , 65, 25, 3),
+            "btnInput3up": new InputControl("grow", 340, HEIGHT / 2 + 20 , 65, 25, 4),
+            "btnInput3down": new InputControl("sip", 340, HEIGHT / 2 + 55 , 65, 25, 5),
+            "btnInput4up": new InputControl("grow", 415, HEIGHT / 2 + 20 , 65, 25, 6),
+            "btnInput4down": new InputControl("sip", 415, HEIGHT / 2 + 55 , 65, 25, 7)        
         }       
     };
 
@@ -137,8 +136,6 @@ class GUI {
         // no current game
         if (this.state === STATE.TITLE_SCREEN) { 
             ctx.drawImage(data["logoJeu"], 220, 50+75, 240, 200);
-            // ctx.fillStyle = "white";
-            // ctx.fillText("Title goes here", 300, 100);
             this.BUTTONS.btnPlay.render(ctx);
             this.BUTTONS.btnControls.render(ctx);
             this.BUTTONS.btnCredits.render(ctx);
@@ -152,36 +149,12 @@ class GUI {
         }
         if (this.state === STATE.CONTROLS_SCREEN) {
             this.renderControlsScreen(ctx);
-            this.BUTTONS.btnBack.render(ctx);
-            this.BUTTONS.btnSlide.render(ctx);
-            //this.BUTTONS.btnRadio1.render(ctx);
-            this.BUTTONS.btnRadio2.render(ctx);
-            this.BUTTONS.btnRadio3.render(ctx);
-            this.BUTTONS.btnRadio4.render(ctx);
-            this.BUTTONS.btnInput1up.render(ctx);
-            this.BUTTONS.btnInput1down.render(ctx);
-            this.BUTTONS.btnInput2up.render(ctx);
-            this.BUTTONS.btnInput2down.render(ctx);
-
-
-        
-            if (this.NbPlayers >= 3) {
-                this.BUTTONS.btnInput3up.render(ctx);
-                this.BUTTONS.btnInput3down.render(ctx);
-
-
-            }
-
-            if (this.NbPlayers == 4) {
-                this.BUTTONS.btnInput4up.render(ctx);
-                this.BUTTONS.btnInput4down.render(ctx);
-
-            }
-
-
+            
             ctx.font = "20px crayon_libre";
             ctx.fillStyle = "black"
             ctx.fillText("Game setup", 730, 170);
+            ctx.fillText("So... How many", 730, 270);
+            ctx.fillText("players?", 730, 300);
             return;
         }
         if (this.state === STATE.CREDITS_SCREEN) {
@@ -202,10 +175,35 @@ class GUI {
 
     renderControlsScreen(ctx) {
         ctx.textAlign = "center";
-        ctx.font = "22px crayon_libre";
+        ctx.font = "20px crayon_libre";
         ctx.fillStyle = "white";
         // Titre principal
-        ctx.fillText("Controls", WIDTH / 2-80, HEIGHT / 6-20+75);
+        ctx.fillText("Controls", 340, 135);
+        ctx.font = "12px crayon_libre";
+        ctx.textAlign = "right";
+        ctx.fillText("Grow bubble", 180, HEIGHT / 2 + 35) 
+        ctx.fillText("Swallow", 180, HEIGHT / 2 + 70) 
+        this.BUTTONS.btnBack.render(ctx);
+        this.BUTTONS.btnSlide.render(ctx);
+        this.BUTTONS.btnRadio2.render(ctx);
+        this.BUTTONS.btnRadio3.render(ctx);
+        this.BUTTONS.btnRadio4.render(ctx);
+        this.BUTTONS.btnInput1up.render(ctx);
+        this.BUTTONS.btnInput1down.render(ctx);
+        this.BUTTONS.btnInput2up.render(ctx);
+        this.BUTTONS.btnInput2down.render(ctx);
+
+
+        if (this.NbPlayers >= 3) {
+            this.BUTTONS.btnInput3up.render(ctx);
+            this.BUTTONS.btnInput3down.render(ctx);
+        }
+
+        if (this.NbPlayers == 4) {
+            this.BUTTONS.btnInput4up.render(ctx);
+            this.BUTTONS.btnInput4down.render(ctx);
+        }
+
         
     }
 
@@ -313,22 +311,11 @@ class GUI {
             this.BUTTONS.btnSlide.updateValue(x)
             return;
         }
-/*
-        if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnRadio1.isAt(x,y)) { 
-            this.BUTTONS.btnRadio1.updateValueT(x)
-            this.BUTTONS.btnRadio2.updateValueF(x)
-            this.BUTTONS.btnRadio3.updateValueF(x)
-            this.BUTTONS.btnRadio4.updateValueF(x)
-            this.NbPlayers = 1 ;
 
-            return;
-        }
-*/
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnRadio2.isAt(x,y)) { 
-            this.BUTTONS.btnRadio2.updateValueT(x)
-            //this.BUTTONS.btnRadio1.updateValueF(x)
-            this.BUTTONS.btnRadio3.updateValueF(x)
-            this.BUTTONS.btnRadio4.updateValueF(x)
+            this.BUTTONS.btnRadio2.updateValue(1)
+            this.BUTTONS.btnRadio3.updateValue(0)
+            this.BUTTONS.btnRadio4.updateValue(0)
             let tempPlayers = this.NbPlayers;
             this.NbPlayers = 2 ;
             if (tempPlayers != this.NbPlayers) {
@@ -339,31 +326,26 @@ class GUI {
         }
 
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnRadio3.isAt(x,y)) { 
-            this.BUTTONS.btnRadio3.updateValueT(x)
-            //this.BUTTONS.btnRadio1.updateValueF(x)
-            this.BUTTONS.btnRadio2.updateValueF(x)
-            this.BUTTONS.btnRadio4.updateValueF(x)
+            this.BUTTONS.btnRadio2.updateValue(0)
+            this.BUTTONS.btnRadio3.updateValue(1)
+            this.BUTTONS.btnRadio4.updateValue(0)
             let tempPlayers = this.NbPlayers;
             this.NbPlayers = 3 ;
             if (tempPlayers != this.NbPlayers) {
                 this.initializeControls();
             }
-
-
             return;
         }
 
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnRadio4.isAt(x,y)) { 
-            this.BUTTONS.btnRadio4.updateValueT(x)
-            //this.BUTTONS.btnRadio1.updateValueF(x)
-            this.BUTTONS.btnRadio2.updateValueF(x)
-            this.BUTTONS.btnRadio3.updateValueF(x)
+            this.BUTTONS.btnRadio2.updateValue(0)
+            this.BUTTONS.btnRadio3.updateValue(0)
+            this.BUTTONS.btnRadio4.updateValue(1)
             let tempPlayers = this.NbPlayers;
             this.NbPlayers = 4 ;
             if (tempPlayers != this.NbPlayers) {
                 this.initializeControls();
             }
-
             return;
         }
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput1up.isAt(x,y)) { 
@@ -510,49 +492,57 @@ class Slider {
 
 
 }
-class RadioButton {
-    constructor(label, x, y, selected = false) {
-        this.label = label;
-        this.x = x;
-        this.y = y;
-        this.radius = 10; // Taille du bouton
+class RadioButton extends Button {
+
+    constructor(label, x, y, w, h, selected = false) {
+        super(label, x, y, w, h);
+        this.radius = 16; // Taille du bouton
         this.selected = selected;
     }
 
     render(ctx) {
         // Dessiner le cercle externe
-        ctx.strokeStyle = "rgba(255, 191, 255, 0.8)";
+        ctx.strokeStyle = "white"; // "rgba(255, 191, 255, 0.8)";
         ctx.lineWidth = 2;
+        ctx.strokeRect(this.x - this.width / 2, this.y - this.height / 2 + (this.height - this.radius) / 2, this.radius, this.radius);
+        /*
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.arc(this.x + this.radius / 2, this.y + this.height / 2, this.radius, 0, Math.PI * 2);
         ctx.stroke();
+        */
+
+        // Dessiner le label
+        ctx.font = "16px crayon_libre";
+        ctx.fillStyle = "white";
+        ctx.textAlign = "left";
+        ctx.fillText(this.txt, this.x - this.width / 2 + this.radius + 10, this.y + 5);
 
         // Dessiner le cercle interne si sélectionné
         if (this.selected) {
+            /*
             ctx.fillStyle = "rgba(173, 235, 179, 0.8)";
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.radius / 2, 0, Math.PI * 2);
             ctx.fill();
+            */
+            ctx.fillText("X", this.x - this.width/2 + 4, this.y + 5);
         }
 
-        // Dessiner le label
-        ctx.fillStyle = "white";
-        ctx.font = "16px crayon_libre";
-        ctx.textAlign = "left";
-        ctx.fillText(this.label, this.x + 20, this.y + 5);
+        // DEBUG: show hit box
+        DEBUG && ctx.strokeRect(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
     }
 
+    /*
     isAt(x, y) {
         // Vérifier si la souris est sur ce bouton radio
         const dx = x - this.x;
         const dy = y - this.y;
-        return Math.sqrt(dx * dx + dy * dy) <= this.radius;
+        return Math.sqrt(dx * dx + dy * dy) <= this.radius ;
     }
-    updateValueT(x){
-        this.selected = true;
-    }
-    updateValueF(x){
-        this.selected = false;
+    */
+    
+    updateValue(v){
+        this.selected = v;
     }
 }
 
@@ -574,7 +564,7 @@ class InputControl {
         ctx.fillStyle = "white";
         ctx.font = "12px crayon_libre";
         ctx.textAlign = "left";
-        ctx.fillText(this.label, this.x - 30, this.y + 15);
+        //ctx.fillText(this.label, this.x - 30, this.y + 15);
     
         if (this.id % 2 === 0) {
             let number = Math.floor(this.id / 2) + 1;
