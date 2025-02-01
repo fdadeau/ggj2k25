@@ -99,6 +99,9 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     document.addEventListener("keydown", function(e) {
+        if (e.code === "Escape") {
+            e.preventDefault();
+        }
         gui.keydown(e);
     })
     document.addEventListener("keyup", function(e) {

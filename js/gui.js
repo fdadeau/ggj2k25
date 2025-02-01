@@ -57,7 +57,7 @@ class GUI {
             "btnControls": new Button("Controls", WIDTH*5/10, 350+75, 100, 40, "crayon_libre"),
             "btnCredits": new Button("Credits", WIDTH*7/10, 350+75, 100, 40, "crayon_libre"),
             "btnBack": new Button("Back", WIDTH*9/10, 350+75, 100, 40, "crayon_libre"),
-            "btnSlide": new Slider(  WIDTH / 2, HEIGHT / 3 - 60+70,200, 20,0,99,50 ),
+            "btnSlide": new Slider(  WIDTH / 2, HEIGHT / 3 - 60+70,200, 16,0,100,50 ),
             "btnRadio2": new RadioButton("2 players", 200, HEIGHT / 2 - 35, 100, 24, true),
             "btnRadio3": new RadioButton("3 players", 350, HEIGHT / 2 - 35, 100, 24, false),
             "btnRadio4": new RadioButton("4 players", 500, HEIGHT / 2 - 35, 100, 24, false),
@@ -153,8 +153,19 @@ class GUI {
             ctx.font = "20px crayon_libre";
             ctx.fillStyle = "black"
             ctx.fillText("Game setup", 730, 170);
-            ctx.fillText("So... How many", 730, 270);
-            ctx.fillText("players?", 730, 300);
+            ctx.font = "16px crayon_libre";
+            if (this.NbPlayers == 2) {
+                ctx.fillText("Romeo & Juliet", 730, 270);
+            }
+            else if (this.NbPlayers == 3) {
+                ctx.fillText("Huey, Dewey,", 730, 240);
+                ctx.fillText("and Louie", 730, 270);
+            }
+            else {
+                ctx.fillText("John, Paul,", 730, 240);
+                ctx.fillText("George and Ringo", 730, 270);
+            }
+            ctx.fillText("Ready to play?", 730, 310);
             return;
         }
         if (this.state === STATE.CREDITS_SCREEN) {
@@ -435,55 +446,77 @@ class Button {
     }
 }
 
+
 class Slider {
 
-    constructor( x, y, w, h, minValue, maxValue, initialValue) {
+    constructor(x, y, w, h, minValue, maxValue, initialValue) {
         this.x = x;
         this.y = y;
-        this.padding = 20;
         this.height = h;
         this.width = w;
-        this.x0 = x - w/2 - this.padding / 2;
-        this.y0 = y - h/2 - this.padding / 2;
+        this.x0 = x - w/2;
+        this.y0 = y;
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.value = initialValue; 
-        this.padding = 10;
-        this.handleX = this.x - this.width / 2 + ((this.value - this.minValue) / (this.maxValue - this.minValue)) * this.width;
+        //this.handleX = this.x - this.width / 2 + ((this.value - this.minValue) / (this.maxValue - this.minValue)) * this.width;
     }
 
     render(ctx) {
-        ctx.strokeStyle = "black";
+        ctx.strokeStyle = "white";
         ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.moveTo(this.x - this.width / 2, this.y);
-        ctx.lineTo(this.x + this.width / 2, this.y);
+        ctx.moveTo(this.x0, this.y0);
+        ctx.lineTo(this.x0 + this.width, this.y0);
         ctx.stroke();
 
+        for (let i=0; i <= 10; i += 1) {
+            ctx.beginPath();
+            ctx.moveTo(this.x0 + i * this.width / 10, this.y - 4);
+            ctx.lineTo(this.x0 + i * this.width / 10, this.y + 4);
+            ctx.stroke();
+            if (i > 0) {
+                ctx.beginPath();
+                ctx.moveTo(this.x0 + (i-0.5) * this.width / 10, this.y - 2);
+                ctx.lineTo(this.x0 + (i-0.5) * this.width / 10, this.y + 2);
+                ctx.stroke();
+            }
+        }
+
+        /*
         ctx.fillStyle = "rgba(0, 191, 255, 0.8)";
         ctx.beginPath();
         ctx.arc(this.handleX, this.y, 10, 0, Math.PI * 2);
         ctx.fill();
+        */
+       ctx.fillStyle = "white";
+       const per = (this.value - this.minValue) / (this.maxValue - this.minValue);
+       ctx.beginPath();
+       ctx.moveTo(this.x0 + per * this.width, this.y - 6);
+       ctx.lineTo(this.x0 + per * this.width - 4, this.y - 12);
+       ctx.lineTo(this.x0 + per * this.width + 4, this.y - 12);
+       ctx.closePath();
+       ctx.fill();
 
         ctx.fillStyle = "white";
         ctx.textAlign = "center";
-        ctx.font = `${this.height}px crayon_libre`;
+        ctx.font = `${this.height*0.7}px crayon_libre`;
         let volume = Math.min(Math.round(this.value),100);
-        audio.setVolume(volume/100);
-        ctx.fillText( volume ,this.x + this.width/2 + 20, this.y + 5 );
+        ctx.fillText( volume + "%",this.x0 + per * this.width, this.y - 15);
+        ctx.font = `${this.height}px crayon_libre`;
         ctx.fillText("Sound volume",this.x-185, this.y + 5);
-
+        
     }
 
     isAt(x, y) {
         const dx = x - this.handleX;
         const dy = y - this.y;
-        return x >= this.x0 && x <= this.x0 + this.width + this.padding && y >= this.y0 && y <= this.y0 + this.height + this.padding;   
+        return x >= this.x0 && x <= this.x0 + this.width && y >= this.y0 - this.height/2 && y <= this.y0 + this.height/2;   
      }
     
     updateValue(x){
-        this.handleX = x;
         this.value = this.minValue + (this.maxValue - this.minValue) * (x - this.x0) / this.width;
+        audio.setVolume(this.value / 100);
     }
 
     getValue() {
