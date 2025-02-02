@@ -50,6 +50,7 @@ class GUI {
         /** @type {Object} message info */
         this.info = null;
         this.NbPlayers = 2;
+        this.right = [];
 
         
         this.BUTTONS = {
@@ -154,17 +155,7 @@ class GUI {
             ctx.fillStyle = "black"
             ctx.fillText("Game setup", 730, 170);
             ctx.font = "16px crayon_libre";
-            if (this.NbPlayers == 2) {
-                ctx.fillText("Romeo & Juliet", 730, 270);
-            }
-            else if (this.NbPlayers == 3) {
-                ctx.fillText("Huey, Dewey,", 730, 240);
-                ctx.fillText("and Louie", 730, 270);
-            }
-            else {
-                ctx.fillText("John, Paul,", 730, 240);
-                ctx.fillText("George and Ringo", 730, 270);
-            }
+            this.message.forEach((m,i) => ctx.fillText(m, 730, 250+i*20));
             ctx.fillText("Ready to play?", 730, 310);
             return;
         }
@@ -290,6 +281,9 @@ class GUI {
         if (this.game) {
             this.game.keyup(e);
         }
+        if (Object.keys(this.BUTTONS).some(b => this.BUTTONS[b].isFocused)) {
+            this.message = ["OK, set!"];
+        }
         this.BUTTONS.btnInput1up.setKey(e);
         this.BUTTONS.btnInput1down.setKey(e);
         this.BUTTONS.btnInput2up.setKey(e);
@@ -330,6 +324,7 @@ class GUI {
             return;
         }
         if (this.state === STATE.TITLE_SCREEN && this.BUTTONS.btnControls.isAt(x,y)) { 
+            this.message = ["Set up game","parameters"]
             this.state = STATE.CONTROLS_SCREEN;
             return;
         }
@@ -339,7 +334,14 @@ class GUI {
         }
 
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnSlide.isAt(x,y)) { 
-            this.BUTTONS.btnSlide.updateValue(x)
+            this.BUTTONS.btnSlide.updateValue(x);
+            if (this.BUTTONS.btnSlide.getValue() < 50) {
+                this.message = ["Not too loud?"]
+            }
+            else {
+                this.message = ["That sounds good!"]
+            }
+
             return;
         }
 
@@ -352,7 +354,7 @@ class GUI {
             if (tempPlayers != this.NbPlayers) {
                 this.initializeControls();
             }
-
+            this.message = ["Romeo & Juliet", "or Stan & Oliver?"]
             return;
         }
 
@@ -365,6 +367,7 @@ class GUI {
             if (tempPlayers != this.NbPlayers) {
                 this.initializeControls();
             }
+            this.message = ["Huey, Dewey,", "and Louie"]
             return;
         }
 
@@ -377,47 +380,59 @@ class GUI {
             if (tempPlayers != this.NbPlayers) {
                 this.initializeControls();
             }
+            this.message = ["John, Paul,", "George & Ringo"]
             return;
         }
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput1up.isAt(x,y)) { 
             this.defocus();
             this.BUTTONS.btnInput1up.isFocused = true;
+            this.message = ["Set up your key!"];
             return;
         }
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput1down.isAt(x,y)) { 
             this.defocus();
             this.BUTTONS.btnInput1down.isFocused = true;
+            this.message = ["Set up your key!"];
             return;
         }
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput2up.isAt(x,y)) { 
             this.defocus();
             this.BUTTONS.btnInput2up.isFocused = true;
+            this.message = ["Set up your key!"];
             return;
         }
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput2down.isAt(x,y)) { 
             this.defocus();
             this.BUTTONS.btnInput2down.isFocused = true;
+            this.message = ["Set up your key!"];
             return;
         }
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput3up.isAt(x,y)) { 
             this.defocus();
             this.BUTTONS.btnInput3up.isFocused = true;
+            this.message = ["Set up your key!"];
             return;
         }
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput3down.isAt(x,y)) { 
             this.defocus();
             this.BUTTONS.btnInput3down.isFocused = true;
+            this.message = ["Set up your key!"];
             return;
         }
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput4up.isAt(x,y)) { 
             this.defocus();
             this.BUTTONS.btnInput4up.isFocused = true;
+            this.message = ["Set up your key!"];
             return;
         }
         if ((this.state === STATE.CONTROLS_SCREEN) && this.BUTTONS.btnInput4down.isAt(x,y) ) {
             this.defocus(); 
             this.BUTTONS.btnInput4down.isFocused = true;
+            this.message = ["Set up your key!"];
             return;
+        }
+        if (this.state == STATE.CONTROLS_SCREEN) {
+            this.message = ["Set up game","parameters"]
         }
 
     }
@@ -688,7 +703,7 @@ class InputControl {
         CONTROLS[2] = { up: ctrls[4], down: ctrls[5] };
         CONTROLS[3] = { up: ctrls[6], down: ctrls[7] };
 
-        render(ctx); // Redessiner après mise à jour
+        // render(ctx); // Redessiner après mise à jour --> pas besoin, ça se redessine tous les 1/60e de sec.
     }
 }
 
