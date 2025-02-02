@@ -467,7 +467,7 @@ class Slider {
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(this.x0, this.y0);
-        ctx.lineTo(this.x0 + this.width, this.y0);
+        //ctx.lineTo(this.x0 + this.width, this.y0);
         ctx.stroke();
 
         for (let i=0; i <= 10; i += 1) {
@@ -515,7 +515,7 @@ class Slider {
      }
     
     updateValue(x){
-        this.value = this.minValue + (this.maxValue - this.minValue) * (x - this.x0) / this.width;
+        this.value = Math.round(this.minValue + (this.maxValue - this.minValue) * (x - this.x0) / this.width / 5) * 5;
         audio.setVolume(this.value / 100);
     }
 
