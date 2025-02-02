@@ -204,7 +204,6 @@ class GUI {
         this.BUTTONS.btnInput2up.render(ctx);
         this.BUTTONS.btnInput2down.render(ctx);
 
-
         if (this.NbPlayers >= 3) {
             this.BUTTONS.btnInput3up.render(ctx);
             this.BUTTONS.btnInput3down.render(ctx);
@@ -239,7 +238,28 @@ class GUI {
         ctx.fillStyle = "black";
         ctx.font = "13px crayon_libre";
         ctx.fillText("The fantastic team", -60, 62);
+        
+        ctx.fillStyle = "pink";
+        ctx.rotate(-Math.PI / 5)
+        ctx.fillText("& Yuki", 30, 90);
         ctx.restore();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "pink";
+        ctx.beginPath();
+        ctx.moveTo(530, 285);
+        ctx.bezierCurveTo(570, 260, 530, 250, 485, 250);
+        //ctx.lineTo(570, 260);
+        //ctx.lineTo(530, 250);
+        //ctx.lineTo(490, 250);
+        ctx.fillStyle = "pink";
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(485, 250);
+        ctx.lineTo(495, 245);
+        ctx.lineTo(495, 255);
+        ctx.closePath();
+        ctx.fill();
+
     }
 
 
