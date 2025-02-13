@@ -15,6 +15,7 @@ const COLORS = {
 
 const STATES = { INSTRUCTIONS: 0, IN_GAME: 1, SHOW_SCORES: -1 }
 
+
 /**
  * ChewingGame micro-game
  */
@@ -217,8 +218,17 @@ export class ChewingGum extends Game {
         ctx.fillText("Press button 2** to swallow the bubble.", x0 + 40, y0 + 118);
         ctx.fillText("Don't have a gum bubble when the teacher is facing you!", x0 + 40, y0 + 148);
         ctx.fillText("Large bubbles increase your score, but are more likely to explode...", x0 + 40, y0 + 178);
-        ctx.fillText(" * " + this.players.map(p => "Player "+p.id+": "+p.controls.up).join("   "), x0+50, y0 + 208);
-        ctx.fillText("** " + this.players.map(p => "Player "+p.id+": "+p.controls.down).join("   "), x0+50, y0 + 228);
+        
+        // Affichage des labels à gauche
+        ctx.fillText("Swallow", x0 + 40, y0 + 228);
+        ctx.fillText("Sip", x0 + 40, y0 + 248); // Ligne vide pour alignement
+        this.players.forEach((p, index) => {
+            const spacing = 100; // Ajuste cet espacement en fonction de tes besoins
+            ctx.fillText(`Player ${p.id}`, x0 + 120 + index * spacing, y0 + 208);
+            ctx.fillText(`${p.controls.up}`, x0 + 120 + index * spacing, y0 + 228);
+            ctx.fillText(`${p.controls.down}`, x0 + 120 + index * spacing, y0 + 248);
+        });
+        
         ctx.restore();
     }
 
