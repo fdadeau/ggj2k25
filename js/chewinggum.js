@@ -220,13 +220,13 @@ export class ChewingGum extends Game {
         ctx.fillText("Large bubbles increase your score, but are more likely to explode...", x0 + 40, y0 + 178);
         
         // Affichage des labels à gauche
-        ctx.fillText("Swallow", x0 + 40, y0 + 228);
-        ctx.fillText("Sip", x0 + 40, y0 + 248); // Ligne vide pour alignement
+        ctx.fillText("*grow", x0 + 40, y0 + 228);
+        ctx.fillText("**Swallow", x0 + 40, y0 + 248); // Ligne vide pour alignement
         this.players.forEach((p, index) => {
             const spacing = 100; // Ajuste cet espacement en fonction de tes besoins
-            ctx.fillText(`Player ${p.id}`, x0 + 120 + index * spacing, y0 + 208);
-            ctx.fillText(`${p.controls.up}`, x0 + 120 + index * spacing, y0 + 228);
-            ctx.fillText(`${p.controls.down}`, x0 + 120 + index * spacing, y0 + 248);
+            ctx.fillText(`Player ${p.id}`, x0 + 140 + index * spacing, y0 + 208);
+            ctx.fillText(`${p.controls.up}`, x0 + 140 + index * spacing, y0 + 228);
+            ctx.fillText(`${p.controls.down}`, x0 + 140 + index * spacing, y0 + 248);
         });
         
         ctx.restore();
