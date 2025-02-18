@@ -171,7 +171,7 @@ export class ChewingGum extends Game {
             this.restart();
             return;
         }
-        if (this.state == STATES.INSTRUCTIONS && e.code == "Escape") {
+        if (this.state == STATES.INSTRUCTIONS && e.code == "Backspace") {
             this.over = true;
             return;
         }
@@ -179,7 +179,7 @@ export class ChewingGum extends Game {
             this.restart();
             return;
         }
-        if (this.state == STATES.SHOW_SCORES && e.code == "Escape") {
+        if (this.state == STATES.SHOW_SCORES && e.code == "Backspace") {
             this.over = true;   
         }
     }
@@ -210,8 +210,8 @@ export class ChewingGum extends Game {
         ctx.fillStyle = "white";
         ctx.font = "20px crayon_libre";
         ctx.fillText("How to play?", 0, y0 + 52);
-        ctx.font = "16px crayon_libre";
-        ctx.fillText("Press SPACE to start the game or ESC to return to menu", 0, y0 + h0 - 30);
+        ctx.font = "15px crayon_libre";
+        ctx.fillText("Press SPACE to start the game or BACKSPACE to return to menu", 0, y0 + h0 - 30);
         ctx.textAlign = "left";
         ctx.font = "16px crayon_libre";
         ctx.fillText("Maintain button 1* to grow a bubble of gum.", x0+40, y0 + 88);
@@ -219,9 +219,10 @@ export class ChewingGum extends Game {
         ctx.fillText("Don't have a gum bubble when the teacher is facing you!", x0 + 40, y0 + 148);
         ctx.fillText("Large bubbles increase your score, but are more likely to explode...", x0 + 40, y0 + 178);
         
+        ctx.font = "14px crayon_libre";
         // Affichage des labels à gauche
-        ctx.fillText("*grow", x0 + 40, y0 + 228);
-        ctx.fillText("**Swallow", x0 + 40, y0 + 248); // Ligne vide pour alignement
+        ctx.fillText(" * Grow   ", x0 + 40, y0 + 228);
+        ctx.fillText("** Swallow", x0 + 40, y0 + 248); // Ligne vide pour alignement
         this.players.forEach((p, index) => {
             const spacing = 100; // Ajuste cet espacement en fonction de tes besoins
             ctx.fillText(`Player ${p.id}`, x0 + 140 + index * spacing, y0 + 208);
@@ -259,7 +260,7 @@ export class ChewingGum extends Game {
         ctx.font = "22px crayon_libre";
         ctx.fillText("Scores", 0, y0 + 60);
         ctx.font = "18px crayon_libre";
-        ctx.fillText("Press SPACE to restart the game or ESC to return to the menu", 0, y0 + h0 - 30);
+        ctx.fillText("Press SPACE to restart the game or BACKSPACE to return to the menu", 0, y0 + h0 - 30);
         ctx.textAlign = "left";
         
         this.players.forEach((p,i) => {
