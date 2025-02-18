@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // loading not yet completed
         if (current < total) {
             CXT.fillText(`Loading resources...`, WIDTH * 0.4, HEIGHT * 0.5);
-            CXT.fillText(`(${(current / total) / 100 | 0}%)`, WIDTH * 0.75, HEIGHT * 0.5);
+            CXT.fillText(`(${(current / total) * 100 | 0}%)`, WIDTH * 0.75, HEIGHT * 0.5);
             return;
         }
         // loading complete!
