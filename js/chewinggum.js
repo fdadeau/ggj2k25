@@ -259,8 +259,8 @@ export class ChewingGum extends Game {
         ctx.fillStyle = "white";
         ctx.font = "22px crayon_libre";
         ctx.fillText("Scores", 0, y0 + 60);
-        ctx.font = "18px crayon_libre";
-        ctx.fillText("Press SPACE to restart the game or BACKSPACE to return to the menu", 0, y0 + h0 - 30);
+        ctx.font = "16px crayon_libre";
+        ctx.fillText("Press SPACE to restart or BACKSPACE to return to menu", 0, y0 + h0 - 30);
         ctx.textAlign = "left";
         
         this.players.forEach((p,i) => {
