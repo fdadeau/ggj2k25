@@ -115,7 +115,7 @@ export class ChewingGum extends Game {
         const now = new Date();
         const hours = now.getHours(), mins = now.getMinutes(), secs = now.getSeconds();
         //
-        ctx.strokeStyle = "black";
+        ctx.strokeStyle = "rgb(75,30,28)";
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(WIDTH / 2, 57);
@@ -272,6 +272,7 @@ export class ChewingGum extends Game {
             }
             ctx.textAlign = "left";
         });
+        ctx.drawImage(this.players[0].points == 0 ? data["medal_choco"] : data["medal_gold"], 160, y0+30, 100, 100);
         ctx.restore();
     }
 

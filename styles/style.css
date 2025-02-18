@@ -53,7 +53,7 @@ table {
 }
 
 body {
-    background-color: #002;
+    background-color: #000;
 }
 
 canvas {
@@ -61,7 +61,7 @@ canvas {
     height: 90vmin;
     width: calc(90vmin * 1.6);
     border: solid 2px #000;
-    background-color: #FFF;
+    background-color: #000;
     position: fixed;
     top: 50%;
     left: 50%;
