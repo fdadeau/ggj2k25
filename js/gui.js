@@ -81,6 +81,10 @@ class GUI {
         } else {
             ctrls = ["KeyW", "KeyS", "ArrowUp", "ArrowDown", "KeyF", "KeyC", "KeyO", "KeyL"];
         }
+        CONTROLS[0] = { up: ctrls[0], down: ctrls[1] };
+        CONTROLS[1] = { up: ctrls[2], down: ctrls[3] };
+        CONTROLS[2] = { up: ctrls[4], down: ctrls[5] };
+        CONTROLS[3] = { up: ctrls[6], down: ctrls[7] };
     }
     
     /**
